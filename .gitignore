@@ -1,5 +1,6 @@
 /.spyproject/*
 /__pycache__/*
+/_old_code/*
 /caiman/*
 /models/*
 /.spyproject/*
