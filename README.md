@@ -12,5 +12,6 @@ Test
 * Add a debug function to visualize raw, unfiltered data
 * Separate out the maps for receptive field and modulation indices
 * Rewrite the correlation matrix function to accept raw data
+* Find a better way to fix the negative values from motion correction
 * Convert program to a library
 * Give the program a cool name and logo
