@@ -5,3 +5,17 @@
 /models/*
 /.spyproject/*
 "/Background color.png"
+
+/bandwidth_analysis/__pycache__/*
+/cell_flagger/*
+/cell_grapher/*
+/correlation_matrix/*
+/data_extractor_subtraction/*
+/debug_tools/*
+/map_generators/*
+/modulation_index_analysis/*
+/motion_corrector/*
+/population_analysis/*
+/receptive_field_sum_analysis/*
+
+
