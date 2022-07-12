@@ -12,6 +12,13 @@ from read_roi import read_roi_zip
 
 def roi_zip_reader(flag,roi_zip):
     
+    """
+    
+    
+    
+    
+    """
+    
     # Reads ROI data from file
     rois = read_roi_zip(roi_zip)
     

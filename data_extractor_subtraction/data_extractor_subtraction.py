@@ -20,7 +20,47 @@ from data_sorter import *
 from data_reader import *
 from dfof_converter import *
 
-def data_extractor_subtraction(path,filtered_images,folders_list,mode=0):
+def data_extractor_subtraction(filtered_images,info_storage):
+    
+    """
+    This is the function used to extact 2P signals from each cell. It imports
+    the ROIs created in ImageJ for the data set using the roi_zip_reader
+    function from the read-roi library. This is used to create two masks, one
+    that is a replica of the ROIs, and a second mask surrounding the original
+    ROIs, roughly four times larger in area. The first mask is applied to the
+    data to find the average pixel value within the ROI, while the second mask
+    is applied to find the average pixel value of the neuropil (the background
+    region surrounding the neuron). Neuropil correction is applied using the
+    substraction method, with 0.4 being used as the contamination ratio. The
+    corrected value is then converted to dF/F values and reorganized so that
+    all segments with the same stimulus frequency and stimulus amplitude are
+    grouped together.
+    
+    Parameters
+    ----------
+    filtered_images: This is a numpy array containing the filtered images from
+        the 2P microscope. This will be passed onto a different function that
+        will use this array to extract 2P signals for each cell.
+    info_storage: This is the class used to store most of the variables that
+        are used in the analysis program.
+    
+    Returns
+    -------
+    data: This is a 4D numpy array containing the dF/F values. The first axis
+        is the cell number, the second axis is the sample number (unique 
+        combination of frequency and amplitude), the third number is the trial
+        number (repition of the same frequency and amplitude combination), and
+        the fourth axis is the frame number for each segment.
+    info_storage: The function returns the info_storage class with the
+        cell_locations, extra_flag, cell_flags, framerate_information, key,
+        frequencies, frequency_unit, intensities, intensity_unit variables
+        added.
+    """
+    
+    # Extracts variables from the info_storage class
+    path         = info_storage.path
+    folders_list = info_storage.folders_list
+    mode         = info_storage.mode
     
     # Location of the data path
     data_path = f"{path}/Data"
@@ -29,8 +69,10 @@ def data_extractor_subtraction(path,filtered_images,folders_list,mode=0):
     if os.path.exists(f"{data_path}/RoiSet_FISSA.zip"):
         os.remove(f"{data_path}/RoiSet_FISSA.zip")
     
-    # Import ROIs with two different ways of reading depending on whether there are one or two sets of ROIs
-    roi_zip_list = [f"{data_path}/{file}" for file in os.listdir(data_path) if file.endswith(".zip")]
+    # Import ROIs with two different ways of reading depending on whether there
+    # are one or two sets of ROIs
+    roi_zip_list = [f"{data_path}/{file}" for file in os.listdir(data_path)
+                    if file.endswith(".zip")]
     extra_flag = "N/A"
     if len(roi_zip_list) == 2:
         for roi_zip in roi_zip_list:
@@ -72,17 +114,20 @@ def data_extractor_subtraction(path,filtered_images,folders_list,mode=0):
         
         # Converts ROIs to coordinates
         image_shape = filtered_images.shape[2:4]
-        cell_arrays,background_arrays = cell_and_background_array(cell_locations,image_shape)
+        cell_arrays,background_arrays = cell_and_background_array(
+            cell_locations,image_shape)
         
         # Empty array to store raw data in
-        raw_data = np.zeros((filtered_images.shape[0],len(cell_arrays),filtered_images.shape[1]),dtype=np.float64)
+        raw_data = np.zeros((filtered_images.shape[0],len(cell_arrays),
+                             filtered_images.shape[1]),dtype=np.float64)
         
         # Goes through each folder image in the filtered data array
         folder_total = len(filtered_images)
         for folder_number in range(folder_total):
             
             # Reads the data from images and appends to list
-            folder_data = data_reader(filtered_images[folder_number],cell_arrays,background_arrays)
+            folder_data = data_reader(filtered_images[folder_number],
+                                      cell_arrays,background_arrays)
             raw_data[folder_number] = folder_data
         
         # Converts raw data to numpy array
@@ -92,7 +137,8 @@ def data_extractor_subtraction(path,filtered_images,folders_list,mode=0):
         if mode == 0:
             
             # Sorts data for new tonotopy analysis
-            data = data_sorter(path,raw_data,folders_list,framerate_information)
+            data = data_sorter(path,raw_data,folders_list,
+                               framerate_information)
             
             # Reads key from file
             if os.path.exists(f"{data_path}/Key/key.csv"):
@@ -193,4 +239,4 @@ def data_extractor_subtraction(path,filtered_images,folders_list,mode=0):
     # Declares end of data extraction
     print("Finished data extraction")
     
-    return extra_flag,cell_locations,cell_flags,data,framerate_information,key,frequencies,frequency_unit,intensities,intensity_unit
+    return data,info_storage

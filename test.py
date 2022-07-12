@@ -36,7 +36,7 @@ from r_histogram_creator import *
 
 
 
-path = "D:/Llano Lab/Tonotopic Analysis/PCB Toxicity Data/Group 1/2021-05-02/A4NON Data Set 1 Tonotopy"
+# path = "D:/Llano Lab/Tonotopic Analysis/PCB Toxicity Data/Group 1/2021-05-02/A4NON Data Set 1 Tonotopy"
 # path = "D:/Llano Lab/Tonotopic Analysis/PCB Toxicity Data/Group 1/2021-05-02/2021-05-02 A4NON Data Set 2 Tonotopy"
 # path = "D:/Llano Lab/Tonotopic Analysis/PCB Toxicity Data/Group 1/2021-05-02/2021-05-02 A4NON Data Set 1 Modulated Noise"
 # path = "D:/Llano Lab/Tonotopic Analysis/PCB Toxicity Data/Group 2/2021-04-30/2021-04-30 B1NON Modulated Noise"
@@ -53,11 +53,25 @@ threshold=0.6
 # Sets mode, 0 for tonotopy, 1 for noise
 mode = 0
 
+# Sets mode to new tonotopy analysis
+mode = 0
+
+# Create a class to store various information in
+class info_storage:
+    def __init__(self):
+        self.path         = path
+        self.gauss_filter = gauss_filter
+        self.threshold    = threshold
+        self.mode         = mode
+
+# Create an instance of the class
+tonotopy_info = info_storage()
+
 # Stabilizes and filters images
-# raw_images,filtered_images,folders_list = motion_corrector(path,gauss_filter,mode)
+raw_images,filtered_images,tonotopy_info = motion_corrector(tonotopy_info)
 
 # Extracts the data from the images
-# extra_flag,cell_locations,cell_flags,data,framerate_information,key,frequencies,frequency_unit,intensities,intensity_unit = data_extractor_subtraction(path,filtered_images,folders_list,mode)
+data,tonotopy_info = data_extractor_subtraction(filtered_images,tonotopy_info)
 
 # Flags cells based on their responsiveness
 # cell_flags,correlation_coefficients,areas_under_curves = cell_flagger(path,cell_flags,key,frequencies,intensities,data,framerate_information,mode,threshold)
@@ -72,7 +86,7 @@ mode = 0
 # population_analysis(path,data,cell_flags,framerate_information,key,frequencies,frequency_unit,intensities,intensity_unit,extra_flag,mode)
 
 # Analyzes receptive field sum
-receptive_field_sum_analysis(path,key,cell_flags,extra_flag,correlation_coefficients,areas_under_curves,frequencies,frequency_unit,intensities,intensity_unit,canvas,width,height,cell_locations,scale,radius,threshold)
+# receptive_field_sum_analysis(path,key,cell_flags,extra_flag,correlation_coefficients,areas_under_curves,frequencies,frequency_unit,intensities,intensity_unit,canvas,width,height,cell_locations,scale,radius,threshold)
 
 # Creates a correlation matrix between cells
 # correlation_matrix(path,data,cell_flags,framerate_information,extra_flag,mode)

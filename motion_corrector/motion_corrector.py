@@ -21,14 +21,44 @@ from caiman.motion_correction import MotionCorrect
 
 from xyz_gaussian_filter import *
 
-def motion_corrector(path,gauss_filter,mode):
+def motion_corrector(info_storage):
     
-    # Removes old Stabilized Images folder if it exists
+    """
+    This is the function used for motion correction and filtering. It uses the
+    NoCorreRM algorithm embedded within the CaImAn library to stabilize the
+    images, then uses a 3D Gaussian filter to apply a low-pass filter.
+    
+    Parameters
+    ----------
+    info_storage: This is the class used to store most of the variables that
+        are used in the analysis program.
+    
+    Returns
+    -------
+    raw_images: This is a 3D numpy array containing the raw images from the 2P
+        microscope. This will be empty in most cases, except when noise data is
+        being analyzed.
+    filtered_images: This is a 3D numpy array containing the filtered images
+        from the 2P microscope. The first axis is the temporal axis, while the
+        second and third axes are the y ans x axes of the individual images,
+        respectively. This will be passed onto a different function that will
+        use this array to extract 2P signals for each cell.
+    info_storage: The function returns the info_storage class with the
+        folders_list variable added, as it will be used in a different function
+        later on.
+    """
+    
+    # Extracts variables from the info_storage class
+    path         = info_storage.path
+    gauss_filter = info_storage.gauss_filter
+    mode         = info_storage.mode
+    
+    # Removes old Stabilized Images folder if it exists to save space
     old_folder_path = f"{path}/Stabilized Images"
     if os.path.exists(old_folder_path) == True:
         shutil.rmtree(old_folder_path)
     
-    # Creates output folder for stabilized images
+    # Creates temporary output folder for stabilized images
     images_output_path = f"{path}/CaImAn Files"
     if os.path.exists(images_output_path) == True:
         try:
@@ -52,12 +82,11 @@ def motion_corrector(path,gauss_filter,mode):
     if os.path.exists(f"{debug_output_path}/Average Images") == False:
         os.mkdir(f"{debug_output_path}/Average Images")
     
-    # Location of the data path
-    data_path = f"{path}/Data"
-    
     # Creates a list of folders in the data directory
+    data_path = f"{path}/Data"
     os.chdir(data_path)
-    folders_list = [folder for folder in os.listdir(data_path) if os.path.isdir(folder)]
+    folders_list = [folder for folder in os.listdir(data_path)
+                    if os.path.isdir(folder)]
     if "Key" in folders_list:
         folders_list.remove("Key")
     if len(folders_list) == 0:
@@ -153,14 +182,17 @@ def motion_corrector(path,gauss_filter,mode):
         folder_average = folder_average.astype(np.uint8)
         mpimg.imsave(f"{debug_output_path}/Average Images/{folders_list[folder_number]}.png",folder_average,cmap="gray")
     
-    # Deletes TIFF folder to save space
+    # Deletes TIFF folder to save space but most times it doesn't work
     os.chdir(path)
     try:
         shutil.rmtree(images_output_path)
     except PermissionError:
         pass
     
+    # Adds folders_list to the info_storage class
+    info_storage.folders_list = folders_list
+    
     # Declares end of data extraction
     print("Finished motion stabilization")
     
-    return raw_images,filtered_images,folders_list
+    return raw_images,filtered_images,info_storage

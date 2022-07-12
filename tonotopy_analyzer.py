@@ -68,8 +68,19 @@ def tonotopy_analyzer(path,gauss_filter="Default",threshold=0.6):
     # Sets mode to new tonotopy analysis
     mode = 0
     
+    # # Create a class to store various information in
+    # class info_storage:
+    #     def __init__():
+    #         self.path         = path
+    #         self.gauss_filter = gauss_filter
+    #         self.threshold    = threshold
+    #         self.mode         = mode
+    
+    # # Create an instance of the class
+    # tonotopy_info = info_storage()
+    
     # Stabilizes and filters images
-    raw_images,filtered_images,folders_list = motion_corrector(path,gauss_filter,mode)
+    raw_images,filtered_images,tonotopy_info = motion_corrector(tonotopy_info)
     
     # Extracts the data from the images
     extra_flag,cell_locations,cell_flags,data,framerate_information,key,frequencies,frequency_unit,intensities,intensity_unit = data_extractor_subtraction(path,filtered_images,folders_list,mode)
@@ -113,15 +124,15 @@ def tonotopy_analyzer(path,gauss_filter="Default",threshold=0.6):
 # tonotopy_analyzer(f"{base_path}/2021-09-03/2021-09-03 CBA Axons Tonotopy",(2,2,2))
 
 
-base_path = "D:/Llano Lab/Tonotopic Analysis/PCB Toxicity Data"
+# base_path = "D:/Llano Lab/Tonotopic Analysis/PCB Toxicity Data"
 
-tonotopy_analyzer(f"{base_path}/Group 1/2021-05-02/A4NON Data Set 1 Tonotopy",(2,2,2))
-tonotopy_analyzer(f"{base_path}/Group 1/2021-05-02/A4NON Data Set 2 Tonotopy",(2,2,2))
-tonotopy_analyzer(f"{base_path}/Group 1/2021-05-04/A6NON Tonotopy",(2,2,2))
-tonotopy_analyzer(f"{base_path}/Group 1/2021-05-16/A3NON Tonotopy",(2,2,2))
-tonotopy_analyzer(f"{base_path}/Group 1/2021-05-17/A7NON S with PA Tonotopy",(2,2,2))
-tonotopy_analyzer(f"{base_path}/Group 1/2021-05-30/AA8NON Tonotopy",(2,2,2))
-tonotopy_analyzer(f"{base_path}/Group 1/2021-06-19/AA1NON Tonotopy",(2,2,2))
+# tonotopy_analyzer(f"{base_path}/Group 1/2021-05-02/A4NON Data Set 1 Tonotopy",(2,2,2))
+# tonotopy_analyzer(f"{base_path}/Group 1/2021-05-02/A4NON Data Set 2 Tonotopy",(2,2,2))
+# tonotopy_analyzer(f"{base_path}/Group 1/2021-05-04/A6NON Tonotopy",(2,2,2))
+# tonotopy_analyzer(f"{base_path}/Group 1/2021-05-16/A3NON Tonotopy",(2,2,2))
+# tonotopy_analyzer(f"{base_path}/Group 1/2021-05-17/A7NON S with PA Tonotopy",(2,2,2))
+# tonotopy_analyzer(f"{base_path}/Group 1/2021-05-30/AA8NON Tonotopy",(2,2,2))
+# tonotopy_analyzer(f"{base_path}/Group 1/2021-06-19/AA1NON Tonotopy",(2,2,2))
 
 # tonotopy_analyzer(f"{base_path}/Group 2/2021-04-30/B1NON Tonotopic",(2,2,2))
 # tonotopy_analyzer(f"{base_path}/Group 2/2021-05-09/B7NON Data Set 1 Tonotopy",(2,2,2))
