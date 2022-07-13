@@ -142,7 +142,8 @@ def data_extractor_subtraction(filtered_images,info_storage):
             
             # Reads key from file
             if os.path.exists(f"{data_path}/Key/key.csv"):
-                key,frequencies,frequency_unit,intensities,intensity_unit = key_reader(f"{data_path}/Key/key.csv")
+                key,frequencies,frequency_unit,intensities,intensity_unit = \
+                key_reader(f"{data_path}/Key/key.csv")
             else:
                 print("Error! Key not found!")
                 return
@@ -175,10 +176,12 @@ def data_extractor_subtraction(filtered_images,info_storage):
             # Converts ROIs to coordinates if image is first one
             if image == image_list[0]:
                 image_shape = image_stack.shape[1:3]
-                cell_arrays,background_arrays = cell_and_background_array(cell_locations,image_shape)
+                cell_arrays,background_arrays = \
+                cell_and_background_array(cell_locations,image_shape)
             
             # Reads the data from images
-            folder_data = data_reader(image_stack,cell_arrays,background_arrays)
+            folder_data = data_reader(image_stack,cell_arrays,
+                                      background_arrays)
             raw_data = folder_data
         
         # Exports data to Excel spreadsheet
@@ -216,10 +219,12 @@ def data_extractor_subtraction(filtered_images,info_storage):
             # Converts ROIs to coordinates if image is first one
             if image == image_list[0]:
                 image_shape = image_stack.shape[1:3]
-                cell_arrays,background_arrays = cell_and_background_array(cell_locations,image_shape)
+                cell_arrays,background_arrays = \
+                    cell_and_background_array(cell_locations,image_shape)
             
             # Reads the data from images
-            folder_data = data_reader(image_stack,cell_arrays,background_arrays)
+            folder_data = data_reader(image_stack,cell_arrays,
+                                      background_arrays)
             raw_data.append(folder_data)
         
         # Converts raw data to dF/F values

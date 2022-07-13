@@ -104,13 +104,15 @@ def motion_corrector(info_storage):
         folder = folders_list[folder_number]
         
         # Generates a list of data images
-        files_list = [file for file in os.listdir(f"{data_path}/{folder}") if file.endswith(".tif")]
+        files_list = [file for file in os.listdir(f"{data_path}/{folder}")
+                      if file.endswith(".tif")]
         if len(files_list) == 0:
             print("Error! Empty folder detected!")
             return
         
         # Goes through each data image and reads the data
-        folder_images = [cv2.imread(f"{data_path}/{folder}/{file}",2) for file in files_list]
+        folder_images = [cv2.imread(f"{data_path}/{folder}/{file}",2)
+                         for file in files_list]
         folder_images = np.array(folder_images,dtype=np.uint16)
         
         # Gets information about folder shape
@@ -133,12 +135,13 @@ def motion_corrector(info_storage):
     border_nan = "copy"
     
     # Performs motion correction using NoRMCorre inside CaImAn
-    mc = MotionCorrect(fnames,max_shifts=max_shifts,strides=strides,overlaps=overlaps,
-                       max_deviation_rigid=max_deviation_rigid,shifts_opencv=shifts_opencv,
+    mc = MotionCorrect(fnames,max_shifts=max_shifts,strides=strides,
+                       overlaps=overlaps,max_deviation_rigid=\
+                       max_deviation_rigid,shifts_opencv=shifts_opencv,
                        nonneg_movie=True,border_nan=border_nan)
     mc.motion_correct(save_movie=True)
     
-    # Sees if Gaussian filter values are specified, and if not, assigns default values
+    # Assign default values to Gaussian Filter if unspecified
     if gauss_filter == "Default":
         x_value = 2
         y_value = 2
@@ -149,9 +152,11 @@ def motion_corrector(info_storage):
         z_value = gauss_filter[2]
     
     # Creates empty list for storing filtered data
-    filtered_images = np.zeros((len(folders_list),images,height,width),dtype=np.uint16)
+    filtered_images = np.zeros((len(folders_list),images,height,width),
+                               dtype=np.uint16)
     if mode == 1:
-        raw_images = np.zeros((len(folders_list),images,height,width),dtype=np.uint16)
+        raw_images = np.zeros((len(folders_list),images,height,width),
+                              dtype=np.uint16)
     else:
         raw_images = "N/A"
     
@@ -167,12 +172,14 @@ def motion_corrector(info_storage):
         folder_images = folder_images.astype(np.uint16)
         
         # Option to save motion corrected images
-        # imageio.mimwrite(f"{images_output_path}/{folders_list[folder_number]}_mc.tiff",folder_images)
+        imageio.mimwrite(f"{images_output_path}/{folders_list[folder_number]}\
+                         _mc.tiff",folder_images)
         
         # Filters the raw data and writes them into array
         if mode == 1:
             raw_images[folder_number] = folder_images
-        filtered_folder_images = xyz_gaussian_filter(folder_images,x_value,y_value,z_value)
+        filtered_folder_images = xyz_gaussian_filter(folder_images,
+                                                     x_value,y_value,z_value)
         filtered_images[folder_number] = filtered_folder_images
         
         # Saves folder average image for debugging
@@ -180,7 +187,9 @@ def motion_corrector(info_storage):
         folder_average = folder_average*(256/np.amax(folder_average))
         folder_average = np.around(folder_average)
         folder_average = folder_average.astype(np.uint8)
-        mpimg.imsave(f"{debug_output_path}/Average Images/{folders_list[folder_number]}.png",folder_average,cmap="gray")
+        mpimg.imsave(f"{debug_output_path}/Average Images/\
+                     {folders_list[folder_number]}.png",
+                     folder_average,cmap="gray")
     
     # Deletes TIFF folder to save space but most times it doesn't work
     os.chdir(path)

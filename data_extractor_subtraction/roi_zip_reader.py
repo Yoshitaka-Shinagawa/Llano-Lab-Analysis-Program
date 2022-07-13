@@ -13,10 +13,25 @@ from read_roi import read_roi_zip
 def roi_zip_reader(flag,roi_zip):
     
     """
+    This is the function used to import the ROI zip file. It uses the
+    read_roi_zip function from the read-roi library to read the ImageJ ROI zip
+    file and exports a list containing the shape, location, and size of each of
+    the cells, along with a list of flags to differentiate between two types of
+    cells, if applicable. The feature was originally designed to differentiate
+    between GABAergic and non-GABAergic cells, but can be used to for other
+    cell types as well.
     
+    Parameters
+    ----------
+    flag: The name of the flag for the ROI zip, which should be a string. If 
+        there is only one type of cell, enter "N/A".
+    roi_zip: The location of the ROI zip file, which should be a string.
     
-    
-    
+    Returns
+    -------
+    locations: A list containing the shape, location, and size information of
+        the cells.
+    flags: A list containing the flag of each cell.
     """
     
     # Reads ROI data from file
@@ -37,7 +52,8 @@ def roi_zip_reader(flag,roi_zip):
             right = left + rois[roi]["width"]
             y_center = round(top+rois[roi]["height"]/2)
             x_center = round(left+rois[roi]["width"]/2)
-            locations.append(["rectangle",(y_center,x_center),[top,left,bottom,right]])
+            locations.append(["rectangle",(y_center,x_center),
+                              [top,left,bottom,right]])
             flags.append([flag])
         
         # Oval ROIs
