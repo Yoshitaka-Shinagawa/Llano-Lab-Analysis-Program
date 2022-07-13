@@ -9,6 +9,8 @@ Test
 * Make sure lines do not go over the 80 char limit
 ### Future plans
 * Make the contamination ratio specifiable
+* Create documentation for how to use the program
+* Include an example data set for people to use if there is an easy way to distribute it
 * Supress the warnings that come up during motion correction
 * Add a debug function to visualize raw, unfiltered data
 * Separate out the maps for receptive field and modulation indices
