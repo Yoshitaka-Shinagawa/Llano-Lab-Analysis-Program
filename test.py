@@ -46,7 +46,7 @@ from r_histogram_creator import *
 # path = "D:/Llano Lab/Tonotopic Analysis/Axon Imaging/2021-08-31/2021-08-31 R2 Tonotopy"
 # path = "D:/Llano Lab/Tonotopic Analysis/Module Project/2021-09-04/2021-09-04 Prism GAD67xRCAMP Data Set 1 Modulation"
 
-path = "D:/Llano Lab/PCB Data/A4NON Data Set 1 Tonotopy"
+path = "/Users/austincoder/Desktop/Example for Austin/A4NON Data Set 1 Tonotopy"
 
 gauss_filter=(2,2,2)#"Default"
 threshold=0.6
