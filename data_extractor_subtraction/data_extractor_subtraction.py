@@ -98,7 +98,7 @@ def data_extractor_subtraction(filtered_images,info_storage):
     # Reading data from new data set
     if 1:#len(image_list) == 10 or len(image_list) == 9:
         
-        # Read framerate info
+        # Read framerate info from the csv file
         if os.path.exists(f"{data_path}/Key/framerates.csv") == True:
             open_framerate_file = open(f"{data_path}/Key/framerates.csv")
             framerate_file = csv.reader(open_framerate_file)
