@@ -14,45 +14,28 @@ def cell_and_background_array(cell_locations,image_shape):
     
     """
     This is the function used to create the masks from the location and size
-    of the cells, which are used to extract the 2P signals from the images. 
-    
-    
-    
-    
-    
-    
-    This is the function used to extact 2P signals from each cell. It imports
-    the ROIs created in ImageJ for the data set using the roi_zip_reader
-    function from the read-roi library. This is used to create two masks, one
-    that is a replica of the ROIs, and a second mask surrounding the original
-    ROIs, roughly four times larger in area. The first mask is applied to the
-    data to find the average pixel value within the ROI, while the second mask
-    is applied to find the average pixel value of the neuropil (the background
-    region surrounding the neuron). Neuropil correction is applied using the
-    substraction method, with 0.4 being used as the contamination ratio. The
-    corrected value is then converted to dF/F values and reorganized so that
-    all segments with the same stimulus frequency and stimulus amplitude are
-    grouped together.
+    of the cells, which are used to extract the 2P signals from the images. The
+    function first creates a mask for each cell using the information from the 
+    ROIs to replicate it, along with an array containing the masks for all of
+    the cells. It then creates a much larger mask for each of the cells, around
+    five times in size, then subtracts the masks of all of the cells from it,
+    resulting in a mask surrounding the original ROI and roughly four times
+    in area.
     
     Parameters
     ----------
-    filtered_images: This is a numpy array containing the filtered images from
-        the 2P microscope. This will be passed onto a different function that
-        will use this array to extract 2P signals for each cell.
-    info_storage: This is the class used to store most of the variables that
-        are used in the analysis program.
+    cell_locations: The list containing the shape, location, and size 
+        information of the cells.
+    image_shape: The size of the images used for analysis. It is a tuple of two
+        positive integers (y,x), where y is the height of the images and x is
+        the width of the images.
     
     Returns
     -------
-    data: This is a 4D numpy array containing the dF/F values. The first axis
-        is the cell number, the second axis is the sample number (unique 
-        combination of frequency and amplitude), the third number is the trial
-        number (repition of the same frequency and amplitude combination), and
-        the fourth axis is the frame number for each segment.
-    info_storage: The function returns the info_storage class with the
-        cell_locations, extra_flag, cell_flags, framerate_information, key,
-        frequencies, frequency_unit, intensities, intensity_unit variables
-        added.
+    cell_arrays: A list of numpy arrays containing the masks for each of the
+        cells.
+    background_arrays: A list of numpy arrays containing the masks for the
+        regions surrounding the cells.
     """
     
     # Creates an empty list for storing arrays

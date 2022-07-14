@@ -241,6 +241,17 @@ def data_extractor_subtraction(filtered_images,info_storage):
     # Deletes filtered_images to save space in memory
     del filtered_images
     
+    # Adds new information to the info_storage class
+    info_storage.cell_locations        = cell_locations
+    info_storage.extra_flag            = extra_flag
+    info_storage.cell_flags            = cell_flags
+    info_storage.framerate_information = framerate_information
+    info_storage.key                   = key
+    info_storage.frequencies           = frequencies
+    info_storage.frequency_unit        = frequency_unit
+    info_storage.intensities           = intensities
+    info_storage.intensity_unit        = intensity_unit
+    
     # Declares end of data extraction
     print("Finished data extraction")
     
