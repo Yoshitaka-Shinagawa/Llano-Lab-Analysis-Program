@@ -2,6 +2,13 @@
 
 Test
 
+
+## Installation
+### Required Packages
+* CaImAn
+* Read-ROI
+* Shapely
+
 ## To-do list
 ### In progress
 * Rewrite the program with class
