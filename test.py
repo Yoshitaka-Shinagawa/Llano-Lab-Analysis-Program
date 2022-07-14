@@ -67,10 +67,10 @@ class info_storage:
         self.mode         = mode
 
 # Create an instance of the class
-tonotopy_info = info_storage()
+# tonotopy_info = info_storage()
 
 # Stabilizes and filters images
-raw_images,filtered_images,tonotopy_info = motion_corrector(tonotopy_info)
+# raw_images,filtered_images,tonotopy_info = motion_corrector(tonotopy_info)
 
 # Extracts the data from the images
 # data,tonotopy_info = data_extractor_subtraction(filtered_images,tonotopy_info)

@@ -46,11 +46,11 @@ def data_extractor_subtraction(filtered_images,info_storage):
     
     Returns
     -------
-    data: This is a 4D numpy array containing the dF/F values. The first axis
-        is the cell number, the second axis is the sample number (unique 
-        combination of frequency and amplitude), the third number is the trial
-        number (repition of the same frequency and amplitude combination), and
-        the fourth axis is the frame number for each segment.
+    data: A 4D numpy array containing the dF/F values. The first axis is the
+        cell number, the second axis is the sample number (unique combination
+        of frequency and amplitude), the third number is the trial number
+        (repetition of the same frequency and amplitude combination), and the
+        fourth axis is the frame number for each segment.
     info_storage: The function returns the info_storage class with the
         cell_locations, extra_flag, cell_flags, framerate_information, key,
         frequencies, frequency_unit, intensities, intensity_unit variables
@@ -108,6 +108,7 @@ def data_extractor_subtraction(filtered_images,info_storage):
                     framerate_information.append(float(info))
             framerate_information[0] = int(framerate_information[0])
             framerate_information[1] = int(framerate_information[1])
+            framerate_information = tuple(framerate_information)
         else:
             print("Error! Framerate data not found!")
             return
