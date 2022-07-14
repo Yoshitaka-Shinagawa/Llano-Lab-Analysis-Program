@@ -24,3 +24,4 @@ Test
 * Find a better way to fix the negative values from motion correction
 * Convert program to a library
 * Give the program a cool name and logo
+* Possibly add a way to process other types of images
