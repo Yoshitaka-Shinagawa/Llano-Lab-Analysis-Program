@@ -23,16 +23,16 @@ def data_reader(image_stack,cell_arrays,background_arrays):
     
     Parameters
     ----------
-    image_stack: The numpy array containing the raw images.
-    cell_arrays: The list of numpy arrays containing the masks for each of the
+    image_stack : The numpy array containing the raw images.
+    cell_arrays : The list of numpy arrays containing the masks for each of the
         cells.
-    background_arrays: The list of numpy arrays containing the masks for the
+    background_arrays : The list of numpy arrays containing the masks for the
         regions surrounding the cells.
     
     Returns
     -------
-    folder_data: A 2D numpy array containing the corrected data values for each
-        cell. The first axis is the cell number and the second axis is the
+    folder_data : A 2D numpy array containing the corrected data values for
+        each cell. The first axis is the cell number and the second axis is the
         frame number.
     """
     

@@ -24,17 +24,17 @@ def cell_and_background_array(cell_locations,image_shape):
     
     Parameters
     ----------
-    cell_locations: The list containing the shape, location, and size 
+    cell_locations : The list containing the shape, location, and size 
         information of the cells.
-    image_shape: The size of the images used for analysis. It is a tuple of two
-        positive integers (y,x), where y is the height of the images and x is
-        the width of the images.
+    image_shape : The size of the images used for analysis. It is a tuple of
+        two positive integers (y,x), where y is the height of the images and x
+        is the width of the images.
     
     Returns
     -------
-    cell_arrays: A list of numpy arrays containing the masks for each of the
+    cell_arrays : A list of numpy arrays containing the masks for each of the
         cells.
-    background_arrays: A list of numpy arrays containing the masks for the
+    background_arrays : A list of numpy arrays containing the masks for the
         regions surrounding the cells.
     """
     

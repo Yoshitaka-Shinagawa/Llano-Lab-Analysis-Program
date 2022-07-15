@@ -23,15 +23,15 @@ def roi_zip_reader(flag,roi_zip):
     
     Parameters
     ----------
-    flag: The name of the flag for the ROI zip, which should be a string. If 
+    flag : The name of the flag for the ROI zip, which should be a string. If 
         there is only one type of cell, enter "N/A".
-    roi_zip: The location of the ROI zip file, which should be a string.
+    roi_zip : The location of the ROI zip file, which should be a string.
     
     Returns
     -------
-    locations: A list containing the shape, location, and size information of
+    locations : A list containing the shape, location, and size information of
         the cells.
-    flags: A list containing the flag of each cell.
+    flags : A list containing the flag of each cell.
     """
     
     # Reads ROI data from file

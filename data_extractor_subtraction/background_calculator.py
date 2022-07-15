@@ -19,14 +19,14 @@ def background_calculator(cycle_data,cycle_duration):
     
     Parameters
     ----------
-    cycle_data: The array containing the corrected data values for the analysis
-        segment.
-    cycle_duration: The integer representing the duration of the analysis
+    cycle_data : The array containing the corrected data values for the
+        analysis segment.
+    cycle_duration : The integer representing the duration of the analysis
         segment in terms of the number of frames.
     
     Returns
     -------
-    background_data: The array containing the estimated background for the
+    background_data : The array containing the estimated background for the
         analysis segment.
     """
     

@@ -38,20 +38,19 @@ def data_extractor_subtraction(filtered_images,info_storage):
     
     Parameters
     ----------
-    filtered_images: This is a numpy array containing the filtered images from
-        the 2P microscope. This will be passed onto a different function that
-        will use this array to extract 2P signals for each cell.
-    info_storage: This is the class used to store most of the variables that
-        are used in the analysis program.
+    filtered_images : The numpy array containing the filtered images from the
+        2P microscope.
+    info_storage : The class used to store most of the variables that are used
+        in the analysis program.
     
     Returns
     -------
-    data: A 4D numpy array containing the dF/F values. The first axis is the
+    data : A 4D numpy array containing the dF/F values. The first axis is the
         cell number, the second axis is the sample number (unique combination
         of frequency and amplitude), the third number is the trial number
         (repetition of the same frequency and amplitude combination), and the
         fourth axis is the frame number for each segment.
-    info_storage: The function returns the info_storage class with the
+    info_storage : The function returns the info_storage class with the
         cell_locations, extra_flag, cell_flags, framerate_information, key,
         frequencies, frequency_unit, intensities, intensity_unit variables
         added.

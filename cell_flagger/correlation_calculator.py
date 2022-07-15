@@ -13,6 +13,28 @@ import math
 
 def correlation_calculator(data):
     
+    """
+    This is the function used to calculate the average correlation coefficient
+    for each stimuli. Since a correlation coefficient can only be calculated
+    between two timeseries, the correlation coefficient for every possible
+    combination of pairs of repetition is calculated, then averaged.
+    
+    Parameters
+    ----------
+    data : The 4D numpy array containing the dF/F values. The first axis is the
+        cell number, the second axis is the sample number (unique combination
+        of frequency and amplitude), the third number is the trial number
+        (repetition of the same frequency and amplitude combination), and the
+        fourth axis is the frame number for each segment.
+    
+    Returns
+    -------
+    correlation_coefficients : A 2D numpy array containing the average
+        correlation coefficient for each stimulus. The first axis is the cell
+        number and the second axis is the sample number (unique combination
+        of frequency and amplitude).
+    """
+    
     # Creates a blank numpy array to store correlation coefficients in
     correlation_coefficients = np.zeros((data.shape[0],data.shape[1],1),dtype=np.float32)
     

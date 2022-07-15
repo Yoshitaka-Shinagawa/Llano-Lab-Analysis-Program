@@ -76,7 +76,7 @@ class info_storage:
 # data,tonotopy_info = data_extractor_subtraction(filtered_images,tonotopy_info)
 
 # Flags cells based on their responsiveness
-# cell_flags,correlation_coefficients,areas_under_curves = cell_flagger(path,cell_flags,key,frequencies,intensities,data,framerate_information,mode,threshold)
+# info_storage = cell_flagger(data,tonotopy_info)
 
 # Creates tonotopic map based on cell flags
 # canvas,width,height,scale,radius = tonotopic_map_generator(path,cell_locations,frequencies,frequency_unit,cell_flags,extra_flag,mode)

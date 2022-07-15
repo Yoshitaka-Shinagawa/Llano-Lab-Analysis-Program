@@ -18,20 +18,20 @@ def key_reader(path):
     
     Parameters
     ----------
-    path: The path to the parent folder of the data folder.
+    path : The path to the parent folder of the data folder.
     
     Returns
     -------
-    key: A dictionary of frequencies containing the dictionary of amplitudes
+    key : A dictionary of frequencies containing the dictionary of amplitudes
         containing the sample numbers. The sample number can be found by
         inputting the frequency, then the amplitude.
-    frequencies: A list containing all of the frequencies used to stimulate the
-        mouse.
-    frequency_unit: A string representing the unit of frequency used to
+    frequencies : A list containing all of the frequencies used to stimulate
+        the mouse.
+    frequency_unit : A string representing the unit of frequency used to
         stimulate the mouse.
-    intensities: A list containing all of the amplitudes used to stimulate the
+    intensities : A list containing all of the amplitudes used to stimulate the
         mouse.
-    intensity_unit: A string representing the unit of amplitude used to
+    intensity_unit : A string representing the unit of amplitude used to
         stimulate the mouse.
     """
     

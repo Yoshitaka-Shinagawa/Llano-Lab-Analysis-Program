@@ -30,22 +30,21 @@ def motion_corrector(info_storage):
     
     Parameters
     ----------
-    info_storage: This is the class used to store most of the variables that
-        are used in the analysis program.
+    info_storage : The class used to store most of the variables that are used
+        in the analysis program.
     
     Returns
     -------
-    raw_images: This is a 3D numpy array containing the raw images from the 2P
+    raw_images : A 3D numpy array containing the raw images from the 2P
         microscope. This will be empty in most cases, except when noise data is
         being analyzed.
-    filtered_images: This is a 3D numpy array containing the filtered images
-        from the 2P microscope. The first axis is the temporal axis, while the
-        second and third axes are the y ans x axes of the individual images,
+    filtered_images : A 3D numpy array containing the filtered images from the
+        2P microscope. The first axis is the temporal axis, while the second
+        and third axes are the y ans x axes of the individual images,
         respectively. This will be passed onto a different function that will
         use this array to extract 2P signals for each cell.
-    info_storage: The function returns the info_storage class with the
-        folders_list variable added, as it will be used in a different function
-        later on.
+    info_storage : The function returns the info_storage class with the
+        folders_list variable added.
     """
     
     # Extracts variables from the info_storage class

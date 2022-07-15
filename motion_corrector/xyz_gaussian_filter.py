@@ -20,15 +20,15 @@ def xyz_gaussian_filter(folder_images,x_sigma,y_sigma,z_sigma):
     
     Parameters
     ----------
-    folder_images: A 3D numpy array containing the images that need to be
+    folder_images : A 3D numpy array containing the images that need to be
         filtered.
-    x_sigma: The sigma value for the up-down axis.
-    y_sigma: The sigma value for the left-right axis.
-    z_sigma: The sigma value for the temporal axis.
+    x_sigma : The sigma value for the up-down axis.
+    y_sigma : The sigma value for the left-right axis.
+    z_sigma : The sigma value for the temporal axis.
     
     Returns
     -------
-    filtered_images: A 3D numpy array containing the filtered images.
+    filtered_images : A 3D numpy array containing the filtered images.
     """
     
     # Goes through each image and applies a 2D Gaussian blur
