@@ -16,6 +16,7 @@ Test
 * Make sure lines do not go over the 80 char limit
 ### Future plans
 * Change flag for noise response from "Yes" to "Responsive"
+* Change noise analysis so that it's generic and can be used for single stimulus analysis
 * Make the contamination ratio specifiable
 * Create documentation for how to use the program
 * Include an example data set for people to use if there is an easy way to distribute i
