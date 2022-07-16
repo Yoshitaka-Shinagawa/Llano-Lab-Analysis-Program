@@ -15,6 +15,7 @@ Test
 * Improve comments
 * Make sure lines do not go over the 80 char limit
 ### Future plans
+* Change flag for noise response from "Yes" to "Responsive"
 * Make the contamination ratio specifiable
 * Create documentation for how to use the program
 * Include an example data set for people to use if there is an easy way to distribute i
