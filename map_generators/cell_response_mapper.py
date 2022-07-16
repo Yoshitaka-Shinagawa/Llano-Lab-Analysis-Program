@@ -16,6 +16,19 @@ from arrow_coordinate_calculator import *
 
 def cell_response_mapper(path,canvas,width,height,map_type,cell_locations,scale,radius,color_key,frequency_unit,cell_flags,extra_flag,mode="combined"):
     
+    """
+    """
+    
+    # Extracts variables from the info_storage class
+    frequency_unit = info_storage.frequency_unit
+    
+    
+    
+    
+    
+    
+    
+    
     # Makes a copy of the canvas
     response_map = canvas.copy()
     

@@ -22,7 +22,7 @@ def cell_grapher(path,data,cell_flags,correlation_coefficients,areas_under_curve
     # Disable Spyder plot window
     plt.ioff()
     
-    # Creates and changes to output directory
+    # Creates output directories
     cell_trace_output_path = f"{path}/Output/Cell Traces"
     if os.path.exists(f"{path}/Output/Graphs") == True:
         shutil.rmtree(f"{path}/Output/Graphs")

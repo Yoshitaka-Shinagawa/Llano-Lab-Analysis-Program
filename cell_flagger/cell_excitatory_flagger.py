@@ -9,8 +9,7 @@ import numpy as np
 
 
 
-def cell_excitatory_flagger(cell_number,correlation_coefficients,
-                            areas_under_curves,data,info_storage,threshold):
+def cell_excitatory_flagger(cell_number,data,info_storage):
     
     """
     This is the function used to find the best frequency (the frequency that
@@ -28,14 +27,6 @@ def cell_excitatory_flagger(cell_number,correlation_coefficients,
     Parameters
     ----------
     cell_number : The number of the cell being analyzed.
-    correlation_coefficients : The 2D numpy array containing the average
-        correlation coefficient for each stimulus. The first axis is the cell
-        number and the second axis is the sample number (unique combination
-        of frequency and amplitude).
-    areas_under_curves : A 2D numpy array containing the area under the curve
-        for each stimulus. The first axis is the cell number and the second
-        axis is the sample number (unique combination of frequency and
-        amplitude).
     data : The 4D numpy array containing the dF/F values. The first axis is the
         cell number, the second axis is the sample number (unique combination
         of frequency and amplitude), the third number is the trial number
@@ -43,27 +34,20 @@ def cell_excitatory_flagger(cell_number,correlation_coefficients,
         fourth axis is the frame number for each segment.
     info_storage : The class used to store most of the variables that are used
         in the analysis program.
-    threshold : The threshold for the average correlation coefficient used to
-        determine whether a cell is responsive to a particular combination
-        of frequencies and amplitudes. It is a float value between 0 and 1. Use
-        the highest possible value where visual inspection of the graph results
-        in as little false positives as possible without false negatives, but
-        should be above 0.5 if possible. If left unspecified, 0.6 will be used
-        as the threshold.
-    
+
     Returns
     -------
     best_frequency : The best frequency of the cell.
     characteristic_frequency : The characteristic frequency of the cell.
-    
-    
-    
     """
     
     # Extracts variables from the info_storage class
-    key                   = info_storage.key
-    frequencies           = info_storage.frequencies
-    intensities           = info_storage.intensities
+    key                      = info_storage.key
+    frequencies              = info_storage.frequencies
+    intensities              = info_storage.intensities
+    correlation_coefficients = info_storage.correlation_coefficients
+    areas_under_curves       = info_storage.areas_under_curves
+    threshold                = info_storage.threshold
     
     # Default flags
     best_frequency,characteristic_frequency = "N/A","N/A"

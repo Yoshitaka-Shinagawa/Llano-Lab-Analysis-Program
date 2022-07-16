@@ -21,17 +21,17 @@ def cell_flagger(data,info_storage):
     
     Parameters
     ----------
-    data: The 4D numpy array containing the dF/F values. The first axis is the
+    data : The 4D numpy array containing the dF/F values. The first axis is the
         cell number, the second axis is the sample number (unique combination
         of frequency and amplitude), the third number is the trial number
         (repetition of the same frequency and amplitude combination), and the
         fourth axis is the frame number for each segment.
-    info_storage: The class used to store most of the variables that are used
+    info_storage : The class used to store most of the variables that are used
         in the analysis program.
     
     Returns
     -------
-    info_storage: The function returns the info_storage class with the
+    info_storage : The function returns the info_storage class with the
         cell_flags, correlation_coefficients, areas_under_curves variables
         added.
     """
@@ -40,7 +40,6 @@ def cell_flagger(data,info_storage):
     cell_flags            = info_storage.cell_flags
     framerate_information = info_storage.framerate_information
     mode                  = info_storage.mode
-    threshold             = info_storage.threshold
     
     # Declares start of cell flagging
     print("Starting cell flagging")
@@ -51,6 +50,10 @@ def cell_flagger(data,info_storage):
     # Calculates area under ccurve for each sample
     areas_under_curves = area_calculator(data,framerate_information)
     
+    # Adds new information to the info_storage class
+    info_storage.correlation_coefficients = correlation_coefficients
+    info_storage.areas_under_curves       = areas_under_curves
+    
     # Excitatory cell flagging
     if mode == 0:
         
@@ -60,8 +63,7 @@ def cell_flagger(data,info_storage):
             
             # Finds best frequency and characteristic frequency of each cell
             best_frequency,characteristic_frequency = cell_excitatory_flagger(
-                cell_number,correlation_coefficients,areas_under_curves,
-                data,info_storage,threshold)
+                cell_number,data,info_storage)
             cell_flags[cell_number].append(best_frequency)
             cell_flags[cell_number].append(characteristic_frequency)
     
@@ -73,16 +75,13 @@ def cell_flagger(data,info_storage):
         for cell_number in range(cell_total):
             
             # Determines if the cell is responsive to noise
-            noise = cell_noise_flagger(cell_number,correlation_coefficients,
-                                       threshold)
+            noise = cell_noise_flagger(cell_number,info_storage)
             cell_flags[cell_number].append("N/A")
             cell_flags[cell_number].append("N/A")
             cell_flags[cell_number].append(noise)
     
     # Adds new information to the info_storage class
-    info_storage.cell_flags               = cell_flags
-    info_storage.correlation_coefficients = correlation_coefficients
-    info_storage.areas_under_curves       = areas_under_curves
+    info_storage.cell_flags = cell_flags
     
     # Declares end of cell flagging
     print("Finished cell flagging")

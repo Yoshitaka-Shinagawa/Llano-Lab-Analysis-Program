@@ -19,11 +19,38 @@ from scale_calculator import *
 from cell_number_mapper import *
 from cell_response_mapper import *
 
-def tonotopic_map_generator(path,cell_locations,frequencies,frequency_unit,cell_flags,extra_flag,mode=0):
+def tonotopic_map_generator(info_storage):
+    
+    """
+    This is the function used to generate tonotopic maps (spatial maps
+    depicting the best/characteristic frequency for each cell). It does so by
+    generating a color key with a shade of green for each frequency, drawing
+    the cells onto a map and coloring them in with their best or characteristic
+    frequency, then creating an outline to distinguish special cells
+    (GABAergic in our case) from normal cells.
+    
+    Parameters
+    ----------
+    info_storage : The class used to store most of the variables that are used
+        in the analysis program.
+    
+    Returns
+    -------
+    info_storage : The function returns the info_storage class with the canvas,
+        width, height, scale, radius variables added.
+    """
+    
+    # Extracts variables from the info_storage class
+    path           = info_storage.path
+    cell_locations = info_storage.cell_locations
+    cell_flags     = info_storage.cell_flags
+    extra_flag     = info_storage.extra_flag
+    mode           = info_storage.mode
     
     # Declares start of tonotopic map generation
     print("Starting tonotopic map generation")
-    # Creates and changes to output directory
+    
+    # Creates output directories
     output_folder_path = f"{path}/Output"
     if os.path.exists(output_folder_path) == False:
         os.mkdir(output_folder_path)
@@ -42,7 +69,7 @@ def tonotopic_map_generator(path,cell_locations,frequencies,frequency_unit,cell_
     
     # Generates color key if doing tonotopic analysis
     if mode == 0:
-        color_key = color_key_generator(frequencies)
+        color_key = color_key_generator(info_storage)
     
     # Generates another color key for noise analysis
     elif mode == 1:
@@ -50,7 +77,8 @@ def tonotopic_map_generator(path,cell_locations,frequencies,frequency_unit,cell_
     
     # Finds the size of the images from the base image
     average_images_folder = f"{path}/Output/Debug/Average Images"
-    average_images = [file for file in os.listdir(average_images_folder) if file.endswith(".png")]
+    average_images = [file for file in os.listdir(average_images_folder) if 
+                      file.endswith(".png")]
     base_image_path = f"{average_images_folder}/{average_images[0]}"
     base_image = plt.imread(base_image_path)
     base_image = base_image[:,:,0]
@@ -77,30 +105,62 @@ def tonotopic_map_generator(path,cell_locations,frequencies,frequency_unit,cell_
     canvas = Image.new("RGBA",(width*scale,height*scale+200),(0,0,0,0))
     # canvas.paste(image,(0,200))
     
-    # Generates map of location of cells
-    cell_number_mapper(tonotopic_map_output_path,canvas,width,height,cell_locations,scale,radius,cell_flags,extra_flag)
+    # Adds new information to the info_storage class
+    info_storage.canvas = canvas
+    info_storage.width  = width
+    info_storage.height = height
+    info_storage.scale  = scale
+    info_storage.radius = radius
     
-    # Generates tonotopic maps for for best frequency and characteristic frequency
+    # Generates map of location of cells
+    cell_number_mapper(tonotopic_map_output_path,canvas,width,height,
+                       cell_locations,scale,radius,cell_flags,extra_flag)
+    
+    # Generates tonotopic maps for for best and characteristic frequency
     if mode == 0:
         if extra_flag != "N/A":
-            cell_response_mapper(path,canvas,width,height,1,cell_locations,scale,radius,color_key,frequency_unit,cell_flags,extra_flag,"combined")
-            cell_response_mapper(path,canvas,width,height,2,cell_locations,scale,radius,color_key,frequency_unit,cell_flags,extra_flag,"combined")
-            cell_response_mapper(path,canvas,width,height,1,cell_locations,scale,radius,color_key,frequency_unit,cell_flags,extra_flag,"flag")
-            cell_response_mapper(path,canvas,width,height,2,cell_locations,scale,radius,color_key,frequency_unit,cell_flags,extra_flag,"flag")
-            cell_response_mapper(path,canvas,width,height,1,cell_locations,scale,radius,color_key,frequency_unit,cell_flags,extra_flag,"no flag")
-            cell_response_mapper(path,canvas,width,height,2,cell_locations,scale,radius,color_key,frequency_unit,cell_flags,extra_flag,"no flag")
+            cell_response_mapper(path,canvas,width,height,1,cell_locations,
+                                 scale,radius,color_key,frequency_unit,
+                                 cell_flags,extra_flag,"combined")
+            cell_response_mapper(path,canvas,width,height,2,cell_locations,
+                                 scale,radius,color_key,frequency_unit,
+                                 cell_flags,extra_flag,"combined")
+            cell_response_mapper(path,canvas,width,height,1,cell_locations,
+                                 scale,radius,color_key,frequency_unit,
+                                 cell_flags,extra_flag,"flag")
+            cell_response_mapper(path,canvas,width,height,2,cell_locations,
+                                 scale,radius,color_key,frequency_unit,
+                                 cell_flags,extra_flag,"flag")
+            cell_response_mapper(path,canvas,width,height,1,cell_locations,
+                                 scale,radius,color_key,frequency_unit,
+                                 cell_flags,extra_flag,"no flag")
+            cell_response_mapper(path,canvas,width,height,2,cell_locations,
+                                 scale,radius,color_key,frequency_unit,
+                                 cell_flags,extra_flag,"no flag")
         else:
-            cell_response_mapper(path,canvas,width,height,1,cell_locations,scale,radius,color_key,frequency_unit,cell_flags,extra_flag,"combined")
-            cell_response_mapper(path,canvas,width,height,2,cell_locations,scale,radius,color_key,frequency_unit,cell_flags,extra_flag,"combined")
+            cell_response_mapper(path,canvas,width,height,1,cell_locations,
+                                 scale,radius,color_key,frequency_unit,
+                                 cell_flags,extra_flag,"combined")
+            cell_response_mapper(path,canvas,width,height,2,cell_locations,
+                                 scale,radius,color_key,frequency_unit,
+                                 cell_flags,extra_flag,"combined")
     
     # Generate noise response maps
     elif mode == 1:
         if extra_flag != "N/A":
-            cell_response_mapper(path,canvas,width,height,3,cell_locations,scale,radius,color_key,frequency_unit,cell_flags,extra_flag,"combined")
-            cell_response_mapper(path,canvas,width,height,3,cell_locations,scale,radius,color_key,frequency_unit,cell_flags,extra_flag,"flag")
-            cell_response_mapper(path,canvas,width,height,3,cell_locations,scale,radius,color_key,frequency_unit,cell_flags,extra_flag,"no flag")
+            cell_response_mapper(path,canvas,width,height,3,cell_locations,
+                                 scale,radius,color_key,frequency_unit,
+                                 cell_flags,extra_flag,"combined")
+            cell_response_mapper(path,canvas,width,height,3,cell_locations,
+                                 scale,radius,color_key,frequency_unit,
+                                 cell_flags,extra_flag,"flag")
+            cell_response_mapper(path,canvas,width,height,3,cell_locations,
+                                 scale,radius,color_key,frequency_unit,
+                                 cell_flags,extra_flag,"no flag")
         else:
-            cell_response_mapper(path,canvas,width,height,3,cell_locations,scale,radius,color_key,frequency_unit,cell_flags,extra_flag,"combined")
+            cell_response_mapper(path,canvas,width,height,3,cell_locations,
+                                 scale,radius,color_key,frequency_unit,
+                                 cell_flags,extra_flag,"combined")
     
     # Exports best frequency and characteristic frequency of cells
     cell_numbers = []
@@ -113,9 +173,12 @@ def tonotopic_map_generator(path,cell_locations,frequencies,frequency_unit,cell_
         cell_flag_list.append(cell_flags[cell_number][0])
         best_frequencies.append(cell_flags[cell_number][1])
         characterstic_frequencies.append(cell_flags[cell_number][2])
-    dataframe = {"Cell Number":cell_numbers,"Cell Flag":cell_flag_list,"Best Frequency":best_frequencies,"Characteristic Frequency":characterstic_frequencies}
+    dataframe = {"Cell Number":cell_numbers,"Cell Flag":cell_flag_list,
+                 "Best Frequency":best_frequencies,
+                 "Characteristic Frequency":characterstic_frequencies}
     dataframe = pd.DataFrame(dataframe)
-    dataframe.to_excel(f"{tonotopic_map_output_path}/Spreadsheets/Frequencies.xlsx",index=False)
+    dataframe.to_excel(f"{tonotopic_map_output_path}/Spreadsheets/Frequencies.\
+                       xlsx",index=False)
     
     # Exports statistics for the data
     [total_cells,responsive_cells,unresponsive_cells] = [0,0,0]
@@ -142,18 +205,23 @@ def tonotopic_map_generator(path,cell_locations,frequencies,frequency_unit,cell_
             else:
                 unflagged_unresponsive += 1
     if extra_flag != "N/A":
-        statistics = {"Responsive Cells": [responsive_cells,flagged_responsive,unflagged_responsive],
-                      "Unresponsive Cells": [unresponsive_cells,flagged_unresponsive,unflagged_unresponsive],
-                      "Total Cells": [total_cells,flagged_total,unflagged_total]}
-        statistics = pd.DataFrame(statistics,index=["Combined","Flagged","Unflagged"])
+        statistics = {"Responsive Cells": [responsive_cells,flagged_responsive,
+                          unflagged_responsive],
+                      "Unresponsive Cells": [unresponsive_cells,
+                          flagged_unresponsive,unflagged_unresponsive],
+                      "Total Cells": [total_cells,
+                          flagged_total,unflagged_total]}
+        statistics = pd.DataFrame(statistics,index=["Combined",
+                                                    "Flagged","Unflagged"])
     else:
         statistics = {"Responsive Cells": [responsive_cells],
                       "Unresponsive Cells": [unresponsive_cells],
                       "Total Cells": [total_cells]}
         statistics = pd.DataFrame(statistics,index=["Combined"])
-    statistics.to_excel(f"{tonotopic_map_output_path}/Spreadsheets/Statistics.xlsx")
+    statistics.to_excel(f"{tonotopic_map_output_path}/Spreadsheets/Statistics.\
+                        xlsx")
     
     # Declares end of tonotopic map generation
     print("Finished tonotopic map generation")
     
-    return canvas,width,height,scale,radius
+    return info_storage

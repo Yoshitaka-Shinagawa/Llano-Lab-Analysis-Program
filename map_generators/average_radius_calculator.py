@@ -11,6 +11,19 @@ import numpy as np
 
 def average_radius_calculator(cell_locations):
     
+    """
+    This is the function used to calculate the average radius of the oval ROIs.
+    It creates a list of all of the radii in the x and y axes, then finds the
+    average.
+    
+    Parameters
+    ----------
+    cell_locations : The list containing the shape, location, and size 
+        information of the cells.
+    
+    Returns : The average radius of the cells.
+    """
+    
     # Radius is set to "N/A" if it contains no oval ROIs
     radius = "N/A"
     

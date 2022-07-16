@@ -9,7 +9,28 @@ import numpy as np
 
 
 
-def cell_noise_flagger(cell_number,correlation_coefficients,threshold):
+def cell_noise_flagger(cell_number,info_storage):
+    
+    """
+    This is the function used to determine whether a cell is responsive to the
+    noise stimulus or not. The cell is marked as being responsive if the
+    average correlation coefficient for the noise stimulus is above the
+    specified threshold.
+    
+    Parameters
+    ----------
+    cell_number : The number of the cell being analyzed.
+    info_storage : The class used to store most of the variables that are used
+        in the analysis program.
+    
+    Returns
+    -------
+    noise : The response of the cell to noise stimulus
+    """
+    
+    # Extracts variables from the info_storage class
+    correlation_coefficients = info_storage.correlation_coefficients
+    threshold                = info_storage.threshold
     
     # Cutoff for determining what"s considered responsive and what"s not
     if threshold == "Default":

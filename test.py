@@ -67,19 +67,19 @@ class info_storage:
         self.mode         = mode
 
 # Create an instance of the class
-# tonotopy_info = info_storage()
+tonotopy_info = info_storage()
 
 # Stabilizes and filters images
-# raw_images,filtered_images,tonotopy_info = motion_corrector(tonotopy_info)
+raw_images,filtered_images,tonotopy_info = motion_corrector(tonotopy_info)
 
 # Extracts the data from the images
-# data,tonotopy_info = data_extractor_subtraction(filtered_images,tonotopy_info)
+data,tonotopy_info = data_extractor_subtraction(filtered_images,tonotopy_info)
 
 # Flags cells based on their responsiveness
-# info_storage = cell_flagger(data,tonotopy_info)
+info_storage = cell_flagger(data,tonotopy_info)
 
 # Creates tonotopic map based on cell flags
-# canvas,width,height,scale,radius = tonotopic_map_generator(path,cell_locations,frequencies,frequency_unit,cell_flags,extra_flag,mode)
+# tonotopy_info = tonotopic_map_generator(tonotopy_info)
 
 # Creates graphs for traces of individual cells
 # cell_grapher(path,data,cell_flags,correlation_coefficients,areas_under_curves,framerate_information,key,frequencies,frequency_unit,intensities,intensity_unit,mode,threshold)

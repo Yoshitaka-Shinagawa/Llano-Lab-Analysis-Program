@@ -11,7 +11,7 @@ from PIL import Image,ImageDraw,ImageFont
 
 from cell_drawer import *
 
-def cell_number_mapper(tonotopic_map_output_path,canvas,width,height,cell_locations,scale,radius,cell_flags,extra_flag):
+def cell_number_mapper(path,canvas,width,height,cell_locations,scale,radius,cell_flags,extra_flag):
     
     # Makes a copy of the canvas
     number_map = canvas.copy()
@@ -63,6 +63,6 @@ def cell_number_mapper(tonotopic_map_output_path,canvas,width,height,cell_locati
                   anchor="mm",font=ImageFont.truetype("calibri.ttf",40))
     
     # Saves image
-    number_map.save(f"{tonotopic_map_output_path}/Tonotopic Maps/Location Map.png","PNG")
+    number_map.save(f"{path}/Output/Tonotopy/Tonotopic Maps/Location Map.png","PNG")
     
     return
