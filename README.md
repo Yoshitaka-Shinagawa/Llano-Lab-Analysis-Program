@@ -19,6 +19,7 @@ Test
 * Change noise analysis so that it's generic and can be used for single stimulus analysis
 * Make the contamination ratio specifiable
 * Create documentation for how to use the program
+* Add a way to classify cells based on their response type
 * Include an example data set for people to use if there is an easy way to distribute it
 * Add a debug function to visualize raw, unfiltered data
 * Finish the debug feature for best angles
