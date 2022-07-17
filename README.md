@@ -19,8 +19,9 @@ Test
 * Change noise analysis so that it's generic and can be used for single stimulus analysis
 * Make the contamination ratio specifiable
 * Create documentation for how to use the program
-* Include an example data set for people to use if there is an easy way to distribute i
+* Include an example data set for people to use if there is an easy way to distribute it
 * Add a debug function to visualize raw, unfiltered data
+* Finish the debug feature for best angles
 * Separate out the maps for receptive field and modulation indices
 * Rewrite the correlation matrix function to accept raw data
 * Find a better way to fix the negative values from motion correction
