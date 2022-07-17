@@ -14,7 +14,9 @@ def average_radius_calculator(cell_locations):
     """
     This is the function used to calculate the average radius of the oval ROIs.
     It creates a list of all of the radii in the x and y axes, then finds the
-    average.
+    average. This is needed because the radii of the ROIs are inconsistent due
+    to the different sizes of the cells, but we do not want to make any claims
+    about the size of the cells in our figures.
     
     Parameters
     ----------

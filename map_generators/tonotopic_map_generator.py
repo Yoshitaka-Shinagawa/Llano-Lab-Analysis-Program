@@ -22,12 +22,17 @@ from cell_response_mapper import *
 def tonotopic_map_generator(info_storage):
     
     """
-    This is the function used to generate tonotopic maps (spatial maps
-    depicting the best/characteristic frequency for each cell). It does so by
-    generating a color key with a shade of green for each frequency, drawing
-    the cells onto a map and coloring them in with their best or characteristic
-    frequency, then creating an outline to distinguish special cells
-    (GABAergic in our case) from normal cells.
+    This is the function used to generate a key map depicting the location and 
+    cell number of each cell, tonotopic maps (spatial maps depicting the best/
+    characteristic frequency for each cell), as well as an Excel spreadsheet
+    containing the statistics for the data set and another one containing the
+    best and characteristic frequency for each cell. It does so by generating a
+    color key with a shade of green for each frequency, then generates the key
+    map. It generates a separate tonotopic map for the best and characteristic
+    frequencies, as well as separate maps for each cell type if there are two
+    types of cells present. It then compiles the statistics and generates an
+    Excel spreadsheet for it, as well as generating an Excel spreadsheet
+    containing the list of best and characterstic frequencies for each cell.
     
     Parameters
     ----------
@@ -113,54 +118,29 @@ def tonotopic_map_generator(info_storage):
     info_storage.radius = radius
     
     # Generates map of location of cells
-    cell_number_mapper(tonotopic_map_output_path,canvas,width,height,
-                       cell_locations,scale,radius,cell_flags,extra_flag)
+    cell_number_mapper(info_storage)
     
     # Generates tonotopic maps for for best and characteristic frequency
     if mode == 0:
         if extra_flag != "N/A":
-            cell_response_mapper(path,canvas,width,height,1,cell_locations,
-                                 scale,radius,color_key,frequency_unit,
-                                 cell_flags,extra_flag,"combined")
-            cell_response_mapper(path,canvas,width,height,2,cell_locations,
-                                 scale,radius,color_key,frequency_unit,
-                                 cell_flags,extra_flag,"combined")
-            cell_response_mapper(path,canvas,width,height,1,cell_locations,
-                                 scale,radius,color_key,frequency_unit,
-                                 cell_flags,extra_flag,"flag")
-            cell_response_mapper(path,canvas,width,height,2,cell_locations,
-                                 scale,radius,color_key,frequency_unit,
-                                 cell_flags,extra_flag,"flag")
-            cell_response_mapper(path,canvas,width,height,1,cell_locations,
-                                 scale,radius,color_key,frequency_unit,
-                                 cell_flags,extra_flag,"no flag")
-            cell_response_mapper(path,canvas,width,height,2,cell_locations,
-                                 scale,radius,color_key,frequency_unit,
-                                 cell_flags,extra_flag,"no flag")
+            cell_response_mapper(info_storage,color_key,1,"combined")
+            cell_response_mapper(info_storage,color_key,2,"combined")
+            cell_response_mapper(info_storage,color_key,1,"flag")
+            cell_response_mapper(info_storage,color_key,2,"flag")
+            cell_response_mapper(info_storage,color_key,1,"no flag")
+            cell_response_mapper(info_storage,color_key,2,"no flag")
         else:
-            cell_response_mapper(path,canvas,width,height,1,cell_locations,
-                                 scale,radius,color_key,frequency_unit,
-                                 cell_flags,extra_flag,"combined")
-            cell_response_mapper(path,canvas,width,height,2,cell_locations,
-                                 scale,radius,color_key,frequency_unit,
-                                 cell_flags,extra_flag,"combined")
+            cell_response_mapper(info_storage,color_key,1,"combined")
+            cell_response_mapper(info_storage,color_key,2,"combined")
     
     # Generate noise response maps
     elif mode == 1:
         if extra_flag != "N/A":
-            cell_response_mapper(path,canvas,width,height,3,cell_locations,
-                                 scale,radius,color_key,frequency_unit,
-                                 cell_flags,extra_flag,"combined")
-            cell_response_mapper(path,canvas,width,height,3,cell_locations,
-                                 scale,radius,color_key,frequency_unit,
-                                 cell_flags,extra_flag,"flag")
-            cell_response_mapper(path,canvas,width,height,3,cell_locations,
-                                 scale,radius,color_key,frequency_unit,
-                                 cell_flags,extra_flag,"no flag")
+            cell_response_mapper(info_storage,color_key,3,"combined")
+            cell_response_mapper(info_storage,color_key,3,"flag")
+            cell_response_mapper(info_storage,color_key,3,"no flag")
         else:
-            cell_response_mapper(path,canvas,width,height,3,cell_locations,
-                                 scale,radius,color_key,frequency_unit,
-                                 cell_flags,extra_flag,"combined")
+            cell_response_mapper(info_storage,color_key,3,"combined")
     
     # Exports best frequency and characteristic frequency of cells
     cell_numbers = []
@@ -177,8 +157,8 @@ def tonotopic_map_generator(info_storage):
                  "Best Frequency":best_frequencies,
                  "Characteristic Frequency":characterstic_frequencies}
     dataframe = pd.DataFrame(dataframe)
-    dataframe.to_excel(f"{tonotopic_map_output_path}/Spreadsheets/Frequencies.\
-                       xlsx",index=False)
+    dataframe.to_excel(f"{tonotopic_map_output_path}/Spreadsheets/Frequencies\
+                       .xlsx",index=False)
     
     # Exports statistics for the data
     [total_cells,responsive_cells,unresponsive_cells] = [0,0,0]

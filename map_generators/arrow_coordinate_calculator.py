@@ -11,29 +11,68 @@ import numpy as np
 
 
 
-from polar_coordinates_calculator import *
-from best_angle_calculator import *
+from polar_coords_calc import *
+from best_angle_calc import *
 
-def arrow_coordinate_calculator(path,cell_flags,cell_locations,map_type,mode,width,height,scale):
+def arrow_coordinate_calculator(info_storage,map_type,mode):
+    
+    """
+    This is the function used to calculate the coordinates for the arrow that
+    depicts the best angle (the axes along which there is a correlation
+    between the log of the response of the cells vs their location along the
+    axis). It first goes through the specified cells to gather a list of the
+    responsive frequencies and their log (base 10) frequencies, then calculates
+    the correlation coefficient for the log frequency and the location of the
+    cell along an axes, once for each degree (360) of a circle. The angle of
+    axis along which the correlation coefficient is the highest is set as the
+    best angle, and the coordinates for the arrow is calculated.
+    
+    Parameters
+    ----------
+    info_storage : The class used to store most of the variables that are used
+        in the analysis program.
+    map_type : The integer used to determine whether the best frequency,
+        characteristic frequency, or noise will be plotted on the map. 1 is for
+        best frequency, 2 is for characteristic frequency, and 3 is for noise.
+    mode : The string is used to determine whether one or both types of cells
+        will be plotted on the same map, if there are two types of cells
+        present. "combined" is for combined maps, "flags" is for special flags
+        (GABAergic for us) only, and "no flag" is for normal cells only.
+    
+    Returns
+    -------
+    max_corr : The highest correlation coefficient.
+    converted_best_angle : The best angle.
+    arrow_coordinates : A list containing the coordinates for the corners of
+        the arrow.
+    """
+    
+    # Extracts variables from the info_storage class
+    path           = info_storage.path
+    width          = info_storage.width
+    height         = info_storage.height
+    scale          = info_storage.scale
+    cell_locations = info_storage.cell_locations
+    cell_flags     = info_storage.cell_flags
     
     # Creates folders to output graphs to
     if map_type == 1:
         map_type_name = "Best Frequency"
     if map_type == 2:
         map_type_name = "Characteristic Frequency"
-    tonotopic_graph_output_path = f"{path}/Output/Debug/Tonotopic Graphs ({map_type_name})"
+    tonotopic_graph_output_path = f"{path}/Output/Debug/Tonotopic Graphs (\
+                                    {map_type_name})"
     if os.path.exists(tonotopic_graph_output_path) == True:
         shutil.rmtree(tonotopic_graph_output_path)
-    """
-    if os.path.exists(tonotopic_graph_output_path) == False:
-        os.mkdir(tonotopic_graph_output_path)
-        os.mkdir(f"{tonotopic_graph_output_path}/Upper Left")
-        os.mkdir(f"{tonotopic_graph_output_path}/Upper Right")
-        os.mkdir(f"{tonotopic_graph_output_path}/Lower Left")
-        os.mkdir(f"{tonotopic_graph_output_path}/Lower Right")
-    """
+    # if os.path.exists(tonotopic_graph_output_path) == False:
+    #     os.mkdir(tonotopic_graph_output_path)
+    #     os.mkdir(f"{tonotopic_graph_output_path}/Upper Left")
+    #     os.mkdir(f"{tonotopic_graph_output_path}/Upper Right")
+    #     os.mkdir(f"{tonotopic_graph_output_path}/Lower Left")
+    #     os.mkdir(f"{tonotopic_graph_output_path}/Lower Right")
     
-    # Lists for storing frequencies, its log_10, and locations of responive cells
+    # Lists for storing frequencies, log (base 10) of frequencies, and
+    # locations of responive cells
     responsive_frequencies = []
     log_frequencies = []
     responsive_locations = []
@@ -52,7 +91,8 @@ def arrow_coordinate_calculator(path,cell_flags,cell_locations,map_type,mode,wid
                 responsive_locations.append(cell_locations[cell_number])
     elif mode == "flag":
         for cell_number in range(cell_total):
-            if cell_flags[cell_number][map_type] != "N/A" and cell_flags[cell_number][0] != "N/A":
+            if cell_flags[cell_number][map_type] != "N/A" and \
+                cell_flags[cell_number][0] != "N/A":
                 responsive_frequency = float(cell_flags[cell_number][map_type])
                 responsive_frequencies.append(responsive_frequency)
                 if responsive_frequency != 0:
@@ -62,7 +102,8 @@ def arrow_coordinate_calculator(path,cell_flags,cell_locations,map_type,mode,wid
                 responsive_locations.append(cell_locations[cell_number])
     elif mode == "no flag":
         for cell_number in range(cell_total):
-            if cell_flags[cell_number][map_type] != "N/A" and cell_flags[cell_number][0] == "N/A":
+            if cell_flags[cell_number][map_type] != "N/A" and \
+                cell_flags[cell_number][0] == "N/A":
                 responsive_frequency = float(cell_flags[cell_number][map_type])
                 responsive_frequencies.append(responsive_frequency)
                 if responsive_frequency != 0:
@@ -81,8 +122,8 @@ def arrow_coordinate_calculator(path,cell_flags,cell_locations,map_type,mode,wid
         
         # Upper left corner
         # os.chdir(f"{tonotopic_graph_output_path}/Upper Left")
-        polar_coordinates = polar_coordinates_calculator(responsive_locations,(0,0))
-        max_corr,best_angle = best_angle_calculator(log_frequencies,polar_coordinates)
+        polar_coords = polar_coords_calc(responsive_locations,(0,0))
+        max_corr,best_angle = best_angle_calc(log_frequencies,polar_coords)
         best_angles.append(best_angle)
         converted_best_angle = -best_angle
         converted_best_angles.append(converted_best_angle)
@@ -90,8 +131,8 @@ def arrow_coordinate_calculator(path,cell_flags,cell_locations,map_type,mode,wid
         
         # Upper right corner
         # os.chdir(f"{tonotopic_graph_output_path}/Upper Right")
-        polar_coordinates = polar_coordinates_calculator(responsive_locations,(width,0))
-        max_corr,best_angle = best_angle_calculator(log_frequencies,polar_coordinates)
+        polar_coords = polar_coords_calc(responsive_locations,(width,0))
+        max_corr,best_angle = best_angle_calc(log_frequencies,polar_coords)
         best_angles.append(best_angle)
         converted_best_angle = -(180-best_angle)
         converted_best_angles.append(converted_best_angle)
@@ -99,8 +140,8 @@ def arrow_coordinate_calculator(path,cell_flags,cell_locations,map_type,mode,wid
         
         # Lower left corner
         # os.chdir(f"{tonotopic_graph_output_path}/Lower Left")
-        polar_coordinates = polar_coordinates_calculator(responsive_locations,(0,height))
-        max_corr,best_angle = best_angle_calculator(log_frequencies,polar_coordinates)
+        polar_coords = polar_coords_calc(responsive_locations,(0,height))
+        max_corr,best_angle = best_angle_calc(log_frequencies,polar_coords)
         best_angles.append(best_angle)
         converted_best_angle = best_angle
         converted_best_angles.append(converted_best_angle)
@@ -108,8 +149,8 @@ def arrow_coordinate_calculator(path,cell_flags,cell_locations,map_type,mode,wid
         
         # Lower right corner
         # os.chdir(f"{tonotopic_graph_output_path}/Lower Right")
-        polar_coordinates = polar_coordinates_calculator(responsive_locations,(width,height))
-        max_corr,best_angle = best_angle_calculator(log_frequencies,polar_coordinates)
+        polar_coords = polar_coords_calc(responsive_locations,(width,height))
+        max_corr,best_angle = best_angle_calc(log_frequencies,polar_coords)
         best_angles.append(best_angle)
         converted_best_angle = 180-best_angle
         converted_best_angles.append(converted_best_angle)
@@ -118,7 +159,8 @@ def arrow_coordinate_calculator(path,cell_flags,cell_locations,map_type,mode,wid
         # Finds which angle has the highest correlation coefficient
         max_corr = max(max_correlation_coefficients)
         best_angle = best_angles[max_correlation_coefficients.index(max_corr)]
-        converted_best_angle = converted_best_angles[max_correlation_coefficients.index(max_corr)]
+        converted_best_angle = converted_best_angles[
+            max_correlation_coefficients.index(max_corr)]
         
         # Calculates the coordinates of the arrow to display
         arrow_coordinates=[]
@@ -134,13 +176,15 @@ def arrow_coordinate_calculator(path,cell_flags,cell_locations,map_type,mode,wid
                 round(arrow_length*np.sin(np.deg2rad(best_angle))+200)))
             arrow_coordinates.append((
                 round(tip_length*np.cos(np.deg2rad(best_angle)+tip_angle)),
-                round(tip_length*np.sin(np.deg2rad(best_angle)+tip_angle)+200)))
+                round(tip_length*np.sin(np.deg2rad(
+                    best_angle)+tip_angle)+200)))
             arrow_coordinates.append((
                 round(arrow_length*np.cos(np.deg2rad(best_angle))),
                 round(arrow_length*np.sin(np.deg2rad(best_angle))+200)))
             arrow_coordinates.append((
                 round(tip_length*np.cos(np.deg2rad(best_angle)-tip_angle)),
-                round(tip_length*np.sin(np.deg2rad(best_angle)-tip_angle)+200)))
+                round(tip_length*np.sin(np.deg2rad(
+                    best_angle)-tip_angle)+200)))
         
         # Upper right corner
         elif max_correlation_coefficients.index(max_corr) == 1:
@@ -149,46 +193,62 @@ def arrow_coordinate_calculator(path,cell_flags,cell_locations,map_type,mode,wid
                 round(width*scale-arrow_length*np.cos(np.deg2rad(best_angle))),
                 round(arrow_length*np.sin(np.deg2rad(best_angle))+200)))
             arrow_coordinates.append((
-                round(width*scale-tip_length*np.cos(np.deg2rad(best_angle)+tip_angle)),
-                round(tip_length*np.sin(np.deg2rad(best_angle)+tip_angle)+200)))
+                round(width*scale-tip_length*np.cos(np.deg2rad(
+                    best_angle)+tip_angle)),
+                round(tip_length*np.sin(np.deg2rad(
+                    best_angle)+tip_angle)+200)))
             arrow_coordinates.append((
-                round(width*scale-arrow_length*np.cos(np.deg2rad(best_angle))),
-                round(arrow_length*np.sin(np.deg2rad(best_angle))+200)))
+                round(width*scale-arrow_length*np.cos(np.deg2rad(
+                    best_angle))),
+                round(arrow_length*np.sin(np.deg2rad(
+                    best_angle))+200)))
             arrow_coordinates.append((
-                round(width*scale-tip_length*np.cos(np.deg2rad(best_angle)-tip_angle)),
-                round(tip_length*np.sin(np.deg2rad(best_angle)-tip_angle)+200)))
+                round(width*scale-tip_length*np.cos(np.deg2rad(
+                    best_angle)-tip_angle)),
+                round(tip_length*np.sin(np.deg2rad(
+                    best_angle)-tip_angle)+200)))
         
         # Lower left corner
         elif max_correlation_coefficients.index(max_corr) == 2:
             arrow_coordinates.append((0,height*scale+200))
             arrow_coordinates.append((
                round(arrow_length*np.cos(np.deg2rad(best_angle))),
-               round(height*scale-arrow_length*np.sin(np.deg2rad(best_angle))+200)))
+               round(height*scale-arrow_length*np.sin(np.deg2rad(
+                   best_angle))+200)))
             arrow_coordinates.append((
                round(tip_length*np.cos(np.deg2rad(best_angle)+tip_angle)),
-               round(height*scale-tip_length*np.sin(np.deg2rad(best_angle)+tip_angle)+200)))
+               round(height*scale-tip_length*np.sin(np.deg2rad(
+                   best_angle)+tip_angle)+200)))
             arrow_coordinates.append((
                round(arrow_length*np.cos(np.deg2rad(best_angle))),
-               round(height*scale-arrow_length*np.sin(np.deg2rad(best_angle))+200)))
+               round(height*scale-arrow_length*np.sin(np.deg2rad(
+                   best_angle))+200)))
             arrow_coordinates.append((
                round(tip_length*np.cos(np.deg2rad(best_angle)-tip_angle)),
-               round(height*scale-tip_length*np.sin(np.deg2rad(best_angle)-tip_angle)+200)))
+               round(height*scale-tip_length*np.sin(np.deg2rad(
+                   best_angle)-tip_angle)+200)))
         
         # Lower right corner
         elif max_correlation_coefficients.index(max_corr) == 3:
             arrow_coordinates.append((width*scale,height*scale+200))
             arrow_coordinates.append((
                 round(width*scale-arrow_length*np.cos(np.deg2rad(best_angle))),
-                round(height*scale-arrow_length*np.sin(np.deg2rad(best_angle))+200)))
+                round(height*scale-arrow_length*np.sin(np.deg2rad(
+                    best_angle))+200)))
             arrow_coordinates.append((
-                round(width*scale-tip_length*np.cos(np.deg2rad(best_angle)+tip_angle)),
-                round(height*scale-tip_length*np.sin(np.deg2rad(best_angle)+tip_angle)+200)))
+                round(width*scale-tip_length*np.cos(np.deg2rad(
+                    best_angle)+tip_angle)),
+                round(height*scale-tip_length*np.sin(np.deg2rad(
+                    best_angle)+tip_angle)+200)))
             arrow_coordinates.append((
                 round(width*scale-arrow_length*np.cos(np.deg2rad(best_angle))),
-                round(height*scale-arrow_length*np.sin(np.deg2rad(best_angle))+200)))
+                round(height*scale-arrow_length*np.sin(np.deg2rad(
+                    best_angle))+200)))
             arrow_coordinates.append((
-                round(width*scale-tip_length*np.cos(np.deg2rad(best_angle)-tip_angle)),
-                round(height*scale-tip_length*np.sin(np.deg2rad(best_angle)-tip_angle)+200)))
+                round(width*scale-tip_length*np.cos(np.deg2rad(
+                    best_angle)-tip_angle)),
+                round(height*scale-tip_length*np.sin(np.deg2rad(
+                    best_angle)-tip_angle)+200)))
         
         # Error
         else:

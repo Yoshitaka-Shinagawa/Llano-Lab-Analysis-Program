@@ -5,9 +5,6 @@ Created on Tue Mar  9 13:17:30 2021
 @author: Yoshi
 """
 
-import warnings
-warnings.simplefilter(action="ignore",category=FutureWarning)
-
 import os
 import shutil
 import cv2
