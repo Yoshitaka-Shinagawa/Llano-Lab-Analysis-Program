@@ -14,7 +14,48 @@ from PIL import ImageColor
 
 
 
-def cell_grapher(path,data,cell_flags,correlation_coefficients,areas_under_curves,framerate_information,key,frequencies,frequency_unit,intensities,intensity_unit,mode,threshold):
+def cell_grapher(data,info_storage):
+    
+    """
+    This is the function used to plot the 2P signals for each cell for each
+    combination of frequency and amplitude, as well as exporting the
+    average correlation coefficient, area under the curve, and the peak value
+    for each stimulus to an Excel spreadsheet. It creates a subplot grid for
+    each stimulus, then plots the individual traces for each signal, as well as
+    the average plot for each stimulus. It then colors the subplot in a shade
+    of green depending on the average correlation coefficient. It also gathers
+    the average correlation coefficient, area under the curve, and the peak
+    value for the cells, and creates an Excel spreadsheet to export all of the
+    data into.
+    
+    Parameters
+    ----------
+    data : The 4D numpy array containing the dF/F values. The first axis is the
+        cell number, the second axis is the sample number (unique combination
+        of frequency and amplitude), the third number is the trial number
+        (repetition of the same frequency and amplitude combination), and the
+        fourth axis is the frame number for each segment.
+    info_storage : The class used to store most of the variables that are used
+        in the analysis program.
+    
+    Returns
+    -------
+    None
+    """
+    
+    # Extracts variables from the info_storage class
+    path                     = info_storage.path
+    cell_flags               = info_storage.cell_flags
+    correlation_coefficients = info_storage.correlation_coefficients
+    areas_under_curves       = info_storage.areas_under_curves
+    framerate_information    = info_storage.framerate_information
+    key                      = info_storage.key
+    frequencies              = info_storage.frequencies
+    frequency_unit           = info_storage.frequency_unit
+    intensities              = info_storage.intensities
+    intensity_unit           = info_storage.intensity_unit
+    mode                     = info_storage.mode
+    threshold                = info_storage.threshold
     
     # Declares start of cell graphing
     print("Starting cell graphing")
@@ -66,16 +107,18 @@ def cell_grapher(path,data,cell_flags,correlation_coefficients,areas_under_curve
         cell_numbers.append(cell_number+1)
         cell_flag_list.append(cell_flags[cell_number][0])
         
-        # Determines size of graph based on number of frequencies and intensities
+        # Determines size of graph based on number of frequencies and 
+        # intensities
         if mode == 0:
             graph_size = (frequencies_total*2,intensities_total*3)
         elif mode == 1:
             graph_size = (10,8)
         
         # Creates empty subplots for each set of data
-        figure,axes = plt.subplots(intensities_total,frequencies_total,
+        fig,axes = plt.subplots(intensities_total,frequencies_total,
                                    sharex=True,sharey=True,squeeze=False,
-                                   gridspec_kw={"hspace":0,"wspace":0},figsize=graph_size)    
+                                   gridspec_kw={"hspace":0,"wspace":0},
+                                   figsize=graph_size)    
         
         # Goes through each frequency
         for column_number,frequency in enumerate(frequencies):
@@ -91,23 +134,33 @@ def cell_grapher(path,data,cell_flags,correlation_coefficients,areas_under_curve
                 
                 # Plots trial data in light gray
                 for trial in data[cell_number,sample_number]:
-                    axes[row_number,column_number].plot(times,trial,color="#888888",linestyle="dotted")
+                    axes[row_number,column_number].plot(
+                        times,trial,color="#888888",linestyle="dotted")
                     trial_sums += trial
                 
                 # Plots avearge of trials
-                sample_average = np.mean(data[cell_number,sample_number],axis=0) #trial_sums / trial_total
-                axes[row_number,column_number].plot(times,sample_average,color="#000000",linestyle="solid")
+                sample_average = np.mean(data[cell_number,sample_number],
+                                         axis=0)
+                axes[row_number,column_number].plot(
+                    times,sample_average,color="#000000",linestyle="solid")
                 
-                # Adds correlation coefficient and area under curve to upper right corner
-                correlation_coefficient = correlation_coefficients[cell_number,sample_number][0]
-                area_under_curve = areas_under_curves[cell_number,sample_number][0]
-                axes[row_number,column_number].legend(["r = %.2f"%correlation_coefficient,
-                                                       "a = %.2f"%area_under_curve],loc="upper right")
+                # Adds correlation coefficient and area under curve to upper 
+                # right corner
+                correlation_coefficient = correlation_coefficients[
+                    cell_number,sample_number][0]
+                area_under_curve = areas_under_curves[
+                    cell_number,sample_number][0]
+                axes[row_number,column_number].legend(["r = %.2f"
+                    %correlation_coefficient,"a = %.2f"%area_under_curve],
+                    loc="upper right")
                 
                 # Adds data to list
-                array_cc[sample_number,cell_number] = round(correlation_coefficient,2)
-                array_aoc[sample_number,cell_number] = round(area_under_curve,2)
-                array_peak[sample_number,cell_number] = round(max(sample_average),2)
+                array_cc[sample_number,cell_number] = round(
+                    correlation_coefficient,2)
+                array_aoc[sample_number,cell_number] = round(
+                    area_under_curve,2)
+                array_peak[sample_number,cell_number] = round(
+                    max(sample_average),2)
                 
                 # Colors in the background based on the correlation coefficient
                 if correlation_coefficient > threshold:
@@ -121,52 +174,72 @@ def cell_grapher(path,data,cell_flags,correlation_coefficients,areas_under_curve
                 # Axes labels
                 if mode == 0:
                     if row_number == 0:
-                        axes[row_number,column_number].set_title(f"{frequency} {frequency_unit}",fontsize=16)
+                        axes[row_number,column_number].set_title(
+                            f"{frequency} {frequency_unit}",fontsize=16)
                     if frequency == frequencies[-1]:
                         intensity_axis = axes[row_number,column_number].twinx()
-                        intensity_axis.set_ylabel(f"{intensity} {intensity_unit}",fontsize=16)
+                        intensity_axis.set_ylabel(
+                            f"{intensity} {intensity_unit}",fontsize=16)
                         intensity_axis.set_yticklabels([])
-                        intensity_axis.tick_params(axis="both",which="both",length=0)
+                        intensity_axis.tick_params(
+                            axis="both",which="both",length=0)
                 if column_number == 0:
-                    axes[row_number,column_number].set_ylabel("dF/F (%)",fontsize=12)
+                    axes[row_number,column_number].set_ylabel(
+                        "dF/F (%)",fontsize=12)
                 if row_number == intensities_total-1:
                     axes[row_number,column_number].set_xlabel("Time (ms)")
         
         # Creates title for tonotopic graph
         if mode == 0:
-            figure.suptitle(f"Frequency Responses for Cell {cell_number+1}\n\n"+
-                            f"Best Frequency: {cell_flags[cell_number][1]} {frequency_unit}\n"+
-                            f"Characteristic Frequency: {cell_flags[cell_number][2]} {frequency_unit}",fontsize=16)
+            fig.suptitle(f"Frequency Responses for Cell {cell_number+1}\n\n"+
+                         f"Best Frequency: {cell_flags[cell_number][1]} "+
+                             "{frequency_unit}\n"+
+                         "Characteristic Frequency: "+
+                            f"{cell_flags[cell_number][2]} {frequency_unit}",
+                        fontsize=16)
         
         # Creates title for noise graph
         if mode == 1:
-            figure.suptitle(f"Noise Responses for Cell {cell_number+1}\n\n"+
-                            f"Responsive to Noise: {cell_flags[cell_number][3]}",fontsize=16)
+            fig.suptitle(f"Noise Responses for Cell {cell_number+1}\n\n"+
+                         f"Responsive to Noise: {cell_flags[cell_number][3]}",
+                         fontsize=16)
         
-        # Saves the figure
+        # Saves the graph
         plt.savefig(f"{cell_trace_output_path}/Graphs/Cell {cell_number+1}")
         plt.close()
         plt.clf()
         
     # Exports dataframes to excel spreadsheet
-    writer_cc = pd.ExcelWriter(f"{cell_trace_output_path}/Spreadsheets/Correlation Coefficients.xlsx")
-    writer_aoc = pd.ExcelWriter(f"{cell_trace_output_path}/Spreadsheets/Areas under curve.xlsx")
-    writer_peak = pd.ExcelWriter(f"{cell_trace_output_path}/Spreadsheets/Peak values.xlsx")
+    writer_cc = pd.ExcelWriter(f"{cell_trace_output_path}/Spreadsheets/"+
+                               "Correlation Coefficients.xlsx")
+    writer_aoc = pd.ExcelWriter(f"{cell_trace_output_path}/Spreadsheets/"+
+                                "Areas under curve.xlsx")
+    writer_peak = pd.ExcelWriter(f"{cell_trace_output_path}/Spreadsheets/"+
+                                 "Peak values.xlsx")
     for frequency in frequencies:
-        dataframe_cc = {"Cell Number":cell_numbers,"Cell Flag":cell_flag_list}
-        dataframe_aoc = {"Cell Number":cell_numbers,"Cell Flag":cell_flag_list}
-        dataframe_peak = {"Cell Number":cell_numbers,"Cell Flag":cell_flag_list}
+        dataframe_cc = {"Cell Number":cell_numbers,
+                        "Cell Flag":cell_flag_list}
+        dataframe_aoc = {"Cell Number":cell_numbers,
+                         "Cell Flag":cell_flag_list}
+        dataframe_peak = {"Cell Number":cell_numbers,
+                          "Cell Flag":cell_flag_list}
         for intensity in intensities:
             sample_number = key[frequency][intensity]
-            dataframe_cc[f"{intensity} {intensity_unit}"] = array_cc[sample_number]
-            dataframe_aoc[f"{intensity} {intensity_unit}"] = array_aoc[sample_number]
-            dataframe_peak[f"{intensity} {intensity_unit}"] = array_peak[sample_number]
+            dataframe_cc[f"{intensity} {intensity_unit}"] = \
+                array_cc[sample_number]
+            dataframe_aoc[f"{intensity} {intensity_unit}"] = \
+                array_aoc[sample_number]
+            dataframe_peak[f"{intensity} {intensity_unit}"] = \
+                array_peak[sample_number]
         dataframe_cc = pd.DataFrame(dataframe_cc)
         dataframe_aoc = pd.DataFrame(dataframe_aoc)
         dataframe_peak = pd.DataFrame(dataframe_peak)
-        dataframe_cc.to_excel(writer_cc,sheet_name=f"{frequency} {frequency_unit}",index=False)
-        dataframe_aoc.to_excel(writer_aoc,sheet_name=f"{frequency} {frequency_unit}",index=False)
-        dataframe_peak.to_excel(writer_peak,sheet_name=f"{frequency} {frequency_unit}",index=False)
+        dataframe_cc.to_excel(writer_cc,sheet_name=f"{frequency} "+
+                              f"{frequency_unit}",index=False)
+        dataframe_aoc.to_excel(writer_aoc,sheet_name=f"{frequency} "+
+                               f"{frequency_unit}",index=False)
+        dataframe_peak.to_excel(writer_peak,sheet_name=f"{frequency} "+
+                                f"{frequency_unit}",index=False)
     writer_cc.save()
     writer_cc.close()
     writer_aoc.save()

@@ -67,7 +67,8 @@ def tonotopic_map_generator(info_storage):
     if os.path.exists(tonotopic_map_output_path) == False:
         os.mkdir(tonotopic_map_output_path)
         os.mkdir(f"{tonotopic_map_output_path}/Tonotopic Maps")
-        os.mkdir(f"{tonotopic_map_output_path}/Spreadsheets")
+        excel_output_path = f"{tonotopic_map_output_path}/Spreadsheets"
+        os.mkdir(excel_output_path)
     
     # Calculates average radius of cells
     radius = average_radius_calculator(cell_locations)
@@ -157,8 +158,7 @@ def tonotopic_map_generator(info_storage):
                  "Best Frequency":best_frequencies,
                  "Characteristic Frequency":characterstic_frequencies}
     dataframe = pd.DataFrame(dataframe)
-    dataframe.to_excel(f"{tonotopic_map_output_path}/Spreadsheets/Frequencies\
-                       .xlsx",index=False)
+    dataframe.to_excel(f"{excel_output_path}/Frequencies.xlsx",index=False)
     
     # Exports statistics for the data
     [total_cells,responsive_cells,unresponsive_cells] = [0,0,0]
@@ -198,8 +198,7 @@ def tonotopic_map_generator(info_storage):
                       "Unresponsive Cells": [unresponsive_cells],
                       "Total Cells": [total_cells]}
         statistics = pd.DataFrame(statistics,index=["Combined"])
-    statistics.to_excel(f"{tonotopic_map_output_path}/Spreadsheets/Statistics.\
-                        xlsx")
+    statistics.to_excel(f"{excel_output_path}/Statistics.xlsx")
     
     # Declares end of tonotopic map generation
     print("Finished tonotopic map generation")

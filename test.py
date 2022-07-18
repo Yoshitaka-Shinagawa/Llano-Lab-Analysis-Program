@@ -79,10 +79,10 @@ class info_storage:
 # info_storage = cell_flagger(data,tonotopy_info)
 
 # Creates tonotopic map based on cell flags
-tonotopy_info = tonotopic_map_generator(tonotopy_info)
+# tonotopy_info = tonotopic_map_generator(tonotopy_info)
 
 # Creates graphs for traces of individual cells
-# cell_grapher(path,data,cell_flags,correlation_coefficients,areas_under_curves,framerate_information,key,frequencies,frequency_unit,intensities,intensity_unit,mode,threshold)
+cell_grapher(data,tonotopy_info)
 
 # Analyzes response of cell populations
 # population_analysis(path,data,cell_flags,framerate_information,key,frequencies,frequency_unit,intensities,intensity_unit,extra_flag,mode)
