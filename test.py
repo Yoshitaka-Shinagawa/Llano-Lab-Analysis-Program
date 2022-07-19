@@ -82,7 +82,7 @@ class info_storage:
 # tonotopy_info = tonotopic_map_generator(tonotopy_info)
 
 # Creates graphs for traces of individual cells
-cell_grapher(data,tonotopy_info)
+# cell_grapher(data,tonotopy_info)
 
 # Analyzes response of cell populations
 # population_analysis(path,data,cell_flags,framerate_information,key,frequencies,frequency_unit,intensities,intensity_unit,extra_flag,mode)
