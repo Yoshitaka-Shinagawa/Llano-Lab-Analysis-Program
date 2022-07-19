@@ -31,3 +31,4 @@ Test
 * Possibly add a way to process other types of ROIs
 * Possibly add a way to scale rectangular and polygonal ROIs
 * Possibly add a way to process other types of images
+* Possibly add a GUI to make it easier to use
