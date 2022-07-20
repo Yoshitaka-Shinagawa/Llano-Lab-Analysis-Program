@@ -11,7 +11,30 @@ import matplotlib.pyplot as plt
 
 
 
-def r_histogram_creator(path,correlation_coefficients):
+def r_histogram_creator(info_storage):
+    
+    """
+    This is the debug function used to create a histogram of the correlation
+    coefficients for the data set. The histogram allows users to determine how
+    responsive the cells were overall at a glance. If all of the correlation
+    coefficients are gathered around 0, it means that the cells were
+    unreponsive or the SNR was too low for the signal to be detectable, but if
+    the correlation coefficients are trailing towards 1, then it means at least
+    some of the cells were responsive.
+    
+    Parameters
+    ----------
+    info_storage : The class used to store most of the variables that are used
+        in the analysis program.
+    
+    Returns
+    -------
+    none
+    """
+    
+    # Extracts variables from the info_storage class
+    path                     = info_storage.path
+    correlation_coefficients = info_storage.correlation_coefficients
     
     # Creates and changes to output directory
     graph_output_path = path + "/Output/Debug/Histograms"
@@ -29,7 +52,8 @@ def r_histogram_creator(path,correlation_coefficients):
     samples = correlation_coefficients.shape[1]
     for cell in range(cells):
         for sample in range(samples):
-            correlation_coefficient_list.append(correlation_coefficients[cell,sample,0])
+            correlation_coefficient_list.append(
+                correlation_coefficients[cell,sample,0])
     
     # Creates bins so that all graphs are easy to look at.
     x_bins = []

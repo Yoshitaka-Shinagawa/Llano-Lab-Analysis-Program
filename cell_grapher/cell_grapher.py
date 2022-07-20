@@ -40,7 +40,7 @@ def cell_grapher(data,info_storage):
     
     Returns
     -------
-    None
+    none
     """
     
     # Extracts variables from the info_storage class

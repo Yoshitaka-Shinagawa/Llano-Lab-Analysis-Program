@@ -18,7 +18,7 @@ def cell_response_mapper(info_storage,color_key,map_type,mode="combined"):
     
     """
     This is the function used to generate the tonotopic maps. It draws the
-    cells onto a map and colorsthem in with their best or characteristic
+    cells onto a map and colors them in with their best or characteristic
     frequency, then creates an outline to distinguish special cells
     (GABAergic in our case) from normal cells.
     

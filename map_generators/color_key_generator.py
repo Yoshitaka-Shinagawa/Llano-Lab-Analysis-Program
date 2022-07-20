@@ -5,7 +5,7 @@ Created on Sun Dec 15 19:06:54 2019
 @author: Yoshi
 """
 
-def color_key_generator(info_storage):
+def color_key_generator(frequencies):
     
     """
     This function is used to generate a color key for the tonotopic maps. It
@@ -21,9 +21,6 @@ def color_key_generator(info_storage):
     -------
     color_key : A dictionary that has a shade of green for each frequency.
     """
-    
-    # Extracts variables from the info_storage class
-    frequencies = info_storage.frequencies
     
     # Finds number of colors needed for key
     steps = len(frequencies)

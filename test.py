@@ -55,9 +55,6 @@ threshold=0.6
 # Sets mode, 0 for tonotopy, 1 for noise
 mode = 0
 
-# Sets mode to new tonotopy analysis
-mode = 0
-
 # Create a class to store various information in
 class info_storage:
     def __init__(self):
@@ -85,16 +82,16 @@ class info_storage:
 # cell_grapher(data,tonotopy_info)
 
 # Analyzes response of cell populations
-# population_analysis(path,data,cell_flags,framerate_information,key,frequencies,frequency_unit,intensities,intensity_unit,extra_flag,mode)
+# population_analysis(data,tonotopy_info)
 
 # Analyzes receptive field sum
-# receptive_field_sum_analysis(path,key,cell_flags,extra_flag,correlation_coefficients,areas_under_curves,frequencies,frequency_unit,intensities,intensity_unit,canvas,width,height,cell_locations,scale,radius,threshold)
+# receptive_field_sum_analysis(tonotopy_info)
 
 # Creates a correlation matrix between cells
 # correlation_matrix(path,data,cell_flags,framerate_information,extra_flag,mode)
 
 # Various debugging tools
-# r_histogram_creator(path,correlation_coefficients)
+r_histogram_creator(path,correlation_coefficients)
 
 # Announces that analysis is finished
 print(f"Analysis finished for {path}")

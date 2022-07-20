@@ -50,6 +50,7 @@ def tonotopic_map_generator(info_storage):
     cell_locations = info_storage.cell_locations
     cell_flags     = info_storage.cell_flags
     extra_flag     = info_storage.extra_flag
+    frequencies    = info_storage.frequencies
     mode           = info_storage.mode
     
     # Declares start of tonotopic map generation
@@ -75,7 +76,7 @@ def tonotopic_map_generator(info_storage):
     
     # Generates color key if doing tonotopic analysis
     if mode == 0:
-        color_key = color_key_generator(info_storage)
+        color_key = color_key_generator(frequencies)
     
     # Generates another color key for noise analysis
     elif mode == 1:
