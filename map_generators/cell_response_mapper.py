@@ -208,7 +208,7 @@ def cell_response_mapper(info_storage,color_key,map_type,mode="combined"):
                     fill="#FFFFFF")
             
             # Saves image
-            response_map_arrow.save(f"{path}/Output/Tonotopy/Tonotopic Maps/\
-                                    {title} + Arrow.png","PNG")
+            response_map_arrow.save(f"{path}/Output/Tonotopy/Tonotopic Maps/"+
+                                    f"{title} + Arrow.png","PNG")
     
     return
