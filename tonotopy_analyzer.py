@@ -68,37 +68,37 @@ def tonotopy_analyzer(path,gauss_filter="Default",threshold=0.6):
     # Sets mode to new tonotopy analysis
     mode = 0
     
-    # # Create a class to store various information in
-    # class info_storage:
-    #     def __init__():
-    #         self.path         = path
-    #         self.gauss_filter = gauss_filter
-    #         self.threshold    = threshold
-    #         self.mode         = mode
+    # Create a class to store various information in
+    class info_storage:
+        def __init__(self):
+            self.path         = path
+            self.gauss_filter = gauss_filter
+            self.threshold    = threshold
+            self.mode         = mode
     
-    # # Create an instance of the class
-    # tonotopy_info = info_storage()
-    
+    # Create an instance of the class
+    tonotopy_info = info_storage()
+
     # Stabilizes and filters images
     raw_images,filtered_images,tonotopy_info = motion_corrector(tonotopy_info)
     
     # Extracts the data from the images
-    extra_flag,cell_locations,cell_flags,data,framerate_information,key,frequencies,frequency_unit,intensities,intensity_unit = data_extractor_subtraction(path,filtered_images,folders_list,mode)
+    data,tonotopy_info = data_extractor_subtraction(filtered_images,tonotopy_info)
     
     # Flags cells based on their responsiveness
-    cell_flags,correlation_coefficients,areas_under_curves = cell_flagger(path,cell_flags,key,frequencies,intensities,data,framerate_information,mode,threshold)
+    info_storage = cell_flagger(data,tonotopy_info)
     
     # Creates tonotopic map based on cell flags
-    canvas,width,height,scale,radius = tonotopic_map_generator(path,cell_locations,frequencies,frequency_unit,cell_flags,extra_flag,mode)
+    tonotopy_info = tonotopic_map_generator(tonotopy_info)
     
     # Creates graphs for traces of individual cells
-    cell_grapher(path,data,cell_flags,correlation_coefficients,areas_under_curves,framerate_information,key,frequencies,frequency_unit,intensities,intensity_unit,mode,threshold)
+    cell_grapher(data,tonotopy_info)
     
     # Analyzes response of cell populations
-    population_analysis(path,data,cell_flags,framerate_information,key,frequencies,frequency_unit,intensities,intensity_unit,extra_flag,mode)
+    population_analysis(data,tonotopy_info)
     
     # Analyzes receptive field sum
-    receptive_field_sum_analysis(path,key,cell_flags,extra_flag,correlation_coefficients,areas_under_curves,frequencies,frequency_unit,intensities,intensity_unit,canvas,width,height,cell_locations,scale,radius,threshold)
+    receptive_field_sum_analysis(tonotopy_info)
     
     # Creates a correlation matrix between cells
     # correlation_matrix(path,data,cell_flags,framerate_information,extra_flag,mode)
