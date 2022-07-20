@@ -28,6 +28,7 @@ Test
 * Find a better way to fix the negative values from motion correction
 * Convert program to a library
 * Give the program a cool name and logo
+* Possibly use the GPU for motion correction to speed it up
 * Possibly add a way to process other types of ROIs
 * Possibly add a way to scale rectangular and polygonal ROIs
 * Possibly add a way to process other types of images
