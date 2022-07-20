@@ -7,16 +7,15 @@
 "/Background color.png"
 
 /bandwidth_analysis/__pycache__/*
-/cell_flagger/*
-/cell_grapher/*
-/correlation_matrix/*
-/data_extractor_subtraction/*
-/debug_tools/*
-/map_generators/*
-/modulation_index_analysis/*
-/motion_corrector/*
-/population_analysis/*
-/receptive_field_sum_analysis/*
-
+/cell_flagger/__pycache__/*
+/cell_grapher/__pycache__/*
+/correlation_matrix/__pycache__/*
+/data_extractor_subtraction/__pycache__/*
+/debug_tools/__pycache__/*
+/map_generators/__pycache__/*
+/modulation_index_analysis/__pycache__/*
+/motion_corrector/__pycache__/*
+/population_analysis/__pycache__/*
+/receptive_field_sum_analysis/__pycache__/*
 
 .DS_Store
