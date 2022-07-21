@@ -64,25 +64,25 @@ class info_storage:
         self.mode         = mode
 
 # Create an instance of the class
-tonotopy_info = info_storage()
+# tonotopy_info = info_storage()
 
 # Stabilizes and filters images
-raw_images,filtered_images,tonotopy_info = motion_corrector(tonotopy_info)
+# raw_images,filtered_images,tonotopy_info = motion_corrector(tonotopy_info)
 
 # Extracts the data from the images
-data,tonotopy_info = data_extractor_subtraction(filtered_images,tonotopy_info)
+# data,tonotopy_info = data_extractor_subtraction(filtered_images,tonotopy_info)
 
 # Flags cells based on their responsiveness
-info_storage = cell_flagger(data,tonotopy_info)
+# info_storage = cell_flagger(data,tonotopy_info)
 
 # Creates tonotopic map based on cell flags
-tonotopy_info = tonotopic_map_generator(tonotopy_info)
+# tonotopy_info = tonotopic_map_generator(tonotopy_info)
 
 # Creates graphs for traces of individual cells
-cell_grapher(data,tonotopy_info)
+# cell_grapher(data,tonotopy_info)
 
 # Analyzes response of cell populations
-population_analysis(data,tonotopy_info)
+# population_analysis(data,tonotopy_info)
 
 # Analyzes receptive field sum
 receptive_field_sum_analysis(tonotopy_info)
@@ -91,7 +91,7 @@ receptive_field_sum_analysis(tonotopy_info)
 # correlation_matrix(path,data,cell_flags,framerate_information,extra_flag,mode)
 
 # Various debugging tools
-r_histogram_creator(path,correlation_coefficients)
+# r_histogram_creator(tonotopy_info)
 
 # Announces that analysis is finished
 print(f"Analysis finished for {path}")

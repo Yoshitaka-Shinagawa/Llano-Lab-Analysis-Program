@@ -53,9 +53,6 @@ def receptive_field_sum_analysis(info_storage):
     frequency_unit           = info_storage.frequency_unit
     intensities              = info_storage.intensities
     intensity_unit           = info_storage.intensity_unit
-    
-    
-    
     threshold                = info_storage.threshold
     
     # Declares start of receptive field sum analysis
@@ -205,9 +202,8 @@ def receptive_field_sum_analysis(info_storage):
             map_output_path = f"{rfs_output_path}/{rfs_type}/Maps"
             rfs_max = len(frequencies) * len(intensities)
             title = "Combined"
-            rfs_mapper(map_output_path,canvas,width,height,cell_locations,
-                       scale,radius,color_key,cell_flags,extra_flag,
-                       cell_numbers,receptive_field_sums,title,rfs_max)
+            rfs_mapper(info_storage,map_output_path,color_key,cell_numbers,
+                       receptive_field_sums,title,rfs_max)
         
         # Exports frequency response data to excel spreadsheet
         dataframe_fr = {"Cell Number":cell_numbers_fr,
@@ -319,9 +315,8 @@ def receptive_field_sum_analysis(info_storage):
             map_output_path = f"{rfs_output_path}/{rfs_type}/Maps"
             rfs_max = len(frequencies)
             title = f"{intensity} {intensity_unit}"
-            rfs_mapper(map_output_path,canvas,width,height,cell_locations,
-                       scale,radius,color_key,cell_flags,extra_flag,
-                       cell_numbers,receptive_field_sums,title,rfs_max)
+            rfs_mapper(info_storage,map_output_path,color_key,cell_numbers,
+                       receptive_field_sums,title,rfs_max)
         
         # Exports frequency response data to excel spreadsheet
         dataframe_fr = {"Cell Number":cell_numbers_fr,

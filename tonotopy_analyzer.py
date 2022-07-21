@@ -104,7 +104,7 @@ def tonotopy_analyzer(path,gauss_filter="Default",threshold=0.6):
     # correlation_matrix(path,data,cell_flags,framerate_information,extra_flag,mode)
     
     # Various debugging tools
-    r_histogram_creator(path,correlation_coefficients)
+    r_histogram_creator(tonotopy_info)
     
     # Announces that analysis is finished
     print(f"Analysis finished for {path}")
