@@ -131,8 +131,12 @@ def cell_response_mapper(info_storage,color_key,map_type,mode="combined"):
     
     # Creates a title on the canvas
     draw.rectangle([0,0,width*scale,200],outline="#FFFFFF",fill="#FFFFFF")
+    try:
+        font = ImageFont.truetype("calibri.ttf",80)
+    except OSError:
+        font = ImageFont.load_default()
     draw.text((width*scale/2,50),title,fill="#000000",
-              anchor="mm",font=ImageFont.truetype("calibri.ttf",80))
+              anchor="mm",font=font)
     
     # Determines y coordinates for key boxes
     key_boundaries = []
@@ -151,21 +155,31 @@ def cell_response_mapper(info_storage,color_key,map_type,mode="combined"):
         draw.rectangle([key_boundaries[i],100,key_boundaries[i+1],200],
                        outline=color,fill=color)
         if map_type == 1 or map_type == 2:
+            try:
+                font = ImageFont.truetype("calibri.ttf",40)
+            except OSError:
+                font = ImageFont.load_default()
             draw.text((np.mean([key_boundaries[i],key_boundaries[i+1]]),150),
                       f"{key} {frequency_unit}",fill="#000000",anchor="mm",
-                      font=ImageFont.truetype("calibri.ttf",40))
+                      font=font)
         elif map_type == 3:
+            try:
+                font = ImageFont.truetype("calibri.ttf",40)
+            except OSError:
+                font = ImageFont.load_default()
             draw.text((np.mean([key_boundaries[i],key_boundaries[i+1]]),150),
-                      "Responsive",fill="#000000",anchor="mm",
-                      font=ImageFont.truetype("calibri.ttf",40))   
+                      "Responsive",fill="#000000",anchor="mm",font=font)   
         i += 1
     if mode == "combined" and extra_flag != "N/A":
         color = "hsv(30,100%,100%)"
         draw.rectangle([key_boundaries[-2],100,key_boundaries[-1],200],
                        outline=color,fill=color)
+        try:
+            font = ImageFont.truetype("calibri.ttf",40)
+        except OSError:
+            font = ImageFont.load_default()
         draw.text((np.mean([key_boundaries[-2],key_boundaries[-1]]),150),
-                  extra_flag,fill="#000000",anchor="mm",
-                  font=ImageFont.truetype("calibri.ttf",40))
+                  extra_flag,fill="#000000",anchor="mm",font=font)
     
     # Saves image
     response_map.save(f"{path}/Output/Tonotopy/Tonotopic Maps/{title}.png")
@@ -190,9 +204,13 @@ def cell_response_mapper(info_storage,color_key,map_type,mode="combined"):
             # bottom of the canvas
             draw.rectangle([0,height*scale+200,width*scale,height*scale+250],
                            outline="#FFFFFF",fill="#FFFFFF")
+            try:
+                font = ImageFont.truetype("calibri.ttf",40)
+            except OSError:
+                font = ImageFont.load_default()
             draw.text((0,height*scale+210),f"Tonotopic Angle: {best_angle}"+
                       u"\u00b0"+", Correlation coefficient: %.2f"%max_corr,
-                      fill="#000000",font=ImageFont.truetype("calibri.ttf",40))
+                      fill="#000000",font=font)
             
             # Draws arrow on the tonotopic map
             draw.line(arrow_coordinates,fill="#FFFFFF",

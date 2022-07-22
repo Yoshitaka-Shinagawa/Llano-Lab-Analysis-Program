@@ -99,9 +99,12 @@ def rfs_mapper(info_storage,map_output_path,color_key,cell_numbers,
     
     # Creates a title on the canvas
     draw.rectangle([0,0,width*scale,200],outline="#FFFFFF",fill="#FFFFFF")
+    try:
+        font = ImageFont.truetype("calibri.ttf",80)
+    except OSError:
+        font = ImageFont.load_default()
     draw.text((width*scale/2,50),"Receptive Field Sums of Cells",
-              fill="#000000",anchor="mm",
-              font=ImageFont.truetype("calibri.ttf",80))
+              fill="#000000",anchor="mm",font=font)
     
     # Determines y coordinates for key boxes
     key_boundaries = []
@@ -119,19 +122,23 @@ def rfs_mapper(info_storage,map_output_path,color_key,cell_numbers,
         color = color_key[key]
         draw.rectangle([key_boundaries[i],100,key_boundaries[i+1],200],
                        outline=color,fill=color)
+        try:
+            font = ImageFont.truetype("calibri.ttf",40)
+        except OSError:
+            font = ImageFont.load_default()
         draw.text((np.mean([key_boundaries[i],key_boundaries[i+1]]),150),
-                  f"{key}",
-                   fill="#000000",anchor="mm",font=ImageFont.truetype(
-                       "calibri.ttf",40))  
+                  f"{key}",fill="#000000",anchor="mm",font=font)  
         i += 1
     if extra_flag != "N/A":
         color = "hsv(30,100%,100%)"
         draw.rectangle([key_boundaries[-2],100,key_boundaries[-1],200],
                        outline=color,fill=color)
+        try:
+            font = ImageFont.truetype("calibri.ttf",40)
+        except OSError:
+            font = ImageFont.load_default()
         draw.text((np.mean([key_boundaries[-2],key_boundaries[-1]]),150),
-                  extra_flag,
-                  fill="#000000",anchor="mm",font=ImageFont.truetype(
-                      "calibri.ttf",40))
+                  extra_flag,fill="#000000",anchor="mm",font=font)
     
     # Saves image
     rfs_map.save(f"{map_output_path}/{title}.png","PNG")
