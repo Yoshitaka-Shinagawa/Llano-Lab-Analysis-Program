@@ -51,10 +51,14 @@ def cell_number_mapper(info_storage):
             number_map = cell_drawer(number_map,cell_locations[cell_number],
                                      scale,radius,"hsv(180,100%,100%)",None,2)
             draw = ImageDraw.Draw(number_map)
+            try:
+                font = ImageFont.truetype("calibri.ttf",20)
+            except OSError:
+                font = ImageFont.load_default()
             draw.text((cell_locations[cell_number][1][1]*scale,
                       cell_locations[cell_number][1][0]*scale+200),
                       str(cell_number+1),fill="hsv(180,100%,100%)",
-                      anchor="mm",font=ImageFont.truetype("calibri.ttf",20))
+                      anchor="mm",font=font)
     
     # If there are two ROI sets, draws outline and text for flagged cells
     if extra_flag != "N/A":
@@ -63,37 +67,57 @@ def cell_number_mapper(info_storage):
                 number_map = cell_drawer(number_map,cell_locations[
                     cell_number],scale,radius,"hsv(30,100%,100%)",None,2)
                 draw = ImageDraw.Draw(number_map)
+                try:
+                    font = ImageFont.truetype("calibri.ttf",20)
+                except OSError:
+                    font = ImageFont.load_default()
                 draw.text((cell_locations[cell_number][1][1]*scale,
                           cell_locations[cell_number][1][0]*scale+200),
                           str(cell_number+1),fill="hsv(30,100%,100%)",anchor=
-                          "mm",font=ImageFont.truetype("calibri.ttf",20))
+                          "mm",font=font)
             if cell_flags[cell_number][0] == "N/A":
                 number_map = cell_drawer(number_map,cell_locations[
                     cell_number],scale,radius,"hsv(180,100%,100%)",None,2)
                 draw = ImageDraw.Draw(number_map)
+                try:
+                    font = ImageFont.truetype("calibri.ttf",20)
+                except OSError:
+                    font = ImageFont.load_default()
                 draw.text((cell_locations[cell_number][1][1]*scale,
                           cell_locations[cell_number][1][0]*scale+200),
                           str(cell_number+1),fill="hsv(180,100%,100%)",anchor=
-                          "mm",font=ImageFont.truetype("calibri.ttf",20))
+                          "mm",font=font)
     
     # Preparation for drawing on image
     draw = ImageDraw.Draw(number_map)
     
     # Creates a title on the canvas
+    try:
+        font = ImageFont.truetype("calibri.ttf",80)
+    except OSError:
+        font = ImageFont.load_default()
     draw.text((width*scale/2,50),"Cell Location and Number",fill="#000000",
-              anchor="mm",font=ImageFont.truetype("calibri.ttf",80))
+              anchor="mm",font=font)
     
     # Creates a key on the canvas
     if extra_flag == "N/A":
         draw.rectangle([0,100,width*scale,200],outline="hsv(180,100%,100%)",
                        fill="hsv(180,100%,100%)")
+        try:
+            font = ImageFont.truetype("calibri.ttf",40)
+        except OSError:
+            font = ImageFont.load_default()
         draw.text((width*scale/2,150),"Regular Cells",fill="#000000",
-                  anchor="mm",font=ImageFont.truetype("calibri.ttf",40))
+                  anchor="mm",font=font)
     if extra_flag != "N/A":
         draw.rectangle([0,100,width*scale,200],outline="hsv(30,100%,100%)",
                        fill="hsv(30,100%,100%)")
+        try:
+            font = ImageFont.truetype("calibri.ttf",40)
+        except OSError:
+            font = ImageFont.load_default()
         draw.text((width*scale/2,150),extra_flag,fill="#000000",
-                  anchor="mm",font=ImageFont.truetype("calibri.ttf",40))
+                  anchor="mm",font=font)
     
     # Saves image
     number_map.save(f"{path}/Output/Tonotopy/Tonotopic Maps/Location Map.png")
