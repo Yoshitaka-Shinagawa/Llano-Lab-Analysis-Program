@@ -40,7 +40,7 @@ def data_reader(image_stack,cell_arrays,background_arrays):
     image_total = image_stack.shape[0]
     cell_total = len(cell_arrays)
     folder_data = np.zeros((cell_total,image_total),dtype=np.float64)
-    
+    contamination_ratio = 0.4
     # Goes through each image
     for image_number,image in enumerate(image_stack):
         
@@ -56,6 +56,7 @@ def data_reader(image_stack,cell_arrays,background_arrays):
                 background_value = np.sum(image*background_arrays[cell_number]) / np.count_nonzero(background_arrays[cell_number])
             else:
                 background_value = 0
-            folder_data[cell_number,image_number] = data_value - 0.4*background_value
+            folder_data[cell_number,image_number] = data_value 
+            - contamination_ratio*background_value
     
     return folder_data
