@@ -50,6 +50,7 @@ path = "D:/Llano Lab/PCB Data/A4NON Data Set 1 Tonotopy"
 # path = "/Users/austincoder/Desktop/Example for Austin/A4NON Data Set 1 Tonotopy"
 
 gauss_filter=(2,2,2)#"Default"
+contam_ratio=0.4
 threshold=0.6
 
 # Sets mode, 0 for tonotopy, 1 for noise
@@ -60,6 +61,7 @@ class info_storage:
     def __init__(self):
         self.path         = path
         self.gauss_filter = gauss_filter
+        self.contam_ratio = contam_ratio
         self.threshold    = threshold
         self.mode         = mode
 
