@@ -45,7 +45,7 @@ def cell_noise_flagger(cell_number,info_storage):
     
     # Determines if cell is responsive to noise stimulus or not, and flags for noise
     if correlation_coefficients[cell_number,0] > threshold:
-        responsive = True
-        noise = "Yes"
+        responsive = True #weird look at later 
+        noise = "Responsive"
     
     return noise

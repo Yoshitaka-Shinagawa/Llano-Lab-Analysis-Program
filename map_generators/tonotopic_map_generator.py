@@ -80,7 +80,7 @@ def tonotopic_map_generator(info_storage):
     
     # Generates another color key for noise analysis
     elif mode == 1:
-        color_key = {"Yes":"hsv(140,100%,100%)"}
+        color_key = {"Responsive":"hsv(140,100%,100%)"}
     
     # Finds the size of the images from the base image
     average_images_folder = f"{path}/Output/Debug/Average Images"
