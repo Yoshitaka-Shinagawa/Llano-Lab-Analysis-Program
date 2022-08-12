@@ -40,9 +40,6 @@ def data_reader(image_stack,cell_arrays,background_arrays, info_storage):
     # Extracts variables from the info_storage class
     contam_ratio = info_storage.contam_ratio
     
-    # Pulls info from info.storage class:
-    if contam_ratio == "Default":
-        contam_ratio == 0.4
     # Creates empty array to store data in
     image_total = image_stack.shape[0]
     cell_total = len(cell_arrays)
