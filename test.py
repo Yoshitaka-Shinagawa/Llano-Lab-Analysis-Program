@@ -46,7 +46,7 @@ from r_histogram_creator import *
 # path = "D:/Llano Lab/Tonotopic Analysis/Axon Imaging/2021-08-31/2021-08-31 R2 Tonotopy"
 # path = "D:/Llano Lab/Tonotopic Analysis/Module Project/2021-09-04/2021-09-04 Prism GAD67xRCAMP Data Set 1 Modulation"
 
-path = "D:/Llano Lab/PCB Data/A4NON Data Set 1 Tonotopy"
+path = "D:/Llano Lab/Austin Training/A4NON Data Set 1 Tonotopy"
 # path = "/Users/austincoder/Desktop/Example for Austin/A4NON Data Set 1 Tonotopy"
 
 gauss_filter=(2,2,2)#"Default"
@@ -66,25 +66,25 @@ class info_storage:
         self.mode         = mode
 
 # Create an instance of the class
-# tonotopy_info = info_storage()
+tonotopy_info = info_storage()
 
 # Stabilizes and filters images
-# raw_images,filtered_images,tonotopy_info = motion_corrector(tonotopy_info)
+raw_images,filtered_images,tonotopy_info = motion_corrector(tonotopy_info)
 
 # Extracts the data from the images
-# data,tonotopy_info = data_extractor_subtraction(filtered_images,tonotopy_info)
+data,tonotopy_info = data_extractor_subtraction(filtered_images,tonotopy_info)
 
 # Flags cells based on their responsiveness
-# info_storage = cell_flagger(data,tonotopy_info)
+info_storage = cell_flagger(data,tonotopy_info)
 
 # Creates tonotopic map based on cell flags
-# tonotopy_info = tonotopic_map_generator(tonotopy_info)
+tonotopy_info = tonotopic_map_generator(tonotopy_info)
 
 # Creates graphs for traces of individual cells
-# cell_grapher(data,tonotopy_info)
+cell_grapher(data,tonotopy_info)
 
 # Analyzes response of cell populations
-# population_analysis(data,tonotopy_info)
+population_analysis(data,tonotopy_info)
 
 # Analyzes receptive field sum
 receptive_field_sum_analysis(tonotopy_info)
@@ -93,7 +93,7 @@ receptive_field_sum_analysis(tonotopy_info)
 # correlation_matrix(path,data,cell_flags,framerate_information,extra_flag,mode)
 
 # Various debugging tools
-# r_histogram_creator(tonotopy_info)
+r_histogram_creator(tonotopy_info)
 
 # Announces that analysis is finished
 print(f"Analysis finished for {path}")
