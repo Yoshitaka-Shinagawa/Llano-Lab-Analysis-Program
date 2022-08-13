@@ -127,7 +127,7 @@ def data_extractor_subtraction(filtered_images,info_storage):
             
             # Reads the data from images and appends to list
             folder_data = data_reader(filtered_images[folder_number],
-                                      cell_arrays,background_arrays)
+                                      cell_arrays,background_arrays,info.storage)
             raw_data[folder_number] = folder_data
         
         # Converts raw data to numpy array
@@ -181,7 +181,7 @@ def data_extractor_subtraction(filtered_images,info_storage):
             
             # Reads the data from images
             folder_data = data_reader(image_stack,cell_arrays,
-                                      background_arrays)
+                                      background_arrays,info_storage )
             raw_data = folder_data
         
         # Exports data to Excel spreadsheet
@@ -224,7 +224,7 @@ def data_extractor_subtraction(filtered_images,info_storage):
             
             # Reads the data from images
             folder_data = data_reader(image_stack,cell_arrays,
-                                      background_arrays)
+                                      background_arrays, info_storage)
             raw_data.append(folder_data)
         
         # Converts raw data to dF/F values
