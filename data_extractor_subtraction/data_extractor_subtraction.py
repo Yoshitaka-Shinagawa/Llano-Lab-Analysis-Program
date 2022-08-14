@@ -181,7 +181,7 @@ def data_extractor_subtraction(filtered_images,info_storage):
             
             # Reads the data from images
             folder_data = data_reader(image_stack,cell_arrays,
-                                      background_arrays,info_storage )
+                                      background_arrays,info_storage)
             raw_data = folder_data
         
         # Exports data to Excel spreadsheet

@@ -10,7 +10,7 @@ from statistics import mean
 
 
 
-def data_reader(image_stack,cell_arrays,background_arrays, info_storage):
+def data_reader(image_stack,cell_arrays,background_arrays,info_storage):
     
     """
     This is the function that reads the 2P signals from the images and applies
@@ -39,6 +39,11 @@ def data_reader(image_stack,cell_arrays,background_arrays, info_storage):
     
     # Extracts variables from the info_storage class
     contam_ratio = info_storage.contam_ratio
+    
+    # Assigns default values to Contam_Ratio if unspecified
+    
+    if contam_ratio == "Default":
+        contam_ratio = 0.4
     
     # Creates empty array to store data in
     image_total = image_stack.shape[0]
