@@ -16,6 +16,12 @@ from PIL import ImageColor
 
 
 def correlation_matrix(path,data,cell_flags,framerate_information,extra_flag,mode=0):
+  
+    # Extracts variables from info_storage 
+    path = info_storage.path
+    cell_flags = info_storage.cell_flags
+    mode = info_storage.mode
+    raw_images = info_storage.raw_images 
     
     # Creates output directory
     matrix_output_path = path + "/Output/Correlation Matrix"
