@@ -37,3 +37,12 @@ Test
 motion_corrector
 96+97: Change to folder_name
 106: Change warning to "No tiffs found"
+161: Change to one line
+164-168: Comments to be clearer
+171: Supposed to be commented out
+
+xyz_gaussian_filter
+Fix to 80 char limit
+39-40: Loop constants are not necessary
+44: Change to row_data
+47: Might be applying gaussian_filter1d twice
