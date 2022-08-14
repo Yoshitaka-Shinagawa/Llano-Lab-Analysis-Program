@@ -115,7 +115,7 @@ def tonotopy_analyzer(path,gauss_filter="Default",threshold=0.6):
     return
 
 
-# tonotopy_analyzer("D:/Llano Lab/Tonotopic Analysis/Noise Exposure",(2,2,2))
+tonotopy_analyzer("E:/Llano Lab/Austin's Recreated Data/2021-05-04/A6NON Tonotopy",(2,2,2))
 
 
 # base_path = "D:/Llano Lab/Tonotopic Analysis/Axon Imaging"
