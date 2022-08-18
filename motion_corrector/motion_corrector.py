@@ -93,11 +93,7 @@ def motion_corrector(info_storage):
         return
     
     # Goes through each data folder
-    folder_total = len(folders_list)
-    for folder_number in range(folder_total):
-        
-        # Grabs name of folder
-        folder = folders_list[folder_number]
+    for folder in folders_list:
         
         # Generates a list of data images
         files_list = [file for file in os.listdir(f"{data_path}/{folder}")
