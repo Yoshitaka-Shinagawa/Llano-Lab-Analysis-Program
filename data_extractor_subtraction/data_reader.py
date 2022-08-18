@@ -40,7 +40,7 @@ def data_reader(image_stack,cell_arrays,background_arrays):
     image_total = image_stack.shape[0]
     cell_total = len(cell_arrays)
     folder_data = np.zeros((cell_total,image_total),dtype=np.float64)
-    
+
     # Goes through each image
     for image_number,image in enumerate(image_stack):
         
