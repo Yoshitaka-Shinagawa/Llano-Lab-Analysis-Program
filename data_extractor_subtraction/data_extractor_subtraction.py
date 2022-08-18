@@ -61,6 +61,9 @@ def data_extractor_subtraction(filtered_images,info_storage):
     folders_list = info_storage.folders_list
     mode         = info_storage.mode
     
+    # Declares start of data extraction
+    print("Starting data extraction")
+    
     # Location of the data path
     data_path = f"{path}/Data"
     
