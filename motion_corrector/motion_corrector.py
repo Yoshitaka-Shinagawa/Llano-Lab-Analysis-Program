@@ -49,6 +49,9 @@ def motion_corrector(info_storage):
     gauss_filter = info_storage.gauss_filter
     mode         = info_storage.mode
     
+    # Declares start of motion stabilization
+    print("Starting motion stabilization")
+    
     # Removes old Stabilized Images folder if it exists to save space
     old_folder_path = f"{path}/Stabilized Images"
     if os.path.exists(old_folder_path) == True:
@@ -88,9 +91,6 @@ def motion_corrector(info_storage):
     if len(folders_list) == 0:
         print("Error! Folders could not be found!")
         return
-    
-    # Declares start of motion stabilization
-    print("Starting motion stabilization")
     
     # Goes through each data folder
     folder_total = len(folders_list)
