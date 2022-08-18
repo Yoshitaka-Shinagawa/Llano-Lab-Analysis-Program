@@ -99,7 +99,7 @@ def motion_corrector(info_storage):
         files_list = [file for file in os.listdir(f"{data_path}/{folder}")
                       if file.endswith(".tif")]
         if len(files_list) == 0:
-            print("Error! Empty folder detected!")
+            print("Error! No TIFF files found!")
             return
         
         # Goes through each data image and reads the data
