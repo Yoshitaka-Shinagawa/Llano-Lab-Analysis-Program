@@ -17,6 +17,7 @@ Test
 ### Future plans
 * Change flag for noise response from "Yes" to "Responsive"
 * Change noise analysis so that it's generic and can be used for single stimulus analysis
+* Modify single stimulus analysis so it automatically switches
 * Make the contamination ratio specifiable
 * Create documentation for how to use the program
 * Add a way to classify cells based on their response type
@@ -33,13 +34,6 @@ Test
 * Possibly add a way to scale rectangular and polygonal ROIs
 * Possibly add a way to process other types of images
 * Possibly add a GUI to make it easier to use
-
-motion_corrector
-96+97: Change to folder_name
-106: Change warning to "No tiffs found"
-161: Change to one line
-164-168: Comments to be clearer
-171: Supposed to be commented out
 
 xyz_gaussian_filter
 Fix to 80 char limit
