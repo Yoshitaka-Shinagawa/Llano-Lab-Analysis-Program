@@ -44,6 +44,5 @@ def xyz_gaussian_filter(folder_images,x_sigma,y_sigma,z_sigma):
         columns_data = Parallel(n_jobs=12)(delayed(gaussian_filter1d)(filtered_images[:,row,column],sigma=z_sigma,mode="nearest") for column in range(columns))
         for column in range(columns):
             filtered_images[:,row,column] = columns_data[column]
-            gaussian_filter1d(filtered_images[:,row,column],sigma=z_sigma,mode="nearest")
     
     return filtered_images
