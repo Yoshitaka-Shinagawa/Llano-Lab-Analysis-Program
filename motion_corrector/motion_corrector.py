@@ -153,8 +153,7 @@ def motion_corrector(info_storage):
         raw_images = "N/A"
     
     # Goes through each folder's data
-    folder_total = len(folders_list)
-    for folder_number in range(folder_total):
+    for folder_number in range(len(folders_list)):
         
         # Reads each output file and converts it
         data_location = mc.mmap_file[folder_number]
@@ -164,8 +163,8 @@ def motion_corrector(info_storage):
         folder_images = folder_images.astype(np.uint16)
         
         # Option to save motion corrected images
-        imageio.mimwrite(f"{images_output_path}/{folders_list[folder_number]}\
-                         _mc.tiff",folder_images)
+        # imageio.mimwrite(f"{images_output_path}/{folders_list[folder_number]}"+
+        #                  "_mc.tiff",folder_images)
         
         # Filters the raw data and writes them into array
         if mode == 1:
