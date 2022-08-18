@@ -18,4 +18,8 @@
 /population_analysis/__pycache__/*
 /receptive_field_sum_analysis/__pycache__/*
 
+<<<<<<< Updated upstream
 .DS_Store
+=======
+*.pyc
+
