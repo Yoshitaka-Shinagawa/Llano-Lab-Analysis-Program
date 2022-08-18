@@ -42,10 +42,10 @@ def xyz_gaussian_filter(folder_images,x_sigma,y_sigma,z_sigma):
     
     # Goes through each pixel in z direction
     for row in range(rows):
-        columns_data = Parallel(n_jobs=12)(delayed(gaussian_filter1d)(
+        row_data = Parallel(n_jobs=12)(delayed(gaussian_filter1d)(
             filtered_images[:,row,column],sigma=z_sigma,mode="nearest") 
             for column in range(columns))
         for column in range(columns):
-            filtered_images[:,row,column] = columns_data[column]
+            filtered_images[:,row,column] = row_data[column]
     
     return filtered_images
