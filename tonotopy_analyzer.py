@@ -86,7 +86,7 @@ def tonotopy_analyzer(path,gauss_filter="Default",threshold=0.6):
     data,tonotopy_info = data_extractor_subtraction(filtered_images,tonotopy_info)
     
     # Flags cells based on their responsiveness
-    info_storage = cell_flagger(data,tonotopy_info)
+    tonotopy_info = cell_flagger(data,tonotopy_info)
     
     # Creates tonotopic map based on cell flags
     tonotopy_info = tonotopic_map_generator(tonotopy_info)
