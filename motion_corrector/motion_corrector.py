@@ -155,10 +155,16 @@ def motion_corrector(info_storage):
     # Goes through each folder's data
     for folder_number in range(len(folders_list)):
         
-        # Reads each output file and converts it
+        # Specifies location of data after motion correction by caiman
         data_location = mc.mmap_file[folder_number]
+        
+        # Loads in the image data using caiman
         folder_images = caiman.load(data_location)
+        
+        # To prevent overflow, lowest number is subtracted from all images
         folder_images = folder_images - np.amin(folder_images)
+        
+        # Rounds and converts the folder data to 16 bit int
         folder_images = np.around(folder_images)
         folder_images = folder_images.astype(np.uint16)
         
@@ -178,8 +184,8 @@ def motion_corrector(info_storage):
         folder_average = folder_average*(256/np.amax(folder_average))
         folder_average = np.around(folder_average)
         folder_average = folder_average.astype(np.uint8)
-        mpimg.imsave(f"{debug_output_path}/Average Images/\
-                     {folders_list[folder_number]}.png",
+        mpimg.imsave(f"{debug_output_path}/Average Images/"+
+                     f"{folders_list[folder_number]}.png",
                      folder_average,cmap="gray")
     
     # Deletes TIFF folder to save space but most times it doesn't work
