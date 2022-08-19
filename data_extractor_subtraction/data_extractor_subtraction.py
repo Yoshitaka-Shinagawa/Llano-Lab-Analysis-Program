@@ -179,7 +179,7 @@ def data_extractor_subtraction(filtered_images,info_storage):
             if image == image_list[0]:
                 image_shape = image_stack.shape[1:3]
                 cell_arrays,background_arrays = \
-                cell_and_background_array(cell_locations,image_shape)
+                    cell_and_background_array(cell_locations,image_shape)
             
             # Reads the data from images
             folder_data = data_reader(image_stack,cell_arrays,
