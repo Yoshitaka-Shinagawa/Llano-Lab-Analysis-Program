@@ -125,8 +125,7 @@ def data_extractor_subtraction(filtered_images,info_storage):
                              filtered_images.shape[1]),dtype=np.float64)
         
         # Goes through each folder image in the filtered data array
-        folder_total = len(filtered_images)
-        for folder_number in range(folder_total):
+        for folder_number in range(len(filtered_images)):
             
             # Reads the data from images and appends to list
             folder_data = data_reader(filtered_images[folder_number],
