@@ -7,14 +7,33 @@ Created on Mon Jun 13 15:33:01 2022
 
 import os
 import numpy as np
-from PIL import Image,ImageDraw,ImageFont
+from PIL import ImageDraw,ImageFont
 
 
 
 os.chdir("../map_generators")
 from cell_drawer import *
 
-def modulation_index_mapper(map_output_path,canvas,width,height,cell_locations,scale,radius,color_key,cell_flags,extra_flag,cell_numbers_list,indices_data,title,intensity,intensity_unit):
+def modulation_index_mapper(map_output_path,cell_numbers_list,indices_data,
+                            title,color_key,intensity,tonotopy_info):
+    
+    """
+    
+    
+    
+    
+    
+    """
+    
+    # Extracts variables from the info_storage class
+    cell_locations = tonotopy_info.cell_locations
+    cell_flags     = tonotopy_info.cell_flags
+    extra_flag     = tonotopy_info.extra_flag
+    intensity_unit = tonotopy_info.intensity_unit
+    canvas         = tonotopy_info.canvas
+    width          = tonotopy_info.width
+    scale          = tonotopy_info.scale
+    radius         = tonotopy_info.radius
     
     # Makes a copy of the canvas
     modulation_index_map = canvas.copy()
@@ -25,7 +44,8 @@ def modulation_index_mapper(map_output_path,canvas,width,height,cell_locations,s
     # Goes through each cell and colors them in with the unresponsive color
     cell_total = len(cell_locations)
     for cell_number in range(cell_total):
-        modulation_index_map = cell_drawer(modulation_index_map,cell_locations[cell_number],scale,radius,"#FF0000","#FF0000")
+        modulation_index_map = cell_drawer(modulation_index_map,cell_locations[
+            cell_number],scale,radius,"#FF0000","#FF0000")
     
     # Goes through each cell
     for cell_number in range(cell_total):
@@ -46,21 +66,26 @@ def modulation_index_mapper(map_output_path,canvas,width,height,cell_locations,s
                 hue = 160 - 80 * modulation_index
                 saturation = 25 - 75 * modulation_index
                 value = 100 - 80 * modulation_index
-                color = f"hsv({str(round(hue))},{str(round(saturation))}%,{str(round(value))}%)"
+                color = f"hsv({str(round(hue))},{str(round(saturation))}%,"+\
+                    f"{str(round(value))}%)"
             if modulation_index <= 1 and modulation_index > 0:
                 hue = 100 + 80 * modulation_index
                 saturation = 25 + 75 * modulation_index
                 value = 100 - 80 * modulation_index
-                color = f"hsv({str(round(hue))},{str(round(saturation))}%,{str(round(value))}%)"
+                color = f"hsv({str(round(hue))},{str(round(saturation))}%,"+\
+                    f"{str(round(value))}%)"
             
             # Colors cell in based on modulation index value
             if color != "N/A":
-                modulation_index_map = cell_drawer(modulation_index_map,cell_locations[cell_number],scale,radius,color,color)
+                modulation_index_map = cell_drawer(modulation_index_map,
+                    cell_locations[cell_number],scale,radius,color,color)
     
     # Creates an outline for cells with extra flag if applicable
     for cell_number in range(cell_total):
         if cell_flags[cell_number][0] != "N/A":
-            modulation_index_map = cell_drawer(modulation_index_map,cell_locations[cell_number],scale,radius,"hsv(30,100%,100%)",None)
+            modulation_index_map = cell_drawer(modulation_index_map,
+                cell_locations[cell_number],scale,radius,
+                "hsv(30,100%,100%)",None)
     
     # Preparation for drawing on image
     draw = ImageDraw.Draw(modulation_index_map)
@@ -84,17 +109,22 @@ def modulation_index_mapper(map_output_path,canvas,width,height,cell_locations,s
     i = 0
     for key in color_key:
         color = color_key[key]
-        draw.rectangle([key_boundaries[i],100,key_boundaries[i+1],200],outline=color,fill=color)
-        draw.text((np.mean([key_boundaries[i],key_boundaries[i+1]]),150),f"{key}",
-                   fill="#000000",anchor="mm",font=ImageFont.truetype("calibri.ttf",40))  
+        draw.rectangle([key_boundaries[i],100,key_boundaries[i+1],200],
+                       outline=color,fill=color)
+        draw.text((np.mean([key_boundaries[i],key_boundaries[i+1]]),150),
+                  f"{key}",fill="#000000",anchor="mm",
+                  font=ImageFont.truetype("calibri.ttf",40))  
         i += 1
     if extra_flag != "N/A":
         color = "hsv(30,100%,100%)"
-        draw.rectangle([key_boundaries[-2],100,key_boundaries[-1],200],outline=color,fill=color)
-        draw.text((np.mean([key_boundaries[-2],key_boundaries[-1]]),150),extra_flag,
-                  fill="#000000",anchor="mm",font=ImageFont.truetype("calibri.ttf",40))
+        draw.rectangle([key_boundaries[-2],100,key_boundaries[-1],200],
+                       outline=color,fill=color)
+        draw.text((np.mean([key_boundaries[-2],key_boundaries[-1]]),150),
+                  extra_flag,fill="#000000",anchor="mm",
+                  font=ImageFont.truetype("calibri.ttf",40))
     
     # Saves image
-    modulation_index_map.save(f"{map_output_path}/{intensity} {intensity_unit}.png","PNG")
+    modulation_index_map.save(f"{map_output_path}/{intensity} {intensity_unit}"
+                              +".png","PNG")
     
     return

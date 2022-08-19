@@ -43,71 +43,84 @@ gauss_filter=(2,2,2)#"Default"
 threshold=0.6
 mode = 0
 
+# Create a class to store various information in
+class info_storage:
+    def __init__(self):
+        self.gauss_filter = gauss_filter
+        self.threshold    = threshold
+        self.mode         = mode
 
+
+
+# Create an instance of the class
+# modulation_info = info_storage()
 
 # Modulation Analysis
-modulation_path = f"{path}/Modulation"
+# modulation_info.path = f"{path}/Modulation"
 
 # Stabilizes and filters images
-modulation_raw_images,modulation_filtered_images,modulation_folders_list = motion_corrector(modulation_path,gauss_filter,mode)
+# m_raw_images,m_filtered_images,modulation_info = motion_corrector(modulation_info)
 
 # Extracts the data from the images
-modulation_extra_flag,modulation_cell_locations,modulation_cell_flags,modulation_data,modulation_framerate_information,modulation_key,modulation_frequencies,modulation_frequency_unit,modulation_intensities,modulation_intensity_unit = data_extractor_subtraction(modulation_path,modulation_filtered_images,modulation_folders_list,mode)
+# m_data,modulation_info = data_extractor_subtraction(m_filtered_images,modulation_info)
 
 # Flags cells based on their responsiveness
-modulation_cell_flags,modulation_correlation_coefficients,modulation_areas_under_curves = cell_flagger(modulation_path,modulation_cell_flags,modulation_key,modulation_frequencies,modulation_intensities,modulation_data,modulation_framerate_information,mode,threshold)
+# modulation_info = cell_flagger(m_data,modulation_info)
 
 # Creates tonotopic map based on cell flags
-# modulation_canvas,modulation_width,modulation_height,modulation_scale,modulation_radius = tonotopic_map_generator(modulation_path,modulation_cell_locations,modulation_frequencies,modulation_frequency_unit,modulation_cell_flags,modulation_extra_flag,mode)
+# modulation_info = tonotopic_map_generator(modulation_info)
 
 # Creates graphs for traces of individual cells
-# cell_grapher(modulation_path,modulation_data,modulation_cell_flags,modulation_correlation_coefficients,modulation_areas_under_curves,modulation_framerate_information,modulation_key,modulation_frequencies,modulation_frequency_unit,modulation_intensities,modulation_intensity_unit,mode)
+# cell_grapher(m_data,modulation_info)
 
 # Analyzes response of cell populations
-# population_analysis(modulation_path,modulation_data,modulation_cell_flags,modulation_framerate_information,modulation_key,modulation_frequencies,modulation_frequency_unit,modulation_intensities,modulation_intensity_unit,modulation_extra_flag,mode)
+# population_analysis(m_data,modulation_info)
 
 # Creates a correlation matrix between cells
 # correlation_matrix(modulation_path,modulation_data,modulation_cell_flags,modulation_framerate_information,modulation_extra_flag,mode)
 
 # Various debugging tools
-# r_histogram_creator(modulation_path,modulation_correlation_coefficients)
+# r_histogram_creator(modulation_info)
 
 
+
+# Create an instance of the class
+# tonotopy_info = info_storage()
 
 # Tonotopy Analysis
-tonotopy_path = f"{path}/Tonotopy"
+# tonotopy_info.path = f"{path}/Tonotopy"
 
 # Stabilizes and filters images
-tonotopy_raw_images,tonotopy_filtered_images,tonotopy_folders_list = motion_corrector(tonotopy_path,gauss_filter,mode)
+# t_raw_images,t_filtered_images,tonotopy_info = motion_corrector(tonotopy_info)
 
 # Extracts the data from the images
-tonotopy_extra_flag,tonotopy_cell_locations,tonotopy_cell_flags,tonotopy_data,tonotopy_framerate_information,tonotopy_key,tonotopy_frequencies,tonotopy_frequency_unit,tonotopy_intensities,tonotopy_intensity_unit = data_extractor_subtraction(tonotopy_path,tonotopy_filtered_images,tonotopy_folders_list,mode)
+# t_data,tonotopy_info = data_extractor_subtraction(t_filtered_images,tonotopy_info)
 
 # Flags cells based on their responsiveness
-tonotopy_cell_flags,tonotopy_correlation_coefficients,tonotopy_areas_under_curves = cell_flagger(tonotopy_path,tonotopy_cell_flags,tonotopy_key,tonotopy_frequencies,tonotopy_intensities,tonotopy_data,tonotopy_framerate_information,mode,threshold)
+# tonotopy_info = cell_flagger(t_data,tonotopy_info)
 
-# Creates tonotopic map based on cell flags
-tonotopy_canvas,tonotopy_width,tonotopy_height,tonotopy_scale,tonotopy_radius = tonotopic_map_generator(tonotopy_path,tonotopy_cell_locations,tonotopy_frequencies,tonotopy_frequency_unit,tonotopy_cell_flags,tonotopy_extra_flag,mode)
+# Creates tonotopic map based on cell 
+# tonotopy_info = tonotopic_map_generator(tonotopy_info)
 
 # Creates graphs for traces of individual cells
-# cell_grapher(tonotopy_path,tonotopy_data,tonotopy_cell_flags,tonotopy_correlation_coefficients,tonotopy_areas_under_curves,tonotopy_framerate_information,tonotopy_key,tonotopy_frequencies,tonotopy_frequency_unit,tonotopy_intensities,tonotopy_intensity_unit,mode)
+# cell_grapher(t_data,tonotopy_info)
 
 # Analyzes response of cell populations
-population_analysis(tonotopy_path,tonotopy_data,tonotopy_cell_flags,tonotopy_framerate_information,tonotopy_key,tonotopy_frequencies,tonotopy_frequency_unit,tonotopy_intensities,tonotopy_intensity_unit,tonotopy_extra_flag,mode)
+# population_analysis(t_data,tonotopy_info)
 
 # Analyzes receptive field sum
-# receptive_field_sum_analysis(tonotopy_path,tonotopy_key,tonotopy_cell_flags,tonotopy_extra_flag,tonotopy_correlation_coefficients,tonotopy_areas_under_curves,tonotopy_frequencies,tonotopy_frequency_unit,tonotopy_intensities,tonotopy_intensity_unit,tonotopy_canvas,tonotopy_width,tonotopy_height,tonotopy_cell_locations,tonotopy_scale,tonotopy_radius,threshold)
+# receptive_field_sum_analysis(tonotopy_info)
 
 # Creates a correlation matrix between cells
 # correlation_matrix(tonotopy_path,tonotopy_data,tonotopy_cell_flags,tonotopy_framerate_information,tonotopy_extra_flag,mode)
 
 # Various debugging tools
-# r_histogram_creator(tonotopy_path,tonotopy_correlation_coefficients)
+# r_histogram_creator(tonotopy_info)
 
 
 
 # Performs combined analysis of tonotopy and modulation
-# modulation_index_analysis(path,threshold,modulation_cell_flags,tonotopy_cell_flags,tonotopy_extra_flag,modulation_correlation_coefficients,tonotopy_correlation_coefficients,modulation_areas_under_curves,tonotopy_areas_under_curves,modulation_key,tonotopy_key,modulation_frequencies,tonotopy_frequencies,modulation_frequency_unit,tonotopy_frequency_unit,modulation_intensities,tonotopy_intensities,modulation_intensity_unit,tonotopy_intensity_unit,tonotopy_canvas,tonotopy_width,tonotopy_height,tonotopy_cell_locations,tonotopy_scale,tonotopy_radius)
+modulation_index_analysis(path,modulation_info,tonotopy_info)
 
 
 # Announces that analysis is finished

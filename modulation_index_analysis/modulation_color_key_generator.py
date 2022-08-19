@@ -7,6 +7,21 @@ Created on Mon Jun 13 15:58:31 2022
 
 def modulation_color_key_generator():
     
+    """
+    This is the function used to generate a double color key for the modulation
+    index maps. It first assigns a shade of blue for every 0.2 values of
+    indices, assigns yellow for 0, then assigns a shade of green for every 0.2
+    values of indices.
+    
+    Parameters
+    ----------
+    none
+    
+    Returns
+    -------
+    none
+    """
+    
     # Dictionary to store colors
     color_key = {}
     
@@ -16,19 +31,22 @@ def modulation_color_key_generator():
         hue = 160 - 80 * index
         saturation = 25 - 75 * index
         value = 100 + 80 * index
-        color = f"hsv({str(round(hue))},{str(round(saturation))}%,{str(round(value))}%)"
+        color = f"hsv({str(round(hue))},{str(round(saturation))}%,"+\
+                f"{str(round(value))}%)"
         color_key[index] = color
     
     # Adds HSV value for 0
     color_key[0] = "hsv(60,100%,100%)"
     
-    # Calculates hue, saturation, and value for each frequency, and adds it to the dictionary
+    # Calculates hue, saturation, and value for each frequency, and adds it to
+    # the dictionary
     positive_list = [0.2,0.4,0.6,0.8,1.0]
     for index in positive_list:
         hue = 100 + 80 * index
         saturation = 25 + 75 * index
         value = 100 - 80 * index
-        color = f"hsv({str(round(hue))},{str(round(saturation))}%,{str(round(value))}%)"
+        color = f"hsv({str(round(hue))},{str(round(saturation))}%,"+\
+                f"{str(round(value))}%)"
         color_key[index] = color
     
     return color_key

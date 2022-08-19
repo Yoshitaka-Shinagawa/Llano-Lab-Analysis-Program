@@ -15,7 +15,22 @@ import pandas as pd
 
 from modulation_index_mapper import *
 
-def modulation_index_histogram(path,excel_writer,indices_set,intensities,intensity_unit,title,canvas,width,height,cell_locations,scale,radius,color_key,cell_flags,extra_flag):
+def modulation_index_histogram(path,excel_writer,indices_set,
+                               title,color_key,tonotopy_info):
+    
+    """
+    This is the function used to create histograms for the modulation indices
+    at each intensity level, as well as exporting the data to Excel and
+    creating maps for the modulation indices. 
+    
+    
+    
+    
+    """
+    
+    # Extracts variables from the info_storage class
+    intensities    = tonotopy_info.intensities
+    intensity_unit = tonotopy_info.intensity_unit
     
     # Creates output directory for histogram
     histogram_output_path = f"{path}/Histograms"
@@ -45,7 +60,9 @@ def modulation_index_histogram(path,excel_writer,indices_set,intensities,intensi
         indices_standard_deviation = round(np.std(indices_data),2)
         
         # Creates a title
-        plt.title(f"{title} at {intensity} {intensity_unit}\nMean: {indices_mean}  Standard Deviation: {indices_standard_deviation}")
+        plt.title(f"{title} at {intensity} {intensity_unit}\nMean: "+
+                  f"{indices_mean}  Standard Deviation: "+
+                  f"{indices_standard_deviation}")
         
         # Saves the figure and closes it
         plt.savefig(f"{histogram_output_path}/{intensity} {intensity_unit}")
@@ -59,9 +76,11 @@ def modulation_index_histogram(path,excel_writer,indices_set,intensities,intensi
                      "Cell Flag":cell_flags_list,
                      title:indices_data}
         dataframe = pd.DataFrame(dataframe)
-        dataframe.to_excel(excel_writer,sheet_name=f"{intensity} {intensity_unit}",index=False)
+        dataframe.to_excel(excel_writer,sheet_name=f"{intensity} "+
+                           f"{intensity_unit}",index=False)
         
-        # Create map for 
-        modulation_index_mapper(map_output_path,canvas,width,height,cell_locations,scale,radius,color_key,cell_flags,extra_flag,cell_numbers_list,indices_data,title,intensity,intensity_unit)
+        # Create map for modulation indices
+        modulation_index_mapper(map_output_path,cell_numbers_list,indices_data,
+                                title,color_key,intensity,tonotopy_info)
     
     return
