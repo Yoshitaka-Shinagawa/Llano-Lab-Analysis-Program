@@ -74,7 +74,7 @@ def combined_analyzer(path,gauss_filter="Default",threshold=0.6):
     population_analysis(m_data,modulation_info)
     
     # Creates a correlation matrix between cells
-    correlation_matrix(modulation_path,modulation_data,modulation_cell_flags,modulation_framerate_information,modulation_extra_flag,mode)
+    # correlation_matrix(modulation_path,modulation_data,modulation_cell_flags,modulation_framerate_information,modulation_extra_flag,mode)
     
     # Various debugging tools
     r_histogram_creator(modulation_info)
@@ -108,7 +108,7 @@ def combined_analyzer(path,gauss_filter="Default",threshold=0.6):
     receptive_field_sum_analysis(tonotopy_info)
     
     # Creates a correlation matrix between cells
-    correlation_matrix(tonotopy_path,tonotopy_data,tonotopy_cell_flags,tonotopy_framerate_information,tonotopy_extra_flag,mode)
+    # correlation_matrix(tonotopy_path,tonotopy_data,tonotopy_cell_flags,tonotopy_framerate_information,tonotopy_extra_flag,mode)
     
     # Various debugging tools
     r_histogram_creator(tonotopy_info)
