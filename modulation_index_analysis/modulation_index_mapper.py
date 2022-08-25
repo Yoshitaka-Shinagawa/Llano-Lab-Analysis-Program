@@ -18,11 +18,26 @@ def modulation_index_mapper(map_output_path,cell_numbers_list,indices_data,
                             title,color_key,intensity,tonotopy_info):
     
     """
+    This is the function used to create the map of the modulation indices. It
+    draws cells onto a map and colors them in with their modulation indices,
+    then creates an outline to distinguish special cells (GABAergic in our
+    case) from normal cells.
     
+    Parameters
+    ----------
+    path : The path to the output folder for the modulation indice map.
+    cell_numbers : The list of cell number of the responsive cells.
+    indices_data : The list of modulation indices of the responsive cells.
+    title : The string indicating the type of modulation indices.
+    color_key : The dictionary containing the color key for the modulation
+        indices.
+    intensity : The level of intensity that the map is being created for.
+    tonotopy_info : The class used to store most of the variables for the
+        tonotopy data that are used in the analysis program.
     
-    
-    
-    
+    Returns
+    -------
+    none
     """
     
     # Extracts variables from the info_storage class

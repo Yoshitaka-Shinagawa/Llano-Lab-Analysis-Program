@@ -19,13 +19,25 @@ def modulation_index_histogram(path,excel_writer,indices_set,
                                title,color_key,tonotopy_info):
     
     """
-    This is the function used to create histograms for the modulation indices
-    at each intensity level, as well as exporting the data to Excel and
-    creating maps for the modulation indices. 
+    This is the function used to create histograms for the modulation indices,
+    export data to Excel, and create maps at each intensity level.
     
+    Parameters
+    ----------
+    path : The path to the output folder for the type of modulation indices.
+    excel_writer : The pandas Excel writer for the type of modulation indices.
+    indices_set : The list containing the list of the cell numbers of the
+        responsive cells, the cell flags of the responsive cells, and the
+        modulation indices of the resposive cells.
+    title : The string indicating the type of modulation indices.
+    color_key : The dictionary containing the color key for the modulation
+        indices.
+    tonotopy_info : The class used to store most of the variables for the
+        tonotopy data that are used in the analysis program.
     
-    
-    
+    Returns
+    -------
+    none
     """
     
     # Extracts variables from the info_storage class
