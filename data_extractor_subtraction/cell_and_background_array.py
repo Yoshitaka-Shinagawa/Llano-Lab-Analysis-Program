@@ -61,7 +61,8 @@ def cell_and_background_array(cell_locations,image_shape):
             right = location[2][3]
             
             # Creates a list of coordinate points in the rectangle
-            coords_list = [(y,x) for y in range(top,bottom+1) for x in range(left,right+1)]
+            coords_list = [(y,x) for y in range(top,bottom+1) for x
+                           in range(left,right+1)]
         
         # Oval ROIs
         if location[0] == "oval":
@@ -73,9 +74,12 @@ def cell_and_background_array(cell_locations,image_shape):
             
             # Creates a list of coordinate points in the oval
             coords_list = [(y,x)
-                           for y in range(int(center[0]-y_radius),int(center[0]+y_radius+1))
-                           for x in range(int(center[1]-x_radius),int(center[1]+x_radius+1))
-                           if ((y-center[0])**2)/(y_radius**2) + ((x-center[1])**2)/(x_radius**2) <= 1]
+                           for y in range(int(center[0]-y_radius),
+                                          int(center[0]+y_radius+1))
+                           for x in range(int(center[1]-x_radius),
+                                          int(center[1]+x_radius+1))
+                           if ((y-center[0])**2)/(y_radius**2) + (
+                                   (x-center[1])**2)/(x_radius**2) <= 1]
         
         # Polygonal ROIs
         if location[0] == "polygon":
@@ -96,7 +100,8 @@ def cell_and_background_array(cell_locations,image_shape):
             polygon = Polygon(polygon_vertices)
             
             # Creates a list of coordinate points in the polygon
-            coords_list = [(y,x) for y in range(y_min,y_max+1) for x in range(x_min,x_max+1)
+            coords_list = [(y,x) for y in range(y_min,y_max+1) for x
+                           in range(x_min,x_max+1)
                            if polygon.contains(Point(x,y))]
         
         # Attempts to change location in cell array to 1
@@ -130,8 +135,10 @@ def cell_and_background_array(cell_locations,image_shape):
             
             # Creates a list of coordinate points in the rectangle
             coords_list = [(y,x) 
-                           for y in range(round(center[0]-half_height),round(center[0]+half_height+1))
-                           for x in range(round(center[1]-half_width),round(center[1]+half_width+1))]
+                           for y in range(round(center[0]-half_height),
+                                          round(center[0]+half_height+1))
+                           for x in range(round(center[1]-half_width),
+                                          round(center[1]+half_width+1))]
         
         # Oval ROIs
         if location[0] == "oval":
@@ -143,9 +150,12 @@ def cell_and_background_array(cell_locations,image_shape):
             
             # Creates a list of coordinate points in the oval
             coords_list = [(y,x)
-                           for y in range(int(center[0]-y_radius),int(center[0]+y_radius+1))
-                           for x in range(int(center[1]-x_radius),int(center[1]+x_radius+1))
-                           if ((y-center[0])**2)/(y_radius**2) + ((x-center[1])**2)/(x_radius**2) <= 1]
+                           for y in range(int(center[0]-y_radius),
+                                          int(center[0]+y_radius+1))
+                           for x in range(int(center[1]-x_radius),
+                                          int(center[1]+x_radius+1))
+                           if ((y-center[0])**2)/(y_radius**2) + (
+                                   (x-center[1])**2)/(x_radius**2) <= 1]
         
         # Polygonal ROIs
         if location[0] == "polygon":
@@ -168,7 +178,8 @@ def cell_and_background_array(cell_locations,image_shape):
             polygon = Polygon(polygon_vertices)
             
             # Creates a list of coordinate points in the polygon
-            coords_list = [(y,x) for y in range(y_min,y_max+1) for x in range(x_min,x_max+1)
+            coords_list = [(y,x) for y in range(y_min,y_max+1) for x
+                           in range(x_min,x_max+1)
                            if polygon.contains(Point(x,y))]
         
         # Attempts to change location in cell array to 1
