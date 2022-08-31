@@ -193,9 +193,8 @@ def cell_grapher(data,info_storage):
         if mode == 0:
             fig.suptitle(f"Frequency Responses for Cell {cell_number+1}\n\n"+
                          f"Best Frequency: {cell_flags[cell_number][1]} "+
-                             "{frequency_unit}\n"+
-                         "Characteristic Frequency: "+
-                            f"{cell_flags[cell_number][2]} {frequency_unit}",
+                         f"{frequency_unit}\nCharacteristic Frequency: "+
+                         f"{cell_flags[cell_number][2]} {frequency_unit}",
                         fontsize=16)
         
         # Creates title for noise graph

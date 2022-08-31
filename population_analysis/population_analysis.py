@@ -225,7 +225,7 @@ def population_analysis(data,info_storage):
             if mode == 0:
                 if row_number == 0:
                     axes[row_number,column_number].set_title(f"{frequency} "+
-                        "{frequency_unit}",fontsize=16)
+                        f"{frequency_unit}",fontsize=16)
                 if frequency == frequencies[-1]:
                     intensity_axis = axes[row_number,column_number].twinx()
                     intensity_axis.set_ylabel(f"{intensity} {intensity_unit}",

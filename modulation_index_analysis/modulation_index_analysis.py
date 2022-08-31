@@ -51,6 +51,7 @@ def modulation_index_analysis(path,modulation_info,tonotopy_info):
     
     # Extracts variables from the info_storage class
     threshold                  = tonotopy_info.threshold
+    intensity_unit             = tonotopy_info.intensity_unit
     m_cell_flags               = modulation_info.cell_flags
     m_correlation_coefficients = modulation_info.correlation_coefficients
     m_areas_under_curves       = modulation_info.areas_under_curves
@@ -241,7 +242,7 @@ def modulation_index_analysis(path,modulation_info,tonotopy_info):
                       "Total": [unflagged_cells_total,flagged_cells_total]}
         statistics = pd.DataFrame(statistics,index=["Unflagged","Flagged"])
         statistics.to_excel(f"{modulation_index_output_path}/Statistics/"+
-                            "{intensity} {intensity_unit}.xlsx")
+                            f"{intensity} {intensity_unit}.xlsx")
         
     # Generates a color key for modulation indices map
     color_key = modulation_color_key_generator()
