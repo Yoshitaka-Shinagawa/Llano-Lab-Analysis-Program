@@ -53,16 +53,16 @@ class info_storage:
 
 
 # Create an instance of the class
-# modulation_info = info_storage()
+modulation_info = info_storage()
 
 # Modulation Analysis
-# modulation_info.path = f"{path}/Modulation"
+modulation_info.path = f"{path}/Modulation"
 
 # Stabilizes and filters images
-# m_raw_images,m_filtered_images,modulation_info = motion_corrector(modulation_info)
+m_raw_images,m_filtered_images,modulation_info = motion_corrector(modulation_info)
 
 # Extracts the data from the images
-# m_data,modulation_info = data_extractor_subtraction(m_filtered_images,modulation_info)
+m_data,modulation_info = data_extractor_subtraction(m_filtered_images,modulation_info)
 
 # Flags cells based on their responsiveness
 # modulation_info = cell_flagger(m_data,modulation_info)
@@ -120,7 +120,7 @@ class info_storage:
 
 
 # Performs combined analysis of tonotopy and modulation
-modulation_index_analysis(path,modulation_info,tonotopy_info)
+# modulation_index_analysis(path,modulation_info,tonotopy_info)
 
 
 # Announces that analysis is finished

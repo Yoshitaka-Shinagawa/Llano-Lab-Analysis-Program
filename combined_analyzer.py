@@ -124,16 +124,16 @@ def combined_analyzer(path,gauss_filter="Default",threshold=0.6):
 
 
 
-base_path = "E:/Llano Lab/Injected Mice"
+# base_path = "E:/Llano Lab/Injected Mice"
 
-combined_analyzer(f"{base_path}/2022-06-20/GAD Injected 030422 M",(1,1,2))
-combined_analyzer(f"{base_path}/2022-06-23/GAD Injected 030622 M 99 μm",(1,1,2))
-combined_analyzer(f"{base_path}/2022-06-23/GAD Injected 030622 M 169 μm",(1,1,2))
-combined_analyzer(f"{base_path}/2022-06-24/GAD Injected 030622 M",(1,1,2))
-combined_analyzer(f"{base_path}/2022-06-27/GAD Injected 030622 M 88 μm",(1,1,2))
-combined_analyzer(f"{base_path}/2022-06-27/GAD Injected 030622 M 95 μm",(1,1,2))
+# combined_analyzer(f"{base_path}/2022-06-20/GAD Injected 030422 M",(1,1,2))
+# combined_analyzer(f"{base_path}/2022-06-23/GAD Injected 030622 M 99 um",(1,1,2))
+# combined_analyzer(f"{base_path}/2022-06-23/GAD Injected 030622 M 169 um",(1,1,2))
+# combined_analyzer(f"{base_path}/2022-06-24/GAD Injected 030622 M",(1,1,2))
+# combined_analyzer(f"{base_path}/2022-06-27/GAD Injected 030622 M 88 um",(1,1,2))
+# combined_analyzer(f"{base_path}/2022-06-27/GAD Injected 030622 M 95 um",(1,1,2))
 
-# base_path = "E:/Llano Lab/Sex Difference"
+base_path = "E:/Llano Lab/Sex Difference"
 
 # combined_analyzer(f"{base_path}/2022-08-17/RCAMP CBA 022822 F (+000,+000,-196)",(1,1,2))
 # combined_analyzer(f"{base_path}/2022-08-17/RCAMP CBA 022822 F (+234,-024,-133)",(1,1,2))
@@ -141,12 +141,12 @@ combined_analyzer(f"{base_path}/2022-06-27/GAD Injected 030622 M 95 μm",(1,1,2)
 # combined_analyzer(f"{base_path}/2022-08-17/RCAMP CBA 022822 F (+600,-027,-103)",(1,1,2))
 # combined_analyzer(f"{base_path}/2022-08-17/RCAMP CBA 022822 F (+768,-026,-120)",(1,1,2))
 # combined_analyzer(f"{base_path}/2022-08-17/RCAMP CBA 022822 F (+892,+004,-128)",(1,1,2))
-# combined_analyzer(f"{base_path}/2022-08-24/RCAMP CBA 032722 F (+000,+000,-127)",(1,1,2))
-# combined_analyzer(f"{base_path}/2022-08-24/RCAMP CBA 032722 F (+287,-006,-094)",(1,1,2))
-# combined_analyzer(f"{base_path}/2022-08-24/RCAMP CBA 032722 F (+461,+006,-089)",(1,1,2))
-# combined_analyzer(f"{base_path}/2022-08-24/RCAMP CBA 032722 F (+573,-028,-111)",(1,1,2))
-# combined_analyzer(f"{base_path}/2022-08-24/RCAMP CBA 032722 F (+670,-040,-181)",(1,1,2))
-# combined_analyzer(f"{base_path}/2022-08-24/RCAMP CBA 032722 F (+790,-064,-214)",(1,1,2))
+combined_analyzer(f"{base_path}/2022-08-24/RCAMP CBA 032722 F (+000,+000,-127)",(1,1,2))
+combined_analyzer(f"{base_path}/2022-08-24/RCAMP CBA 032722 F (+287,-006,-094)",(1,1,2))
+combined_analyzer(f"{base_path}/2022-08-24/RCAMP CBA 032722 F (+461,+006,-089)",(1,1,2))
+combined_analyzer(f"{base_path}/2022-08-24/RCAMP CBA 032722 F (+573,-028,-111)",(1,1,2))
+combined_analyzer(f"{base_path}/2022-08-24/RCAMP CBA 032722 F (+670,-040,-181)",(1,1,2))
+combined_analyzer(f"{base_path}/2022-08-24/RCAMP CBA 032722 F (+790,-064,-214)",(1,1,2))
 
 
 
