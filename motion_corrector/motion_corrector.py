@@ -47,7 +47,7 @@ def motion_corrector(info_storage):
     # Extracts variables from the info_storage class
     path         = info_storage.path
     gauss_filter = info_storage.gauss_filter
-    mode         = info_storage.mode
+    mode         = info_storage.mode 
     
     # Declares start of motion stabilization
     print("Starting motion stabilization")

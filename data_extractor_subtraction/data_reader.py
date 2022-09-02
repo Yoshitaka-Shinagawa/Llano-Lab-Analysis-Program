@@ -10,7 +10,7 @@ from statistics import mean
 
 
 
-def data_reader(image_stack,cell_arrays,background_arrays):
+def data_reader(image_stack,cell_arrays,background_arrays,info_storage):
     
     """
     This is the function that reads the 2P signals from the images and applies
@@ -36,6 +36,8 @@ def data_reader(image_stack,cell_arrays,background_arrays):
         frame number.
     """
     
+    contam_ratio = info_storage.contam_ratio
+
     # Creates empty array to store data in
     image_total = image_stack.shape[0]
     cell_total = len(cell_arrays)
@@ -59,7 +61,7 @@ def data_reader(image_stack,cell_arrays,background_arrays):
                     ) / np.count_nonzero(background_arrays[cell_number])
             else:
                 background_value = 0
-            folder_data[cell_number,image_number] = data_value - 0.4 * \
+            folder_data[cell_number,image_number] = data_value - contam_ratio * \
                 background_value
     
     return folder_data

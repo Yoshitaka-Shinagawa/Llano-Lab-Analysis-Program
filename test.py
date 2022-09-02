@@ -46,6 +46,7 @@ path = "D:/Llano Lab/Tonotopic Analysis/PCB Toxicity Data/Group 1/2021-05-02/A4N
 # path = "D:/Llano Lab/Tonotopic Analysis/Module Project/2021-09-04/2021-09-04 Prism GAD67xRCAMP Data Set 1 Modulation"
 
 gauss_filter=(2,2,2)#"Default"
+contam_ratio = 0.4
 threshold=0.6
 
 # Sets mode, 0 for tonotopy, 1 for noise
@@ -58,6 +59,7 @@ class info_storage:
         self.gauss_filter = gauss_filter
         self.threshold    = threshold
         self.mode         = mode
+        self.contam_ratio = contam_ratio
 
 # Create an instance of the class
 tonotopy_info = info_storage()
