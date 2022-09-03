@@ -32,7 +32,7 @@ from r_histogram_creator import *
 
 
 
-def tonotopy_analyzer(path,gauss_filter="Default",threshold=0.6):
+def tonotopy_analyzer(path,gauss_filter="Default",threshold=0.6,contam_ratio=0.4):
     
     """
     This is the main analysis program for analyzing tonotpy for 2p data. It
@@ -74,7 +74,9 @@ def tonotopy_analyzer(path,gauss_filter="Default",threshold=0.6):
             self.path         = path
             self.gauss_filter = gauss_filter
             self.threshold    = threshold
+            self.contam_ratio = contam_ratio
             self.mode         = mode
+        
     
     # Create an instance of the class
     tonotopy_info = info_storage()
