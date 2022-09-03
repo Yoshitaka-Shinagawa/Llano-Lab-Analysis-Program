@@ -75,6 +75,11 @@ def tonotopy_analyzer(path,gauss_filter="Default",threshold=0.6):
 # tonotopy_analyzer("D:/Llano Lab/Tonotopic Analysis/Noise Exposure",(2,2,2))
 
 
+base_path = "E:/Llano Lab/Sex Difference (Austin)/2022-09-02/RCAMP CBA 022822 (+000,+000,-196)/Tonotopy"
+
+tonotopy_analyzer(f"{base_path}")
+
+
 # base_path = "D:/Llano Lab/Tonotopic Analysis/Axon Imaging"
 
 # tonotopy_analyzer(f"{base_path}/2021-09-03/2021-09-03 CBA Axons Modulation",(2,2,2))
@@ -159,9 +164,9 @@ def tonotopy_analyzer(path,gauss_filter="Default",threshold=0.6):
 # tonotopy_analyzer(f"{base_path}/2019-07-18/2019-07-18 Anesthetized IC Area 1")
 
 
-base_path = "E:/Llano Lab/Sex Difference (Austin)/2022-09-02/RCAMP CBA 022822 (+000,+000,-196)/Tonotopy"
+# base_path = "D:/Llano Lab/Miscellaneous/Single Photon Calcium Imaging"
 
-tonotopy_analyzer(f"{base_path}")
+# tonotopy_analyzer(f"{base_path}/2018-02-07")
 # tonotopy_analyzer(f"{base_path}/2018-02-10")
 # tonotopy_analyzer(f"{base_path}/2018-02-13")
 # tonotopy_analyzer(f"{base_path}/2018-02-19")
