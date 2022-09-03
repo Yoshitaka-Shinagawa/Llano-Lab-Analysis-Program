@@ -8,7 +8,6 @@ Created on Mon Dec  2 21:46:44 2019
 import os
 
 
-
 program_path = os.getcwd()
 
 os.chdir(f"{program_path}/motion_corrector")
@@ -82,15 +81,15 @@ def tonotopy_analyzer(path,gauss_filter="Default",threshold=0.6):
 # tonotopy_analyzer(f"{base_path}/2021-09-03/2021-09-03 CBA Axons Tonotopy",(2,2,2))
 
 
-base_path = "D:/Llano Lab/Tonotopic Analysis/PCB Toxicity Data"
+# base_path = "D:/Llano Lab/Tonotopic Analysis/PCB Toxicity Data"
 
-tonotopy_analyzer(f"{base_path}/Group 1/2021-05-02/A4NON Data Set 1 Tonotopy",(2,2,2))
-tonotopy_analyzer(f"{base_path}/Group 1/2021-05-02/A4NON Data Set 2 Tonotopy",(2,2,2))
-tonotopy_analyzer(f"{base_path}/Group 1/2021-05-04/A6NON Tonotopy",(2,2,2))
-tonotopy_analyzer(f"{base_path}/Group 1/2021-05-16/A3NON Tonotopy",(2,2,2))
-tonotopy_analyzer(f"{base_path}/Group 1/2021-05-17/A7NON S with PA Tonotopy",(2,2,2))
-tonotopy_analyzer(f"{base_path}/Group 1/2021-05-30/AA8NON Tonotopy",(2,2,2))
-tonotopy_analyzer(f"{base_path}/Group 1/2021-06-19/AA1NON Tonotopy",(2,2,2))
+# tonotopy_analyzer(f"{base_path}/Group 1/2021-05-02/A4NON Data Set 1 Tonotopy",(2,2,2))
+# tonotopy_analyzer(f"{base_path}/Group 1/2021-05-02/A4NON Data Set 2 Tonotopy",(2,2,2))
+# tonotopy_analyzer(f"{base_path}/Group 1/2021-05-04/A6NON Tonotopy",(2,2,2))
+# tonotopy_analyzer(f"{base_path}/Group 1/2021-05-16/A3NON Tonotopy",(2,2,2))
+# tonotopy_analyzer(f"{base_path}/Group 1/2021-05-17/A7NON S with PA Tonotopy",(2,2,2))
+# tonotopy_analyzer(f"{base_path}/Group 1/2021-05-30/AA8NON Tonotopy",(2,2,2))
+# tonotopy_analyzer(f"{base_path}/Group 1/2021-06-19/AA1NON Tonotopy",(2,2,2))
 
 # tonotopy_analyzer(f"{base_path}/Group 2/2021-04-30/B1NON Tonotopic",(2,2,2))
 # tonotopy_analyzer(f"{base_path}/Group 2/2021-05-09/B7NON Data Set 1 Tonotopy",(2,2,2))
@@ -160,9 +159,9 @@ tonotopy_analyzer(f"{base_path}/Group 1/2021-06-19/AA1NON Tonotopy",(2,2,2))
 # tonotopy_analyzer(f"{base_path}/2019-07-18/2019-07-18 Anesthetized IC Area 1")
 
 
-# base_path = "D:/Llano Lab/Miscellaneous/Single Photon Calcium Imaging"
+base_path = "E:/Llano Lab/Sex Difference (Austin)/2022-09-02/RCAMP CBA 022822 (+000,+000,-196)/Tonotopy"
 
-# tonotopy_analyzer(f"{base_path}/2018-02-07")
+tonotopy_analyzer(f"{base_path}")
 # tonotopy_analyzer(f"{base_path}/2018-02-10")
 # tonotopy_analyzer(f"{base_path}/2018-02-13")
 # tonotopy_analyzer(f"{base_path}/2018-02-19")
