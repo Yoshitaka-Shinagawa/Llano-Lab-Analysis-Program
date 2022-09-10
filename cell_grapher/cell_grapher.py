@@ -48,6 +48,8 @@ def cell_grapher(data,info_storage):
     cell_flags               = info_storage.cell_flags
     correlation_coefficients = info_storage.correlation_coefficients
     areas_under_curves       = info_storage.areas_under_curves
+    areas_under_curves_before_tone_onset =info_storage.areas_under_curves_before_tone_onset
+    areas_under_curves_after_tone_onset =info_storage.areas_under_curves_after_tone_onset
     framerate_information    = info_storage.framerate_information
     key                      = info_storage.key
     frequencies              = info_storage.frequencies
@@ -98,6 +100,8 @@ def cell_grapher(data,info_storage):
     cell_flag_list = []
     array_cc = np.zeros((sample_total,cell_total))
     array_aoc = np.zeros((sample_total,cell_total))
+    array_aoc_b = np.zeros((sample_total,cell_total))
+    array_aoc_a = np.zeros((sample_total,cell_total))
     array_peak = np.zeros((sample_total,cell_total))
     
     # Goes through each cell
@@ -148,19 +152,29 @@ def cell_grapher(data,info_storage):
                 # right corner
                 correlation_coefficient = correlation_coefficients[
                     cell_number,sample_number][0]
-                area_under_curve = areas_under_curves[
+                area_under_curve_entire = areas_under_curves[
+                    cell_number,sample_number][0]
+                area_under_curve_b = areas_under_curves_before_tone_onset[
+                    cell_number,sample_number][0]
+                area_under_curve_a = areas_under_curves_after_tone_onset[
                     cell_number,sample_number][0]
                 axes[row_number,column_number].legend(["r = %.2f"
-                    %correlation_coefficient,"a = %.2f"%area_under_curve],
+                    %correlation_coefficient,"a = %.2f"%area_under_curve_entire],
                     loc="upper right")
                 
                 # Adds data to list
                 array_cc[sample_number,cell_number] = round(
                     correlation_coefficient,2)
                 array_aoc[sample_number,cell_number] = round(
-                    area_under_curve,2)
+                    area_under_curve_entire,2)
+                array_aoc_b[sample_number,cell_number] = round(
+                    area_under_curve_b,2)
+                array_aoc_a[sample_number,cell_number] = round(
+                    area_under_curve_a,2)
                 array_peak[sample_number,cell_number] = round(
                     max(sample_average),2)
+                
+                
                 
                 # Colors in the background based on the correlation coefficient
                 if correlation_coefficient > threshold:
@@ -215,10 +229,18 @@ def cell_grapher(data,info_storage):
                                 "Areas under curve.xlsx")
     writer_peak = pd.ExcelWriter(f"{cell_trace_output_path}/Spreadsheets/"+
                                  "Peak values.xlsx")
+    writer_aoc_b = pd.ExcelWriter(f"{cell_trace_output_path}/Spreadsheets/"+
+                                "Areas under curve before tone onset.xlsx")
+    writer_aoc_a = pd.ExcelWriter(f"{cell_trace_output_path}/Spreadsheets/"+
+                                "Areas under curve after tone onset.xlsx")
     for frequency in frequencies:
         dataframe_cc = {"Cell Number":cell_numbers,
                         "Cell Flag":cell_flag_list}
         dataframe_aoc = {"Cell Number":cell_numbers,
+                         "Cell Flag":cell_flag_list}
+        dataframe_aoc_b = {"Cell Number":cell_numbers,
+                         "Cell Flag":cell_flag_list}
+        dataframe_aoc_a = {"Cell Number":cell_numbers,
                          "Cell Flag":cell_flag_list}
         dataframe_peak = {"Cell Number":cell_numbers,
                           "Cell Flag":cell_flag_list}
@@ -228,14 +250,24 @@ def cell_grapher(data,info_storage):
                 array_cc[sample_number]
             dataframe_aoc[f"{intensity} {intensity_unit}"] = \
                 array_aoc[sample_number]
+            dataframe_aoc_b[f"{intensity} {intensity_unit}"] = \
+                array_aoc_b[sample_number]
+            dataframe_aoc_a[f"{intensity} {intensity_unit}"] = \
+                array_aoc_a[sample_number]
             dataframe_peak[f"{intensity} {intensity_unit}"] = \
                 array_peak[sample_number]
         dataframe_cc = pd.DataFrame(dataframe_cc)
         dataframe_aoc = pd.DataFrame(dataframe_aoc)
+        dataframe_aoc_b = pd.DataFrame(dataframe_aoc_b)
+        dataframe_aoc_a = pd.DataFrame(dataframe_aoc_a)
         dataframe_peak = pd.DataFrame(dataframe_peak)
         dataframe_cc.to_excel(writer_cc,sheet_name=f"{frequency} "+
                               f"{frequency_unit}",index=False)
         dataframe_aoc.to_excel(writer_aoc,sheet_name=f"{frequency} "+
+                               f"{frequency_unit}",index=False)
+        dataframe_aoc_b.to_excel(writer_aoc,sheet_name=f"{frequency} "+
+                               f"{frequency_unit}",index=False)
+        dataframe_aoc_a.to_excel(writer_aoc,sheet_name=f"{frequency} "+
                                f"{frequency_unit}",index=False)
         dataframe_peak.to_excel(writer_peak,sheet_name=f"{frequency} "+
                                 f"{frequency_unit}",index=False)
@@ -243,6 +275,10 @@ def cell_grapher(data,info_storage):
     writer_cc.close()
     writer_aoc.save()
     writer_aoc.close()
+    writer_aoc_b.save()
+    writer_aoc_b.close()
+    writer_aoc_a.save()
+    writer_aoc_a.close()
     writer_peak.save()
     writer_peak.close()
     

@@ -49,8 +49,17 @@ def area_calculator(data,framerate_information):
     cycle_duration = framerate_information[2]*1000
     x_interval = cycle_duration / cycle_frames
     
-    # Creates a blank numpy array to store area under curves in
+    
+    # Creates blank numpy arrays to store area under curves in
     areas_under_curves = np.zeros((data.shape[0],data.shape[1],1),dtype=np.float32)
+    areas_under_curves_before_tone_onset = np.zeros((data.shape[0],data.shape[1],1),dtype=np.float32)
+    areas_under_curve_after_tone_onset = np.zeros((data.shape[0],data.shape[1],1),dtype=np.float32)
+    
+    
+    # Creates range of x for integrals to be taken before and after tone onset
+    x_before_tone = np.arrange(0,500)
+    x_after_tone = np.arrange(500,1000)
+
     
     # Goes through each cell and trial
     cells_total = data.shape[0]
@@ -58,8 +67,14 @@ def area_calculator(data,framerate_information):
     for cell in range(cells_total):
         for sample in range(samples_total):
             
-            # Calculates area under curve of average trace and adds it to area array
+            # Calculates area under curve of average trace and adds it to respective area arrayys
             average_trace = np.mean(data[cell,sample],axis=0)
             areas_under_curves[cell,sample] = integrate.simpson(average_trace,dx=x_interval)
+            areas_under_curves_before_tone_onset[cell,sample] = \
+                integrate.simpson(average_trace,x_before_tone,dx=x_interval)
+            areas_under_curve_after_tone_onset[cell,sample] = \
+                integrate.simpson(average_trace,x_after_tone,dx=x_interval)
+
+            
     
-    return areas_under_curves
+    return areas_under_curves, areas_under_curves_before_tone_onset,areas_under_curve_after_tone_onset
