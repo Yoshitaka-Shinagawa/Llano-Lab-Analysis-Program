@@ -47,9 +47,6 @@ def area_calculator_after_tone(data,framerate_information,info_storage):
     
     # Calculates x interval in seconds
     cycle_frames = framerate_information[1]
-    cycle_duration = framerate_information[2]*1000
-    x_interval = cycle_duration / cycle_frames
-    
     
     # Creates blank numpy arrays to store area under curves in
     areas_under_curve_after_tone_onset = np.zeros((data.shape[0],data.shape[1],1),dtype=np.float32)
@@ -61,19 +58,10 @@ def area_calculator_after_tone(data,framerate_information,info_storage):
     # Accounts for time after 100 ms tone
     if framerate_information[2] == 1.1:
         
-        # Goes through each cell and trial
-        for cell in range(cells_total):
-            for sample in range(samples_total):
-                
-                # Calculates area under curve of average trace and adds it to respective area arrayys
-                average_trace = np.mean(data[cell,sample],axis=0)
-                areas_under_curve_after_tone_onset[cell,sample] = \
-                    integrate.simpson(average_trace,dx=x_interval)
-                    
-            return areas_under_curve_after_tone_onset
-  
-    # Accounts for time after 500 ms tone              
-    if framerate_information[2] == 1.5: 
+        # Changes the x_interval measured
+        cycle_duration = framerate_information[2]*1000
+        x_interval = (cycle_duration / cycle_frames) 
+        x_interval_after_tone = x_interval + (x_interval/11)
         
         # Goes through each cell and trial
         for cell in range(cells_total):
@@ -82,7 +70,26 @@ def area_calculator_after_tone(data,framerate_information,info_storage):
                 # Calculates area under curve of average trace and adds it to respective area arrayys
                 average_trace = np.mean(data[cell,sample],axis=0)
                 areas_under_curve_after_tone_onset[cell,sample] = \
-                    integrate.simpson(average_trace,dx=x_interval)
+                    integrate.simpson(average_trace,dx=x_interval_after_tone)
+                    
+            return areas_under_curve_after_tone_onset
+  
+    # Accounts for time after 500 ms tone              
+    if framerate_information[2] == 1.5: 
+        
+        # Changes the x_interval measured
+        cycle_duration = framerate_information[2] * 1000
+        x_interval = (cycle_duration / cycle_frames) 
+        x_interval_after_tone = x_interval + (x_interval/3)
+        
+        # Goes through each cell and trial
+        for cell in range(cells_total):
+            for sample in range(samples_total):
+                
+                # Calculates area under curve of average trace and adds it to respective area arrayys
+                average_trace = np.mean(data[cell,sample],axis=0)
+                areas_under_curve_after_tone_onset[cell,sample] = \
+                    integrate.simpson(average_trace,dx= x_interval_after_tone)
      
     
                 
