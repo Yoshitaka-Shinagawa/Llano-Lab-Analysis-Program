@@ -1,8 +1,9 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Thu Oct 28 18:05:21 2021
+Created on Sat Sep 10 18:30:50 2022
 
-@author: Yoshi
+@author: austincoder
 """
 
 import numpy as np
@@ -10,7 +11,7 @@ from scipy import integrate
 
 
 
-def area_calculator(data,framerate_information):
+def area_calculator_before_tone(data,framerate_information):
     
     """
     This is the function used to calculate the area under the curve for each
@@ -51,7 +52,7 @@ def area_calculator(data,framerate_information):
     
     
     # Creates blank numpy arrays to store area under curves in
-    areas_under_curves = np.zeros((data.shape[0],data.shape[1],1),dtype=np.float32)
+    areas_under_curves_before_tone_onset = np.zeros((data.shape[0],data.shape[1],1),dtype=np.float32)
     
     # Goes through each cell and trial
     cells_total = data.shape[0]
@@ -61,7 +62,10 @@ def area_calculator(data,framerate_information):
             
             # Calculates area under curve of average trace and adds it to respective area arrayys
             average_trace = np.mean(data[cell,sample],axis=0)
-            areas_under_curves[cell,sample] = integrate.simpson(average_trace,dx=x_interval)
+            areas_under_curves_before_tone_onset[cell,sample] = \
+                integrate.simpson(average_trace,dx=x_interval)
+            
+
             
     
-    return areas_under_curves
+    return  areas_under_curves_before_tone_onset
