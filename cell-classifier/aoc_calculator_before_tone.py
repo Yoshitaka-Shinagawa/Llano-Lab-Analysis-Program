@@ -67,7 +67,7 @@ def area_calculator_before_tone(data,framerate_information):
                 # Calculates area under curve of average trace and adds it to respective area arrayys
                 average_trace = np.mean(data[cell,sample],axis=0)
                 areas_under_curve_before_tone_onset[cell,sample] = \
-                    integrate.quad(lambda x: average_trace, 0, (5*x_interval/11))
+                    integrate.simpson(average_trace, (0, (5*x_interval/11)))
                     
             return areas_under_curve_before_tone_onset
   
@@ -81,6 +81,6 @@ def area_calculator_before_tone(data,framerate_information):
                 # Calculates area under curve of average trace and adds it to respective area arrayys
                 average_trace = np.mean(data[cell,sample],axis=0)
                 areas_under_curve_before_tone_onset[cell,sample] = \
-                    integrate.quad(lambda x: average_trace, 0, x_interval/3)
+                    integrate.simpson(average_trace, (0, x_interval/3))
                     
         return areas_under_curve_before_tone_onset
