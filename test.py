@@ -84,7 +84,7 @@ population_analysis(data,tonotopy_info)
 receptive_field_sum_analysis(tonotopy_info)
 
 # Creates a correlation matrix between cells
-# correlation_matrix(path,data,cell_flags,framerate_information,extra_flag,mode)
+correlation_frequencies(data,tonotopy_info)
 
 # Various debugging tools
 r_histogram_creator(tonotopy_info)
