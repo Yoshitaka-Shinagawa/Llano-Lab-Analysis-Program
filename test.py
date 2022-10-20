@@ -32,10 +32,14 @@ os.chdir(f"{program_path}/correlation_matrix")
 from correlation_matrix import *
 os.chdir(f"{program_path}/debug_tools")
 from r_histogram_creator import *
+os.chdir(f"{program_path}/KClustering")
+from k_clustering import *
+from sample_averaging import *
+from cannon_wave import *
+from pair_plot import * 
 
 
-
-path = "D:/Llano Lab/Tonotopic Analysis/PCB Toxicity Data/Group 1/2021-05-02/A4NON Data Set 1 Tonotopy"
+path = "E:/Llano Lab/Sex Difference/2022-08-24/RCAMP CBA 032722 F (+287,-006,-094)/Tonotopy"
 # path = "D:/Llano Lab/Tonotopic Analysis/PCB Toxicity Data/Group 1/2021-05-02/2021-05-02 A4NON Data Set 2 Tonotopy"
 # path = "D:/Llano Lab/Tonotopic Analysis/PCB Toxicity Data/Group 1/2021-05-02/2021-05-02 A4NON Data Set 1 Modulated Noise"
 # path = "D:/Llano Lab/Tonotopic Analysis/PCB Toxicity Data/Group 2/2021-04-30/2021-04-30 B1NON Modulated Noise"
@@ -74,23 +78,35 @@ tonotopy_info = cell_flagger(data,tonotopy_info)
 # Creates tonotopic map based on cell flags
 tonotopy_info = tonotopic_map_generator(tonotopy_info)
 
+#Hashmaps sample averages
+sample_hash,df,tonotopy_info = sample_averages(data,tonotopy_info)
+
+#Creates cannonical waveform
+df2,tonotopy_info = cannon_wave(data,tonotopy_info)
+
+#Lets me play with pairplot
+df2_copy = df2
+
+#Creates the pair plot
+pair_plot(df2)
+
 # Creates graphs for traces of individual cells
-cell_grapher(data,tonotopy_info)
+# cell_grapher(data,tonotopy_info)
 
 # Analyzes response of cell populations
-population_analysis(data,tonotopy_info)
+# population_analysis(data,tonotopy_info)
 
 # Analyzes receptive field sum
-receptive_field_sum_analysis(tonotopy_info)
+# receptive_field_sum_analysis(tonotopy_info)
 
 # Creates a correlation matrix between cells
 # correlation_matrix(path,data,cell_flags,framerate_information,extra_flag,mode)
 
 # Various debugging tools
-r_histogram_creator(tonotopy_info)
+# r_histogram_creator(tonotopy_info)
 
 # Announces that analysis is finished
-print(f"Analysis finished for {path}")
+# print(f"Analysis finished for {path}")
 
 # Changes directory to main so deleting folders does not interfere with rerunning the program
 os.chdir(path)

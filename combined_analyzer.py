@@ -34,7 +34,8 @@ os.chdir(f"{program_path}/debug_tools")
 from r_histogram_creator import *
 os.chdir(f"{program_path}/modulation_index_analysis")
 from modulation_index_analysis import *
-
+os.chdir(f"{program_path}/machine_learning")
+from sample_averaging import *
 
 
 def combined_analyzer(path,gauss_filter="Default",threshold=0.6):
@@ -63,6 +64,9 @@ def combined_analyzer(path,gauss_filter="Default",threshold=0.6):
     
     # Flags cells based on their responsiveness
     modulation_info = cell_flagger(m_data,modulation_info)
+    
+    #Finds average of the samples
+    modulation_info = sample_averaging(m_data,modulation_info)
     
     # Creates tonotopic map based on cell flags
     modulation_info = tonotopic_map_generator(modulation_info)
@@ -142,11 +146,11 @@ base_path = "E:/Llano Lab/Sex Difference"
 # combined_analyzer(f"{base_path}/2022-08-17/RCAMP CBA 022822 F (+768,-026,-120)",(1,1,2))
 # combined_analyzer(f"{base_path}/2022-08-17/RCAMP CBA 022822 F (+892,+004,-128)",(1,1,2))
 combined_analyzer(f"{base_path}/2022-08-24/RCAMP CBA 032722 F (+000,+000,-127)",(1,1,2))
-combined_analyzer(f"{base_path}/2022-08-24/RCAMP CBA 032722 F (+287,-006,-094)",(1,1,2))
-combined_analyzer(f"{base_path}/2022-08-24/RCAMP CBA 032722 F (+461,+006,-089)",(1,1,2))
-combined_analyzer(f"{base_path}/2022-08-24/RCAMP CBA 032722 F (+573,-028,-111)",(1,1,2))
-combined_analyzer(f"{base_path}/2022-08-24/RCAMP CBA 032722 F (+670,-040,-181)",(1,1,2))
-combined_analyzer(f"{base_path}/2022-08-24/RCAMP CBA 032722 F (+790,-064,-214)",(1,1,2))
+# combined_analyzer(f"{base_path}/2022-08-24/RCAMP CBA 032722 F (+287,-006,-094)",(1,1,2))
+# combined_analyzer(f"{base_path}/2022-08-24/RCAMP CBA 032722 F (+461,+006,-089)",(1,1,2))
+# combined_analyzer(f"{base_path}/2022-08-24/RCAMP CBA 032722 F (+573,-028,-111)",(1,1,2))
+# combined_analyzer(f"{base_path}/2022-08-24/RCAMP CBA 032722 F (+670,-040,-181)",(1,1,2))
+# combined_analyzer(f"{base_path}/2022-08-24/RCAMP CBA 032722 F (+790,-064,-214)",(1,1,2))
 
 
 
