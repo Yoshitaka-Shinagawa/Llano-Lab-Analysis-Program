@@ -37,6 +37,7 @@ from k_clustering import *
 from sample_averaging import *
 from cannon_wave import *
 from pair_plot import * 
+from labeled_waveform_graphs import *
 
 
 path = "E:/Llano Lab/Sex Difference/2022-08-24/RCAMP CBA 032722 F (+287,-006,-094)/Tonotopy"
@@ -77,18 +78,28 @@ tonotopy_info = cell_flagger(data,tonotopy_info)
 
 # Creates tonotopic map based on cell flags
 tonotopy_info = tonotopic_map_generator(tonotopy_info)
-
+# 
 #Hashmaps sample averages
 sample_hash,df,tonotopy_info = sample_averages(data,tonotopy_info)
 
 #Creates cannonical waveform
-df2,tonotopy_info = cannon_wave(data,tonotopy_info)
+df3,df2,tonotopy_info = cannon_wave(tonotopy_info)
 
-#Lets me play with pairplot
-df2_copy = df2
+#Creates Copy of Dataframe
+df3_copy = df3
 
 #Creates the pair plot
-pair_plot(df2)
+df4 = pair_plot(df3_copy)
+
+
+#Conducts k_clustering 
+df_labeled = k_clustering(df3_copy)
+
+
+df_labeled_copy = df_labeled 
+
+#Creates graphs, organized by labeled_waveform
+labeled_waveform_graphs(df_labeled, df3)
 
 # Creates graphs for traces of individual cells
 # cell_grapher(data,tonotopy_info)

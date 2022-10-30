@@ -113,7 +113,7 @@ def sample_averages(data,info_storage):
     df = pd.DataFrame(averages)    
     
     #Stores data into info_storage 
-    # info_storage.df = df
+    info_storage.df = df
     info_storage.sample_hash = sample_hash
     
     # Exports dataframe to csv 
