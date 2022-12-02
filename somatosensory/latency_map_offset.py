@@ -1,20 +1,19 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Dec  4 20:04:12 2019
+Created on Sun Nov 13 13:35:35 2022
 
-@author: Yoshi
+@author: Austin
 """
-
 import os
 import shutil
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from PIL import ImageColor
+from scipy import integrate
 
 
-
-def cell_grapher(data,info_storage):
+def latency_map_offset(data,info_storage,latency_mode):
     
     """
     This is the function used to plot the 2P signals for each cell for each
@@ -57,40 +56,56 @@ def cell_grapher(data,info_storage):
     intensity_unit           = info_storage.intensity_unit
     mode                     = info_storage.mode
     threshold                = info_storage.threshold
+    first_correlation        = info_storage.first_correlation
+
+    
+    # Loads in data by trial dataframe 
+
+    
     
     # Declares start of cell graphing
-    print("Starting cell graphing")
+    print("Starting Offset graphing")
     
     # Disable Spyder plot window
     plt.ioff()
     
     # Creates output directories
-    cell_trace_output_path = f"{path}/Output/Cell Traces"
-    if os.path.exists(f"{path}/Output/Graphs") == True:
-        shutil.rmtree(f"{path}/Output/Graphs")
-    if os.path.exists(cell_trace_output_path) == True:
-        shutil.rmtree(cell_trace_output_path)
-    if os.path.exists(cell_trace_output_path) == False:
-        os.mkdir(cell_trace_output_path)
-        os.mkdir(f"{cell_trace_output_path}/Spreadsheets")
-        os.mkdir(f"{cell_trace_output_path}/Graphs")
+    if latency_mode == 1: 
+        latency_output_path = f"{path}/Output/Latency/Offset"
+        if os.path.exists(f"{latency_output_path}") == True:
+            shutil.rmtree(f"{latency_output_path}")
+        if os.path.exists(latency_output_path) == True:
+            shutil.rmtree(latency_output_path)
+        if os.path.exists(latency_output_path) == False:
+            os.mkdir(latency_output_path)
+            os.mkdir(f"{latency_output_path}/Graphs")
+            os.mkdir(f"{latency_output_path}/Spreadsheets")
+    elif latency_mode == 2: 
+        latency_output_path = f"{path}/Output/Latency/Offset/First Two"
+        if os.path.exists(f"{latency_output_path}") == True:
+            shutil.rmtree(f"{latency_output_path}")
+        if os.path.exists(latency_output_path) == False:
+            os.mkdir(latency_output_path)
+            os.mkdir(f"{latency_output_path}/Graphs")
+            os.mkdir(f"{latency_output_path}/Spreadsheets")
     
+        
     # Reverse intensity list
     intensities_reversed = intensities.copy()
     intensities_reversed.reverse()
     
     # Calculates x-axis labels
-    cycle_frames = framerate_information[1]
+    cycle_frames = int(framerate_information[1]/2)
     cycle_duration = framerate_information[2]*1000
     times = []
     step = cycle_duration / cycle_frames
     for frame in range(cycle_frames):
-        times.append(step*frame)
+        times.append(((step*frame/2))+500)
     
     # Constants for loops
     cell_total = data.shape[0]
     sample_total = data.shape[1]
-    trial_length = data.shape[3]
+    trial_length = int(data.shape[3]/2)
     intensities_total = len(intensities)
     frequencies_total = len(frequencies)
     
@@ -101,15 +116,21 @@ def cell_grapher(data,info_storage):
     array_cc = np.zeros((sample_total,cell_total))
     array_aoc = np.zeros((sample_total,cell_total))
     array_peak = np.zeros((sample_total,cell_total))
+    first_auc = np.zeros((data.shape[0],data.shape[1],data.shape[2]))
     
     # Goes through each cell
     for cell_number in range(cell_total):
         
+        # Creates an if statement to check cell responsiveness
+        if correlation_coefficients[cell_number,0] > threshold:
+            noise = "Yes"
+        else:
+            noise = "N/A"
+            
         # Adds data to list to export to Excel
         cell_numbers.append(cell_number+1)
-        cell_flag_list.append(cell_flags[cell_number][3])
+        cell_flag_list.append(noise)
         cell_flag_first_trial_list.append(cell_flags_first_trial[cell_number][3])
-        
         
         # Determines size of graph based on number of frequencies and 
         # intensities
@@ -134,13 +155,13 @@ def cell_grapher(data,info_storage):
                 sample_number = key[frequency][intensity]
                 
                 # Empty array for storing trial total data
-                trial_sums = np.zeros(trial_length,dtype=np.float32)
+                # trial_sums = np.zeros(trial_length,dtype=np.float32)
                 
                 # Plots trial data in light gray
                 for trial in data[cell_number,sample_number]:
                     axes[row_number,column_number].plot(
                         times,trial,color="#888888",linestyle="dotted")
-                    trial_sums += trial
+                    # trial_sums += trial
                 
                 # Plots avearge of trials
                 sample_average = np.mean(data[cell_number,sample_number],
@@ -200,32 +221,27 @@ def cell_grapher(data,info_storage):
                 if row_number == intensities_total-1:
                     axes[row_number,column_number].set_xlabel("Time (ms)")
         
-        # Creates title for tonotopic graph
-        if mode == 0:
-            fig.suptitle(f"Frequency Responses for Cell {cell_number+1}\n\n"+
-                         f"Best Frequency: {cell_flags[cell_number][1]} "+
-                         f"{frequency_unit}\nCharacteristic Frequency: "+
-                         f"{cell_flags[cell_number][2]} {frequency_unit}",
-                        fontsize=16)
         
         # Creates title for noise graph
         if mode == 1:
             fig.suptitle(f"Noise Responses for Cell {cell_number+1}\n\n"+
-                         f"Responsive to Touch: {cell_flags[cell_number][3]}",
+                         f"Responsive to Touch: {cell_flag_list[cell_number]}",
                          fontsize=16)
         
         # Saves the graph
-        plt.savefig(f"{cell_trace_output_path}/Graphs/Cell {cell_number+1}")
+        plt.savefig(f"{latency_output_path}/Graphs/Cell {cell_number+1}")
         plt.close()
         plt.clf()
         
     # Exports dataframes to excel spreadsheet
-    writer_cc = pd.ExcelWriter(f"{cell_trace_output_path}/Spreadsheets/"+
+    writer_cc = pd.ExcelWriter(f"{latency_output_path}/Spreadsheets/"+
                                "Correlation Coefficients.xlsx")
-    writer_aoc = pd.ExcelWriter(f"{cell_trace_output_path}/Spreadsheets/"+
+    writer_aoc = pd.ExcelWriter(f"{latency_output_path}/Spreadsheets/"+
                                 "Areas under curve.xlsx")
-    writer_peak = pd.ExcelWriter(f"{cell_trace_output_path}/Spreadsheets/"+
+    writer_peak = pd.ExcelWriter(f"{latency_output_path}/Spreadsheets/"+
                                  "Peak values.xlsx")
+    
+    
     for frequency in frequencies:
         dataframe_cc = {"Cell Number":cell_numbers,
                         "Cell Flag":cell_flag_list}
@@ -241,15 +257,32 @@ def cell_grapher(data,info_storage):
                 array_aoc[sample_number]
             dataframe_peak[f"{intensity} {intensity_unit}"] = \
                 array_peak[sample_number]
-        dataframe_cc = pd.DataFrame(dataframe_cc)
-        dataframe_aoc = pd.DataFrame(dataframe_aoc)
-        dataframe_peak = pd.DataFrame(dataframe_peak)
+                
+    
+            dataframe_cc = pd.DataFrame(dataframe_cc)
+            dataframe_aoc = pd.DataFrame(dataframe_aoc)
+            dataframe_peak = pd.DataFrame(dataframe_peak)
+            dataframe_peak['first_offset_response'] = 'N/A'
+            dataframe_peak['first_integral'] = 'N/A'
+        
+    for cell_number in range(cell_total):
+        for sample_number in range(sample_total):
+            for trial in range(1):
+                #Creates a variable for the current trial 
+                first_trial = data[cell_number,sample_number,trial]
+                dataframe_peak['first_integral'].iloc[cell_number] = integrate.simpson(first_trial, dx=step) 
+    
+        if cell_flag_first_trial_list[cell_number] == 'Yes' and\
+        first_correlation[cell_number,sample_number] >= dataframe_cc['Noise dB'].iloc[cell_number]:
+            dataframe_peak['first_offset_response'].iloc[cell_number] = 'Yes'
+                        
+          
         dataframe_cc.to_excel(writer_cc,sheet_name=f"{frequency} "+
-                              f"{frequency_unit}",index=False)
+                                      f"{frequency_unit}",index=False)
         dataframe_aoc.to_excel(writer_aoc,sheet_name=f"{frequency} "+
-                               f"{frequency_unit}",index=False)
+                                       f"{frequency_unit}",index=False)
         dataframe_peak.to_excel(writer_peak,sheet_name=f"{frequency} "+
-                                f"{frequency_unit}",index=False)
+                                        f"{frequency_unit}",index=False)
     writer_cc.save()
     writer_cc.close()
     writer_aoc.save()
@@ -258,6 +291,6 @@ def cell_grapher(data,info_storage):
     writer_peak.close()
     
     # Declares end of cell graphing
-    print("Finished cell graphing")
+    print("Finished Offset cell graphing")
     
     return

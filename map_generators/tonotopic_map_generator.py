@@ -52,6 +52,7 @@ def tonotopic_map_generator(info_storage):
     extra_flag     = info_storage.extra_flag
     frequencies    = info_storage.frequencies
     mode           = info_storage.mode
+    somatosensory  = info_storage.somatosensory
     
     # Declares start of tonotopic map generation
     print("Starting tonotopic map generation")
@@ -79,8 +80,12 @@ def tonotopic_map_generator(info_storage):
         color_key = color_key_generator(frequencies)
     
     # Generates another color key for noise analysis
-    elif mode == 1:
-        color_key = {"Yes":"hsv(140,100%,100%)"}
+    elif mode == 1 and somatosensory == 1:
+        color_key = {"Yes":"hsv(120,100%,100%)"}
+    elif mode == 1 and somatosensory == 2:
+        color_key = {"Yes":"hsv(60,100%,100%)"}
+    elif mode == 1 and somatosensory == 3:
+        color_key = {"Yes":"hsv(199,77%,74%)"}
     
     # Finds the size of the images from the base image
     average_images_folder = f"{path}/Output/Debug/Average Images"
@@ -118,6 +123,10 @@ def tonotopic_map_generator(info_storage):
     info_storage.height = height
     info_storage.scale  = scale
     info_storage.radius = radius
+   
+    # Empty dataframe to get code to work later
+    latency_df = pd.DataFrame()
+    info_storage.latency_df = latency_df
     
     # Generates map of location of cells
     cell_number_mapper(info_storage)
@@ -142,6 +151,7 @@ def tonotopic_map_generator(info_storage):
             cell_response_mapper(info_storage,color_key,3,"flag")
             cell_response_mapper(info_storage,color_key,3,"no flag")
         else:
+            cell_response_mapper(info_storage,color_key,3,"combined")
             cell_response_mapper(info_storage,color_key,3,"combined")
     
     # Exports best frequency and characteristic frequency of cells
@@ -199,7 +209,8 @@ def tonotopic_map_generator(info_storage):
                       "Unresponsive Cells": [unresponsive_cells],
                       "Total Cells": [total_cells]}
         statistics = pd.DataFrame(statistics,index=["Combined"])
-    statistics.to_excel(f"{excel_output_path}/Statistics.xlsx")
+ 
+        statistics.to_excel(f"{excel_output_path}/Statistics.xlsx")
     
     # Declares end of tonotopic map generation
     print("Finished tonotopic map generation")

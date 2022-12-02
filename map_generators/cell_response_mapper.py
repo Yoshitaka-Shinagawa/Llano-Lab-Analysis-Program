@@ -49,14 +49,154 @@ def cell_response_mapper(info_storage,color_key,map_type,mode="combined"):
     radius         = info_storage.radius
     cell_locations = info_storage.cell_locations
     cell_flags     = info_storage.cell_flags
+    somatosensory  = info_storage.somatosensory 
     extra_flag     = info_storage.extra_flag
     frequency_unit = info_storage.frequency_unit
+    latency_df     = info_storage.latency_df
     
     # Makes a copy of the canvas
     response_map = canvas.copy()
     
     # Goes through each cell and colors them in with the unresponsive color
     cell_total = len(cell_locations)
+    
+    
+    # Graphs the Onset Data
+    if mode == "somatosensory" and map_type == 4:
+        for cell_number in range(len(latency_df)):
+            if latency_df['latency_color_all_trials'].iloc[cell_number] == 0:
+                response_map = cell_drawer(response_map,cell_locations[
+                                           cell_number],scale,radius,
+                                           "hsv(300,100%,50%)","hsv(300,100%,50%)")
+            elif latency_df['latency_color_all_trials'].iloc[cell_number]  == 1:
+                response_map = cell_drawer(response_map,cell_locations[
+                                           cell_number],scale,radius,
+                                           "hsv(350,25%,100%)",'hsv(350,25%,100%)')
+            elif latency_df['latency_color_all_trials'].iloc[cell_number]  == 2:
+                response_map = cell_drawer(response_map,cell_locations[
+                                           cell_number],scale,radius,
+                                           "hsv(0,0%,100%)",'hsv(0,0%,100%)')
+            else:
+                response_map = cell_drawer(response_map,cell_locations[
+                                           cell_number],scale,radius,
+                                           "#FF0000","#FF0000")
+    
+    # Graphs the Offset Data
+    if mode == "somatosensory" and map_type == 5:
+        for cell_number in range(len(latency_df)):
+            if latency_df['latency_color_f2_trials'].iloc[cell_number] == 0:
+                response_map = cell_drawer(response_map,cell_locations[
+                                           cell_number],scale,radius,
+                                           "hsv(300,100%,50%)",'hsv(300,100%,50%)')
+            elif latency_df['latency_color_f2_trials'].iloc[cell_number]  == 1:
+                response_map = cell_drawer(response_map,cell_locations[
+                                           cell_number],scale,radius,
+                                           "hsv(350,25%,100%)",'hsv(350,25%,100%)')
+            elif latency_df['latency_color_f2_trials'].iloc[cell_number]  == 2:
+                response_map = cell_drawer(response_map,cell_locations[
+                                           cell_number],scale,radius,
+                                           "hsv(0,0%,100%)",'hsv(0,0%,100%)')
+            else: 
+                response_map = cell_drawer(response_map,cell_locations[
+                                           cell_number],scale,radius,
+                                           "#FF0000","#FF0000")
+    
+    # Graphs the Adaptive data using First 2 Trials
+    if map_type == 6 and somatosensory == 1:
+        for cell_number in range(len(latency_df)):
+            if latency_df.at[cell_number,'adaptive'] == 'Yes':
+                response_map = cell_drawer(response_map,cell_locations[
+                                           cell_number],scale,radius,
+                                           "hsv(120,25%,100%)","hsv(120,25%,100%)")
+            elif latency_df.at[cell_number,'non-adaptive'] == "Yes":
+                response_map = cell_drawer(response_map,cell_locations[
+                                           cell_number],scale,radius,
+                                           "hsv(120,75%,100%)","hsv(120,75%,100%)")
+            elif latency_df.at[cell_number,'responsive_all_trials'] != 'Yes':
+                    response_map = cell_drawer(response_map,cell_locations[
+                                               cell_number],scale,radius,
+                                               "#FF0000","#FF0000")
+    
+    elif map_type == 6 and somatosensory == 2:
+        for cell_number in range(len(latency_df)):
+            if latency_df.at[cell_number,'adaptive'] == 'Yes':
+                response_map = cell_drawer(response_map,cell_locations[
+                                           cell_number],scale,radius,
+                                           "hsv(60,25%,100%)","hsv(60,25%,100%)")
+            elif latency_df.at[cell_number,'non-adaptive'] == "Yes":
+                response_map = cell_drawer(response_map,cell_locations[
+                                           cell_number],scale,radius,
+                                           "hsv(60,75%,100%)","hsv(60,75%,100%)")
+            else: 
+                    response_map = cell_drawer(response_map,cell_locations[
+                                               cell_number],scale,radius,
+                                               "#FF0000","#FF0000")
+    
+    elif map_type == 6 and somatosensory == 3:
+        for cell_number in range(len(latency_df)):
+            if latency_df.at[cell_number,'adaptive'] == 'Yes':
+                response_map = cell_drawer(response_map,cell_locations[
+                                           cell_number],scale,radius,
+                                           "hsv(240,25%,100%)","hsv(240,25%,100%)")
+            elif latency_df.at[cell_number,'non-adaptive'] == "Yes":
+                response_map = cell_drawer(response_map,cell_locations[
+                                           cell_number],scale,radius,
+                                           "hsv(240,75%,100%)","hsv(240,75%,100%)")
+            else:
+                    response_map = cell_drawer(response_map,cell_locations[
+                                               cell_number],scale,radius,
+                                               "#FF0000","#FF0000")
+    
+    # Graphs the adaptive cells in which the first trial does not correlate with the others
+    if somatosensory == 1 and map_type == 7:
+        for cell_number in range(len(latency_df)):
+            if latency_df.at[cell_number,'responsive_1_trial'] == 'Yes' or \
+                latency_df.at[cell_number,'adaptive'] == 'Yes':
+                response_map = cell_drawer(response_map,cell_locations[
+                                           cell_number],scale,radius,
+                                           "hsv(120,25%,100%)","hsv(120,25%,100%)")
+            elif  latency_df.at[cell_number,'non-adaptive'] == "Yes":
+                    response_map = cell_drawer(response_map,cell_locations[
+                                               cell_number],scale,radius,
+                                               "hsv(120,75%,100%)","hsv(120,75%,100%)")
+                    
+            else: 
+                    response_map = cell_drawer(response_map,cell_locations[
+                                           cell_number],scale,radius,
+                                           "#FF0000","#FF0000")
+    
+    elif somatosensory == 2 and map_type == 7:
+        for cell_number in range(len(latency_df)):
+            if latency_df.at[cell_number,'responsive_1_trial'] == 'Yes' or \
+                latency_df.at[cell_number,'adaptive'] == 'Yes':
+                response_map = cell_drawer(response_map,cell_locations[
+                                           cell_number],scale,radius,
+                                           "hsv(60,25%,100%)","hsv(60,25%,100%)")
+            elif  latency_df.at[cell_number,'non-adaptive'] == "Yes":
+                    response_map = cell_drawer(response_map,cell_locations[
+                                               cell_number],scale,radius,
+                                               "hsv(60,75%,100%)","hsv(60,75%,100%)")
+            else: 
+                    response_map = cell_drawer(response_map,cell_locations[
+                                           cell_number],scale,radius,
+                                           "#FF0000","#FF0000")
+    
+    elif somatosensory == 3 and map_type == 7:
+        for cell_number in range(len(latency_df)):
+            if latency_df.at[cell_number,'responsive_1_trial'] == 'Yes' or \
+                latency_df.at[cell_number,'adaptive'] == 'Yes':
+                response_map = cell_drawer(response_map,cell_locations[
+                                           cell_number],scale,radius,
+                                           "hsv(240,25%,100%)","hsv(240,25%,100%)")
+            elif  latency_df.at[cell_number,'non-adaptive'] == "Yes":
+                    response_map = cell_drawer(response_map,cell_locations[
+                                               cell_number],scale,radius,
+                                               "hsv(240,75%,100%)","hsv(240,75%,100%)")
+            else: 
+                    response_map = cell_drawer(response_map,cell_locations[
+                                           cell_number],scale,radius,
+                                           "#FF0000","#FF0000")
+                
     if mode == "combined":
         for cell_number in range(cell_total):
             response_map = cell_drawer(response_map,cell_locations[
@@ -99,6 +239,21 @@ def cell_response_mapper(info_storage,color_key,map_type,mode="combined"):
                 response_map = cell_drawer(response_map,cell_locations[
                                            cell_number],scale,radius,
                                            color,color)
+                
+    if mode == "combined" and map_type == 6:
+        for cell_number in range(cell_total):
+            response_map = cell_drawer(response_map,cell_locations[
+                                       cell_number],scale,radius,
+                                       "#FF0000","#FF0000")
+            
+    if mode == "combined" and map_type == 6:
+         for cell_number in range(cell_total):
+             if cell_flags_first_trial[cell_number][map_type] != "N/A":
+                 color = color_key[cell_flags[cell_number][map_type]]
+                 response_map = cell_drawer(response_map,cell_locations[
+                                            cell_number],scale,radius,
+                                            color,color)
+    
     
     # If in combined mode, creates an outline for cells with extra flag
     if mode == "combined":
@@ -106,7 +261,8 @@ def cell_response_mapper(info_storage,color_key,map_type,mode="combined"):
             if cell_flags[cell_number][0] != "N/A":
                 response_map = cell_drawer(response_map,cell_locations[
                                            cell_number],scale,radius,
-                                           "hsv(30,100%,100%)",None)
+                                           "hsv(120,100%,100%)",None)
+       
     
     # Preparation for drawing on image
     draw = ImageDraw.Draw(response_map)
@@ -118,14 +274,29 @@ def cell_response_mapper(info_storage,color_key,map_type,mode="combined"):
         map_type_name = "Characteristic Frequency"
     elif map_type == 3:
         map_type_name = "Noise Response"
+    elif map_type == 4:
+        map_type_name = "Latency Response"
+    elif map_type == 5:
+        map_type_name = "First Trial Latency Response"
+    elif map_type == 6:
+        map_type_name = 'Adaptive and Non-adaptive (First 2 Trials)'
+    elif map_type == 7:
+        map_type_name = 'Adaptive and Non-Adaptive (1st Trial)'
+ 
     
     # Creates title based on mode and map type
     if mode == "combined":
         title = f"{map_type_name} of Cells"
+    elif mode == "somatosensory":
+        title = f'{map_type_name} of Cells'
     elif mode == "flag":
         title = f"{map_type_name} of {extra_flag} Cells"
     elif mode == "no flag":
         title = f"{map_type_name} of non-{extra_flag} Cells"
+    elif mode == "adaptive":
+        title = 'Adaptive cells'
+    elif mode == 'non-adaptive':
+        title = 'Non-adaptive cells'
     else:
         title = "Error: Unrecognized Mode"
     
@@ -162,7 +333,7 @@ def cell_response_mapper(info_storage,color_key,map_type,mode="combined"):
             draw.text((np.mean([key_boundaries[i],key_boundaries[i+1]]),150),
                       f"{key} {frequency_unit}",fill="#000000",anchor="mm",
                       font=font)
-        elif map_type == 3:
+        elif map_type == 3 or map_type == 4:
             try:
                 font = ImageFont.truetype("calibri.ttf",40)
             except OSError:
@@ -182,7 +353,16 @@ def cell_response_mapper(info_storage,color_key,map_type,mode="combined"):
                   extra_flag,fill="#000000",anchor="mm",font=font)
     
     # Saves image
-    response_map.save(f"{path}/Output/Tonotopy/Tonotopic Maps/{title}.png")
+    if map_type == 4:
+        response_map.save(f'{path}/Output/Latency/Latency Maps/Onset and Offset Response Across all Trials.png')
+    elif map_type == 5:
+        response_map.save(f'{path}/Output/Latency/Latency Maps/Onset and Offset Resposne Across First 2 Trials.png')
+    elif map_type == 6:
+        response_map.save(f'{path}/Output/Adaptive Maps/Adaptive Cells and Non-Adaptive Cells Across Entire Time Frame Using First 2 Trials.png')
+    elif map_type == 7: 
+        response_map.save(f'{path}/Output/Adaptive Maps/Adaptive Cells Across Entire Time Frame Using First Trial.png')
+    else:
+        response_map.save(f"{path}/Output/Tonotopy/Tonotopic Maps/{title}.png")
     
     # Tonotopic arrow calculations
     if map_type == 1 or map_type == 2:

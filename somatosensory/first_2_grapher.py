@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Dec  4 20:04:12 2019
+Created on Sun Nov 13 14:54:06 2022
 
-@author: Yoshi
+@author: Austin
 """
 
 import os
@@ -14,7 +14,7 @@ from PIL import ImageColor
 
 
 
-def cell_grapher(data,info_storage):
+def first_2_grapher(data,info_storage):
     
     """
     This is the function used to plot the 2P signals for each cell for each
@@ -43,10 +43,11 @@ def cell_grapher(data,info_storage):
     none
     """
     
+    
+    
     # Extracts variables from the info_storage class
     path                     = info_storage.path
     cell_flags               = info_storage.cell_flags
-    cell_flags_first_trial   = info_storage.cell_flags_first_trial
     correlation_coefficients = info_storage.correlation_coefficients
     areas_under_curves       = info_storage.areas_under_curves
     framerate_information    = info_storage.framerate_information
@@ -59,21 +60,21 @@ def cell_grapher(data,info_storage):
     threshold                = info_storage.threshold
     
     # Declares start of cell graphing
-    print("Starting cell graphing")
+    print("Starting cell graphing of first two trials")
     
     # Disable Spyder plot window
     plt.ioff()
     
     # Creates output directories
-    cell_trace_output_path = f"{path}/Output/Cell Traces"
+    first_two_output_path = f"{path}/Output/First Two"
     if os.path.exists(f"{path}/Output/Graphs") == True:
         shutil.rmtree(f"{path}/Output/Graphs")
-    if os.path.exists(cell_trace_output_path) == True:
-        shutil.rmtree(cell_trace_output_path)
-    if os.path.exists(cell_trace_output_path) == False:
-        os.mkdir(cell_trace_output_path)
-        os.mkdir(f"{cell_trace_output_path}/Spreadsheets")
-        os.mkdir(f"{cell_trace_output_path}/Graphs")
+    if os.path.exists(first_two_output_path) == True:
+        shutil.rmtree(first_two_output_path)
+    if os.path.exists(first_two_output_path) == False:
+        os.mkdir(first_two_output_path)
+        os.mkdir(f"{first_two_output_path}/Spreadsheets")
+        os.mkdir(f"{first_two_output_path}/Graphs")
     
     # Reverse intensity list
     intensities_reversed = intensities.copy()
@@ -97,7 +98,6 @@ def cell_grapher(data,info_storage):
     # Lists and numpy array to store dataframe data in
     cell_numbers = []
     cell_flag_list = []
-    cell_flag_first_trial_list = []
     array_cc = np.zeros((sample_total,cell_total))
     array_aoc = np.zeros((sample_total,cell_total))
     array_peak = np.zeros((sample_total,cell_total))
@@ -105,11 +105,15 @@ def cell_grapher(data,info_storage):
     # Goes through each cell
     for cell_number in range(cell_total):
         
+        # Creates an if statement to check cell responsiveness
+        if correlation_coefficients[cell_number,0] > threshold:
+            noise = "Yes"
+        else:
+            noise = "N/A"
+
         # Adds data to list to export to Excel
         cell_numbers.append(cell_number+1)
-        cell_flag_list.append(cell_flags[cell_number][3])
-        cell_flag_first_trial_list.append(cell_flags_first_trial[cell_number][3])
-        
+        cell_flag_list.append(noise)
         
         # Determines size of graph based on number of frequencies and 
         # intensities
@@ -134,13 +138,13 @@ def cell_grapher(data,info_storage):
                 sample_number = key[frequency][intensity]
                 
                 # Empty array for storing trial total data
-                trial_sums = np.zeros(trial_length,dtype=np.float32)
+                # trial_sums = np.zeros(trial_length,dtype=np.float32)
                 
                 # Plots trial data in light gray
                 for trial in data[cell_number,sample_number]:
                     axes[row_number,column_number].plot(
                         times,trial,color="#888888",linestyle="dotted")
-                    trial_sums += trial
+                    # trial_sums += trial
                 
                 # Plots avearge of trials
                 sample_average = np.mean(data[cell_number,sample_number],
@@ -211,20 +215,20 @@ def cell_grapher(data,info_storage):
         # Creates title for noise graph
         if mode == 1:
             fig.suptitle(f"Noise Responses for Cell {cell_number+1}\n\n"+
-                         f"Responsive to Touch: {cell_flags[cell_number][3]}",
+                         f"Responsive to Touch: {cell_flag_list}",
                          fontsize=16)
         
         # Saves the graph
-        plt.savefig(f"{cell_trace_output_path}/Graphs/Cell {cell_number+1}")
+        plt.savefig(f"{first_two_output_path}/Graphs/Cell {cell_number+1}")
         plt.close()
         plt.clf()
         
     # Exports dataframes to excel spreadsheet
-    writer_cc = pd.ExcelWriter(f"{cell_trace_output_path}/Spreadsheets/"+
+    writer_cc = pd.ExcelWriter(f"{first_two_output_path}/Spreadsheets/"+
                                "Correlation Coefficients.xlsx")
-    writer_aoc = pd.ExcelWriter(f"{cell_trace_output_path}/Spreadsheets/"+
+    writer_aoc = pd.ExcelWriter(f"{first_two_output_path}/Spreadsheets/"+
                                 "Areas under curve.xlsx")
-    writer_peak = pd.ExcelWriter(f"{cell_trace_output_path}/Spreadsheets/"+
+    writer_peak = pd.ExcelWriter(f"{first_two_output_path}/Spreadsheets/"+
                                  "Peak values.xlsx")
     for frequency in frequencies:
         dataframe_cc = {"Cell Number":cell_numbers,
@@ -258,6 +262,6 @@ def cell_grapher(data,info_storage):
     writer_peak.close()
     
     # Declares end of cell graphing
-    print("Finished cell graphing")
+    print("Finished cell graphing of first two trials")
     
     return

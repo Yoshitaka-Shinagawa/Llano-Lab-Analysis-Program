@@ -37,6 +37,7 @@ def correlation_calculator(data):
     
     # Creates a blank numpy array to store correlation coefficients in
     correlation_coefficients = np.zeros((data.shape[0],data.shape[1],1),dtype=np.float32)
+    first_correlation = np.zeros((data.shape[0],data.shape[1],1),dtype=np.float32)
     
     # Creates a list of combinations of trials
     trials = data.shape[2]
@@ -53,6 +54,7 @@ def correlation_calculator(data):
             
             # Empty list for storing correlation coefficients
             sample_r_values = []
+            sample_r_values_of_first = []
             
             # Goes through each combination
             for combination in combinations:
@@ -63,9 +65,15 @@ def correlation_calculator(data):
                 if math.isnan(r):
                     r = 0
                 sample_r_values.append(r)
+                
+                if trial_a == 0:
+                
+                    sample_r_values_of_first.append(r)
             
             # Calculates the average correlation coefficient and adds it to coefficient array
             average_r = np.mean(sample_r_values)
+            average_first_trial_r = np.mean(sample_r_values_of_first)
             correlation_coefficients[cell,sample] = average_r
+            first_correlation[cell,sample] = average_first_trial_r 
     
-    return correlation_coefficients
+    return correlation_coefficients,first_correlation

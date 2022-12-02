@@ -19,6 +19,7 @@ os.chdir(f"{program_path}/cell_flagger")
 from cell_flagger import *
 os.chdir(f"{program_path}/map_generators")
 from tonotopic_map_generator import *
+from latency_response_mapper import *
 os.chdir(f"{program_path}/cell_grapher")
 from cell_grapher import *
 os.chdir(f"{program_path}/population_analysis")
@@ -27,12 +28,19 @@ os.chdir(f"{program_path}/receptive_field_sum_analysis")
 from receptive_field_sum_analysis import *
 os.chdir(f"{program_path}/correlation_matrix")
 from correlation_matrix import *
-os.chdir(f"{program_path}/debug_tools")
-from r_histogram_creator import *
+os.chdir(f"{program_path}/somatosensory")
+from multisensory_integration import *
+from latency_map_onset import *
+from latency_map_offset import * 
+from onset_offset_extractor import *
+from first_2_trials_extractor import *
+from first_2_grapher import *
+from latency_df_maker import *
+# os.chdir(f"{program_path}/debug_tools")
+# from r_histogram_creator import *
 
 
-
-def tonotopy_analyzer(path,gauss_filter="Default",threshold=0.6):
+def tonotopy_analyzer(path,gauss_filter="Default",threshold=0.6,somatosensory=1):
     
     """
     This is the main analysis program for analyzing tonotpy for 2p data. It
@@ -66,7 +74,7 @@ def tonotopy_analyzer(path,gauss_filter="Default",threshold=0.6):
     """
     
     # Sets mode to new tonotopy analysis
-    mode = 0
+    mode = 1
     
     # Create a class to store various information in
     class info_storage:
@@ -75,6 +83,7 @@ def tonotopy_analyzer(path,gauss_filter="Default",threshold=0.6):
             self.gauss_filter = gauss_filter
             self.threshold    = threshold
             self.mode         = mode
+            self.somatosensory = somatosensory 
     
     # Create an instance of the class
     tonotopy_info = info_storage()
@@ -98,13 +107,54 @@ def tonotopy_analyzer(path,gauss_filter="Default",threshold=0.6):
     population_analysis(data,tonotopy_info)
     
     # Analyzes receptive field sum
-    receptive_field_sum_analysis(tonotopy_info)
+    # receptive_field_sum_analysis(tonotopy_info)
     
     # Creates a correlation matrix between cells
     # correlation_matrix(path,data,cell_flags,framerate_information,extra_flag,mode)
     
     # Various debugging tools
-    r_histogram_creator(tonotopy_info)
+    # r_histogram_creator(tonotopy_info)
+    
+    # Makes an Excel Sheet of the Data 
+    df = multisensory_integration(data,tonotopy_info)
+    
+    # Extracts the Onset and Offset of the Data across the entire time frame
+    data_onset,data_offset = onset_offset_extractor(data)
+    
+    # Extracts the data to contain only the first two trials across the entire time
+    data_first_two = first_2_trials_extractor(data)
+    
+    # Graphs the first 2 trials across the entire timeframe 
+    tonotopy_info = cell_flagger(data_first_two,tonotopy_info)
+    first_2_grapher(data_first_two,tonotopy_info) 
+    
+    # Updates data_first_two variable to be first 2 trials of onset data
+    data_first_two = first_2_trials_extractor(data_onset)
+    
+    # Graphs the onset_latency map of all trials 
+    tonotopy_info = cell_flagger(data_onset,tonotopy_info)
+    latency_map_onset(data_onset,tonotopy_info,1)
+    
+    # Graphs the onset latency map of first two trials 
+    tonotopy_info = cell_flagger(data_first_two,tonotopy_info)
+    latency_map_onset(data_first_two,tonotopy_info,2)
+    
+    # Updates data_first_two variable to be first 2 trials of offset data
+    data_first_two = first_2_trials_extractor(data_offset)
+    
+    # Graphs the offset latency map 
+    tonotopy_info = cell_flagger(data_offset,tonotopy_info)
+    latency_map_offset(data_offset,tonotopy_info,1)
+    
+    # Graphs the offset latency map of the first two trials 
+    tonotopy_info = cell_flagger(data_first_two,tonotopy_info)
+    latency_map_offset(data_first_two,tonotopy_info,2)
+
+    # Creates a dataframe to make latency chart
+    tonotopy_info = latency_df_maker(tonotopy_info)
+    
+    #Creates map based on latency
+    tonotopy_info = latency_response_mapper(tonotopy_info)
     
     # Announces that analysis is finished
     print(f"Analysis finished for {path}")
@@ -114,6 +164,54 @@ def tonotopy_analyzer(path,gauss_filter="Default",threshold=0.6):
     
     return
 
+
+base_path = "E:/Llano Lab/SomatoSensory/2022-11-23/101422_RCAMPxgad67_070422_SOMATO_side/Somato_HP/D1/For analysis"
+
+# tonotopy_analyzer(f'{base_path}/OVER1',(2,2,2),somatosensory=1) #green 120
+tonotopy_analyzer(f'{base_path}/SO1',(2,2,2),somatosensory=2) #yellow 60
+tonotopy_analyzer(f'{base_path}/SOM1',(2,2,2),somatosensory=3) #light blue 240 lower saturation
+
+base_path = "E:/Llano Lab/SomatoSensory/2022-11-23/101422_RCAMPxgad67_070422_SOMATO_side/Somato_LP/D1/For analysis"
+
+tonotopy_analyzer(f'{base_path}/OVER1',(2,2,2),somatosensory=1)
+tonotopy_analyzer(f'{base_path}/SO1',(2,2,2),somatosensory=2)
+tonotopy_analyzer(f'{base_path}/SOM1',(2,2,2),somatosensory=3)
+
+base_path = "E:/Llano Lab/SomatoSensory/2022-11-23/101422_RCAMPxgad67_070422_SOMATO_side/Somato_LP/D2/For analysis"
+
+tonotopy_analyzer(f'{base_path}/OVER2',(2,2,2),somatosensory=1)
+tonotopy_analyzer(f'{base_path}/SO2',(2,2,2),somatosensory=2)
+tonotopy_analyzer(f'{base_path}/SOM2',(2,2,2),somatosensory=3)
+
+base_path = "E:/Llano Lab/SomatoSensory/2022-11-23/102222_RCAMPxgad67_070422_SOMATO_side/Somato_LP/D1/For analysis"
+
+tonotopy_analyzer(f'{base_path}/OVER1',(2,2,2),somatosensory=1)
+tonotopy_analyzer(f'{base_path}/SO1_2',(2,2,2),somatosensory=2)
+tonotopy_analyzer(f'{base_path}/SOM1_2',(2,2,2),somatosensory=3)
+
+base_path = "E:/Llano Lab/SomatoSensory/2022-11-23/102222_RCAMPxgad67_070422_SOMATO_side/Somato_LP/D3/For analysis"
+
+tonotopy_analyzer(f'{base_path}/OVER3',(2,2,2),somatosensory=1)
+tonotopy_analyzer(f'{base_path}/SO3',(2,2,2),somatosensory=2)
+tonotopy_analyzer(f'{base_path}/SOM3',(2,2,2),somatosensory=3)
+
+base_path = "E:/Llano Lab/SomatoSensory/2022-11-23/102422_RCAMPxgad67_070422_SOMATO_side_20%/Somato_LP/D1/For analysis"
+
+tonotopy_analyzer(f'{base_path}/OVER1',(2,2,2),somatosensory=1)
+tonotopy_analyzer(f'{base_path}/SO1',(2,2,2),somatosensory=2)
+tonotopy_analyzer(f'{base_path}/SOM1_2',(2,2,2),somatosensory=3)
+
+base_path = "E:/Llano Lab/SomatoSensory/2022-11-23/110222_RCAMPxgad67_081522_SOMATO_side/Somato_LP/D1/For analysis"
+
+tonotopy_analyzer(f'{base_path}/OVER1',(2,2,2),somatosensory=1)
+tonotopy_analyzer(f'{base_path}/SO1',(2,2,2),somatosensory=2)
+tonotopy_analyzer(f'{base_path}/SOM1',(2,2,2),somatosensory=3)
+
+base_path = "E:/Llano Lab/SomatoSensory/2022-11-23/110222_RCAMPxgad67_081522_SOMATO_side/Somato_LP/D2/For analysis"
+
+tonotopy_analyzer(f'{base_path}/OVER2',(2,2,2),somatosensory=1)
+tonotopy_analyzer(f'{base_path}/SO2',(2,2,2),somatosensory=2)
+tonotopy_analyzer(f'{base_path}/SOM2_1',(2,2,2),somatosensory=3)
 
 # tonotopy_analyzer("D:/Llano Lab/Tonotopic Analysis/Noise Exposure",(2,2,2))
 

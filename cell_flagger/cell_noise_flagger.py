@@ -30,6 +30,7 @@ def cell_noise_flagger(cell_number,info_storage):
     
     # Extracts variables from the info_storage class
     correlation_coefficients = info_storage.correlation_coefficients
+    first_correlation        = info_storage.first_correlation
     threshold                = info_storage.threshold
     
     # Cutoff for determining what"s considered responsive and what"s not
@@ -38,6 +39,7 @@ def cell_noise_flagger(cell_number,info_storage):
     
     # Default flags
     noise = "N/A"
+    adaptive_1st_trial = "N/A"
     responsive = False
     
     # Creates an empty list to store correlation coefficients of the cell
@@ -47,5 +49,9 @@ def cell_noise_flagger(cell_number,info_storage):
     if correlation_coefficients[cell_number,0] > threshold:
         responsive = True
         noise = "Yes"
+        
+    if first_correlation[cell_number,0] <= 0.2:
+        responsive = True
+        adaptive_1st_trial = "Yes"
     
-    return noise
+    return noise,adaptive_1st_trial

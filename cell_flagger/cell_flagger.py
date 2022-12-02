@@ -9,6 +9,7 @@ from correlation_calculator import *
 from area_calculator import *
 from cell_excitatory_flagger import *
 from cell_noise_flagger import *
+from std_calculator import *
 
 def cell_flagger(data,info_storage):
     
@@ -41,17 +42,24 @@ def cell_flagger(data,info_storage):
     framerate_information = info_storage.framerate_information
     mode                  = info_storage.mode
     
+    # Copies cell_flags
+    cell_flags_first_trial = cell_flags.copy()
+    
     # Declares start of cell flagging
     print("Starting cell flagging")
     
+    # Calculates the standard deviation of each trial at every frame
+    standard_deviations = std_calculator(data,framerate_information)
+    
     # Calculates average correlation coefficients for each sample
-    correlation_coefficients = correlation_calculator(data)
+    correlation_coefficients,first_correlation = correlation_calculator(data)
     
     # Calculates area under ccurve for each sample
     areas_under_curves = area_calculator(data,framerate_information)
     
     # Adds new information to the info_storage class
     info_storage.correlation_coefficients = correlation_coefficients
+    info_storage.first_correlation        = first_correlation
     info_storage.areas_under_curves       = areas_under_curves
     
     # Excitatory cell flagging
@@ -75,13 +83,21 @@ def cell_flagger(data,info_storage):
         for cell_number in range(cell_total):
             
             # Determines if the cell is responsive to noise
-            noise = cell_noise_flagger(cell_number,info_storage)
+            noise,adaptive = cell_noise_flagger(cell_number,info_storage)
             cell_flags[cell_number].append("N/A")
             cell_flags[cell_number].append("N/A")
             cell_flags[cell_number].append(noise)
+            
+            noise,adaptive = cell_noise_flagger(cell_number,info_storage)
+            cell_flags_first_trial[cell_number].append("N/A")
+            cell_flags_first_trial[cell_number].append("N/A")
+            cell_flags_first_trial[cell_number].append(adaptive)
+        
     
     # Adds new information to the info_storage class
     info_storage.cell_flags = cell_flags
+    info_storage.cell_flags_first_trial = cell_flags_first_trial
+    info_storage.standard_deviations = standard_deviations 
     
     # Declares end of cell flagging
     print("Finished cell flagging")
