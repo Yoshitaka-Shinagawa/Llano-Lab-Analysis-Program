@@ -165,53 +165,60 @@ def tonotopy_analyzer(path,gauss_filter="Default",threshold=0.6,somatosensory=1)
     return
 
 
+base_path = "E:/Llano Lab/SomatoSensory/Awake/2023-05-20/051823_RCAMPxgad67_010423_SOMATO_side_awake/-328,67,-87/For analysis"
+
+tonotopy_analyzer(f'{base_path}/OVER1',(2,2,2),somatosensory=1) 
+tonotopy_analyzer(f'{base_path}/AUD1',(2,2,2),somatosensory=2)
+tonotopy_analyzer(f'{base_path}/SOM1',(2,2,2),somatosensory=3)  
+tonotopy_analyzer(f'{base_path}/SOM2',(2,2,2),somatosensory=3)  
+
 base_path = "E:/Llano Lab/SomatoSensory/2022-11-23/101422_RCAMPxgad67_070422_SOMATO_side/Somato_HP/D1/For analysis"
 
 # tonotopy_analyzer(f'{base_path}/OVER1',(2,2,2),somatosensory=1) #green 120
-tonotopy_analyzer(f'{base_path}/SO1',(2,2,2),somatosensory=2) #yellow 60
-tonotopy_analyzer(f'{base_path}/SOM1',(2,2,2),somatosensory=3) #light blue 240 lower saturation
+# tonotopy_analyzer(f'{base_path}/SO1',(2,2,2),somatosensory=2) #yellow 60
+# tonotopy_analyzer(f'{base_path}/SOM1',(2,2,2),somatosensory=3) #light blue 240 lower saturation
 
 base_path = "E:/Llano Lab/SomatoSensory/2022-11-23/101422_RCAMPxgad67_070422_SOMATO_side/Somato_LP/D1/For analysis"
 
-tonotopy_analyzer(f'{base_path}/OVER1',(2,2,2),somatosensory=1)
-tonotopy_analyzer(f'{base_path}/SO1',(2,2,2),somatosensory=2)
-tonotopy_analyzer(f'{base_path}/SOM1',(2,2,2),somatosensory=3)
+# tonotopy_analyzer(f'{base_path}/OVER1',(2,2,2),somatosensory=1)
+# tonotopy_analyzer(f'{base_path}/SO1',(2,2,2),somatosensory=2)
+# tonotopy_analyzer(f'{base_path}/SOM1',(2,2,2),somatosensory=3)
 
 base_path = "E:/Llano Lab/SomatoSensory/2022-11-23/101422_RCAMPxgad67_070422_SOMATO_side/Somato_LP/D2/For analysis"
 
-tonotopy_analyzer(f'{base_path}/OVER2',(2,2,2),somatosensory=1)
-tonotopy_analyzer(f'{base_path}/SO2',(2,2,2),somatosensory=2)
-tonotopy_analyzer(f'{base_path}/SOM2',(2,2,2),somatosensory=3)
+# tonotopy_analyzer(f'{base_path}/OVER2',(2,2,2),somatosensory=1)
+# tonotopy_analyzer(f'{base_path}/SO2',(2,2,2),somatosensory=2)
+# tonotopy_analyzer(f'{base_path}/SOM2',(2,2,2),somatosensory=3)
 
 base_path = "E:/Llano Lab/SomatoSensory/2022-11-23/102222_RCAMPxgad67_070422_SOMATO_side/Somato_LP/D1/For analysis"
 
-tonotopy_analyzer(f'{base_path}/OVER1',(2,2,2),somatosensory=1)
-tonotopy_analyzer(f'{base_path}/SO1_2',(2,2,2),somatosensory=2)
-tonotopy_analyzer(f'{base_path}/SOM1_2',(2,2,2),somatosensory=3)
+# tonotopy_analyzer(f'{base_path}/OVER1',(2,2,2),somatosensory=1)
+# tonotopy_analyzer(f'{base_path}/SO1_2',(2,2,2),somatosensory=2)
+# tonotopy_analyzer(f'{base_path}/SOM1_2',(2,2,2),somatosensory=3)
 
 base_path = "E:/Llano Lab/SomatoSensory/2022-11-23/102222_RCAMPxgad67_070422_SOMATO_side/Somato_LP/D3/For analysis"
 
-tonotopy_analyzer(f'{base_path}/OVER3',(2,2,2),somatosensory=1)
-tonotopy_analyzer(f'{base_path}/SO3',(2,2,2),somatosensory=2)
-tonotopy_analyzer(f'{base_path}/SOM3',(2,2,2),somatosensory=3)
+# tonotopy_analyzer(f'{base_path}/OVER3',(2,2,2),somatosensory=1)
+# tonotopy_analyzer(f'{base_path}/SO3',(2,2,2),somatosensory=2)
+# tonotopy_analyzer(f'{base_path}/SOM3',(2,2,2),somatosensory=3)
 
 base_path = "E:/Llano Lab/SomatoSensory/2022-11-23/102422_RCAMPxgad67_070422_SOMATO_side_20%/Somato_LP/D1/For analysis"
 
-tonotopy_analyzer(f'{base_path}/OVER1',(2,2,2),somatosensory=1)
-tonotopy_analyzer(f'{base_path}/SO1',(2,2,2),somatosensory=2)
-tonotopy_analyzer(f'{base_path}/SOM1_2',(2,2,2),somatosensory=3)
+# tonotopy_analyzer(f'{base_path}/OVER1',(2,2,2),somatosensory=1)
+# tonotopy_analyzer(f'{base_path}/SO1',(2,2,2),somatosensory=2)
+# tonotopy_analyzer(f'{base_path}/SOM1_2',(2,2,2),somatosensory=3)
 
 base_path = "E:/Llano Lab/SomatoSensory/2022-11-23/110222_RCAMPxgad67_081522_SOMATO_side/Somato_LP/D1/For analysis"
 
-tonotopy_analyzer(f'{base_path}/OVER1',(2,2,2),somatosensory=1)
-tonotopy_analyzer(f'{base_path}/SO1',(2,2,2),somatosensory=2)
-tonotopy_analyzer(f'{base_path}/SOM1',(2,2,2),somatosensory=3)
+# tonotopy_analyzer(f'{base_path}/OVER1',(2,2,2),somatosensory=1)
+# tonotopy_analyzer(f'{base_path}/SO1',(2,2,2),somatosensory=2)
+# tonotopy_analyzer(f'{base_path}/SOM1',(2,2,2),somatosensory=3)
 
 base_path = "E:/Llano Lab/SomatoSensory/2022-11-23/110222_RCAMPxgad67_081522_SOMATO_side/Somato_LP/D2/For analysis"
 
-tonotopy_analyzer(f'{base_path}/OVER2',(2,2,2),somatosensory=1)
-tonotopy_analyzer(f'{base_path}/SO2',(2,2,2),somatosensory=2)
-tonotopy_analyzer(f'{base_path}/SOM2_1',(2,2,2),somatosensory=3)
+# tonotopy_analyzer(f'{base_path}/OVER2',(2,2,2),somatosensory=1)
+# tonotopy_analyzer(f'{base_path}/SO2',(2,2,2),somatosensory=2)
+# tonotopy_analyzer(f'{base_path}/SOM2_1',(2,2,2),somatosensory=3)
 
 # tonotopy_analyzer("D:/Llano Lab/Tonotopic Analysis/Noise Exposure",(2,2,2))
 
